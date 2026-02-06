@@ -2,7 +2,7 @@ import os
 import json
 
 OUTPUT_DIR = 'Output'
-VERIFIED_DIR = f'{OUTPUT_DIR}/Verified'
+VERIFIED_DIR = f'{OUTPUT_DIR}/Processed'
 
 def select_output_file():
     output_files = [file for file in os.listdir(OUTPUT_DIR) if file.endswith('.json')]
