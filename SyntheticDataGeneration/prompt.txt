@@ -23,7 +23,7 @@ admiration, amusement, anger, annoyance, approval, caring, confusion, curiosity,
 For each generation request, provide:
 {
   "text": "The generated sample text",
-  "emotions": ["possibly emotion label", "<optional> runner up", ...],
+  "emotion": ["possibly emotion label", "<optional> runner up", ...],
   "topic": "the topic label"
 }
 
