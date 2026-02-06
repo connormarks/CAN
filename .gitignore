@@ -1,2 +1,5 @@
 # Python setup
 *venv*
+
+# Python files
+__pycache__/
