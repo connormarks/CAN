@@ -28,7 +28,11 @@ def load_system_prompt(file_path):
 
 def format_json(llm_json_string):
     cleaned_json_string = llm_json_string.replace('```json', '').replace('```', '')
-    return json.loads(cleaned_json_string)
+    json_obj = json.loads(cleaned_json_string)
+    # Add verified flag to each object
+    for obj in json_obj:
+        obj['verified'] = False
+    return json_obj
 
 
 if __name__ == "__main__":
