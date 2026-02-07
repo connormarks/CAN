@@ -5,6 +5,13 @@ OUTPUT_DIR = 'Output'
 VERIFIED_DIR = f'{OUTPUT_DIR}/Processed'
 
 def select_output_file():
+    """
+    Prompt the user to select an output file from the available files in the output directory.
+    Returns the selected file name.
+
+    Returns:
+        output_file: str - The selected file name.
+    """
     output_files = [file for file in os.listdir(OUTPUT_DIR) if file.endswith('.json')]
     print()
     print("Available output files:")
@@ -24,6 +31,15 @@ def select_output_file():
 
 
 def verify_data(json_obj):
+    """
+    Verify the data in the JSON object.
+    Returns the verified JSON object.
+
+    Input:
+        json_obj: list - The JSON object to verify.
+    Returns:
+        json_obj: list - The verified JSON object.
+    """
     for obj in json_obj:
         print(obj['text'])
         print(obj['emotion'])

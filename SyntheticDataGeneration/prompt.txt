@@ -32,6 +32,7 @@ For each generation request, provide:
 - Make the emotion clear in the text WIHTOUT using the emotion word explicitly
 - Include topic-specific keywords or context WITHOUT using the topic word explicity
 - DO NOT use the emotion or topic in the text
+- Include some ambiguous examples
 - Vary sentence structure and style
 - Include both positive and negative sentiment across emotions
 - Make examples feel authentic, not forced or artificial
