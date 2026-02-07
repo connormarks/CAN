@@ -23,3 +23,6 @@ This will download the model, then run it to show that it is working.
 4. Run `verify.py` to verify each generated example.
 5. Find your synthetic data in Output/Processed
     - Verified examples will have `"verified": true`
+
+## Findings
+Findings through testing are recorded in [Findings.md](Findings.md)
