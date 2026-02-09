@@ -1,8 +1,68 @@
 import os
 import json
+from config import OUTPUT_DIR, VERIFIED_DIR, EMOTION_LABELS, TOPIC_LABELS
 
-OUTPUT_DIR = 'Output'
-VERIFIED_DIR = f'{OUTPUT_DIR}/Processed'
+
+def _output_information(obj):
+    """
+
+    """
+    print(" | Text:")
+    print(f" | \t{obj['text']}")
+    print(" | Emotion:")
+    print(f" | \t{obj['emotion']}")
+    print(" | Topic:")
+    print(f" | \t{obj['topic']}")
+    print()
+
+
+def _verify_emotion(obj):
+    """
+    Verify the emotion in the emotion list.
+    Returns the verified emotion list.
+
+    Input:
+        emotion: list - The emotion list to verify.
+    Returns:
+        emotion: list - The verified emotion list.
+    """
+    for emotion in obj['emotion']:
+        if emotion not in EMOTION_LABELS:
+            return False
+    return True
+
+
+def _verify_topic(obj):
+    """
+    Verify the topic in the topic list.
+    Returns the verified topic list.
+    """
+    if obj['topic'] not in TOPIC_LABELS:
+        return False
+    return True
+
+
+def _verify_object(obj):
+    if not _verify_emotion(obj):
+        print(f"Skipping, invalid emotion\n")
+        return None
+    if not _verify_topic(obj):
+        print(f"Skipping, invalid topic\n")
+        return None
+
+    verified = input("Is this data verified? (Enter for yes, 'n' for no, 'e' for needs editing): ")
+    if verified == '':
+        obj['needs_editing'] = False
+        obj['verified'] = True
+    elif verified == 'e':
+        obj['needs_editing'] = True
+        obj['verified'] = True
+    else:
+        obj['needs_editing'] = None
+        obj['verified'] = False
+    print()
+    return obj
+
 
 def select_output_file():
     """
@@ -40,16 +100,17 @@ def verify_data(json_obj):
     Returns:
         json_obj: list - The verified JSON object.
     """
+    print(f"Verifying {len(json_obj)} examples")
+    print()
+    verified_json_objs = []
     for obj in json_obj:
-        print(obj['text'])
-        print(obj['emotion'])
-        print(obj['topic'])
-        print()
-        verified = input("Is this data verified? (Enter for yes, 'n' for no): ")
-        print()
-        if verified == '':
-            obj['verified'] = True
-    return json_obj
+        _output_information(obj)
+        obj = _verify_object(obj)
+        if obj is None:
+            continue
+        verified_json_objs.append(obj)
+    return verified_json_objs
+
 
 if __name__ == "__main__":
     output_file = select_output_file()
