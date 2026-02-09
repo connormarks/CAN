@@ -8,7 +8,8 @@ from transformers import BertModel # huggingface
 #our bert model
 class EmotionTopicClassifier(nn.Module):
     def __init__(self):
-        pass
+        super().__init__()
+        self.bert = BertModel.from_pretrained("google-bert/bert-base-uncased") #THIS IS THE MODEL FROM TRANSFORMERS.
 
 
 
