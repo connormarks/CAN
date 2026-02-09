@@ -1,6 +1,7 @@
 from ollama_api import get_models, stream_response
 import datetime
 import json
+from config import OUTPUT_DIR
 
 def select_model():
     """
@@ -57,6 +58,7 @@ def format_json(llm_json_string):
     # Add verified flag to each object
     for obj in json_obj:
         obj['verified'] = False
+        obj['needs_editing'] = None
     return json_obj
 
 
@@ -76,7 +78,7 @@ if __name__ == "__main__":
     save = True if input("Save data? (y/n): ") == 'y' else False
     if save:
         filename = f"generated_data_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(f'Output/{filename}', 'w') as file:
+        with open(f'{OUTPUT_DIR}/{filename}', 'w') as file:
             json.dump(formatted_json, file, indent=4)
         print(f"Data saved to {filename}")
     else:
