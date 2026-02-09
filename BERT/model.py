@@ -15,3 +15,6 @@ class EmotionTopicClassifier(nn.Module):
 
 
 
+if __name__ == "__main__":
+    our_bert = EmotionTopicClassifier()
+    print(our_bert)
