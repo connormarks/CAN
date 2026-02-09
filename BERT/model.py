@@ -7,12 +7,16 @@ from transformers import BertModel # huggingface
 
 #our bert model
 class EmotionTopicClassifier(nn.Module):
+    
     def __init__(self):
         super().__init__()
-        self.bert = BertModel.from_pretrained("google-bert/bert-base-uncased") #THIS IS THE MODEL FROM TRANSFORMERS.
 
-        self.emotion_head = nn.Linear(768, 28)
-        self.topic_head = nn.Linear(768, 4)
+        #base model
+        self.bert = BertModel.from_pretrained("google-bert/bert-base-uncased") #768 hidden layers (check the config)
+
+        #heads
+        self.emotion_head = nn.Linear(768, 28) # Emotion Neural Net Head (28 outputs)
+        self.topic_head = nn.Linear(768, 4) # Topic Neural Net Head (4 outputs)
 
 
 
