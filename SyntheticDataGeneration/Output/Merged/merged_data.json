@@ -1,0 +1,162 @@
+[
+    {
+        "text": "Revolutionary quantum computer breaks speed record, raising hope for faster data processing.",
+        "emotion": [
+            "excitement",
+            "optimism"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "SpaceX's Starship prototype crashes during test flight. Another setback in the quest to colonize Mars?",
+        "emotion": [
+            "disappointment",
+            "fear"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Stock market surges as investors buy up tech stocks amid signs of economic recovery.",
+        "emotion": [
+            "relief",
+            "optimism"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Protests erupt in capital city, calling for democratic reforms amid political unrest.",
+        "emotion": [
+            "anger",
+            "nervousness"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Cryptocurrency prices skyrocket as more investors look to digital gold during economic uncertainty.",
+        "emotion": [
+            "surprise",
+            "optimism"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Renowned researcher accused of fraud, shaking confidence in scientific community.",
+        "emotion": [
+            "disappointment",
+            "sadness"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Fans erupt in cheers as team secures unexpected victory, clinching playoff spot.",
+        "emotion": [
+            "joy",
+            "excitement"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Corporate scandal exposes shady dealings, leaving investors and employees reeling.",
+        "emotion": [
+            "disappointment",
+            "anger"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Amazing discovery: ancient cave painting depicts unknown constellation. Scientists baffled.",
+        "emotion": [
+            "curiosity",
+            "surprise"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Record-breaking stock market drop leaves investors scrambling for safety, analysts alarmed.",
+        "emotion": [
+            "fear",
+            "nervousness"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Astronauts safely return home after historic spacewalk. Nation cheers.",
+        "emotion": [
+            "joy",
+            "pride"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Floods ravage coastal regions, leaving hundreds homeless and communities in despair.",
+        "emotion": [
+            "sadness",
+            "disappointment"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "New AI art generates buzz as it sells for record-breaking price at auction.",
+        "emotion": [
+            "surprise",
+            "admiration"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Cyclist breaks record, completing Tour de France in unprecedented time.",
+        "emotion": [
+            "admiration",
+            "excitement"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Scientists reveal shocking finding: coral reefs dying at alarming rates due to pollution.",
+        "emotion": [
+            "disappointment",
+            "fear"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Elon Musk unveils new electric truck, promises revolutionary capabilities.",
+        "emotion": [
+            "excitement",
+            "optimism"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    }
+]
