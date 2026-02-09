@@ -1,5 +1,6 @@
 OUTPUT_DIR = 'Output'
 VERIFIED_DIR = f'{OUTPUT_DIR}/Processed'
+MERGED_DIR = f'{OUTPUT_DIR}/Merged'
 
 EMOTION_LABELS = [
     "admiration",

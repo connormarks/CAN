@@ -1,6 +1,6 @@
 import os
 import json
-from config import OUTPUT_DIR, VERIFIED_DIR, EMOTION_LABELS, TOPIC_LABELS
+from config import OUTPUT_DIR, VERIFIED_DIR, EMOTION_LABELS, TOPIC_LABELS, MERGED_DIR
 
 
 def _output_information(obj):
@@ -64,6 +64,18 @@ def _verify_object(obj):
     return obj
 
 
+def _merge_processed():
+    merged_json_objs = []
+    for file in os.listdir(VERIFIED_DIR):
+        with open(f'{VERIFIED_DIR}/{file}', 'r') as f:
+            json_obj = json.load(f)
+        for obj in json_obj:
+            if obj['verified']:
+                merged_json_objs.append(obj)
+    with open(f'{MERGED_DIR}/merged_data.json', 'w') as f:
+        json.dump(merged_json_objs, f, indent=4)
+
+
 def select_output_file():
     """
     Prompt the user to select an output file from the available files in the output directory.
@@ -119,3 +131,9 @@ if __name__ == "__main__":
     with open(f'{VERIFIED_DIR}/{output_file}', 'w') as file:
         json.dump(verified_json_obj, file, indent=4)
     print(f"Data verified and saved to {VERIFIED_DIR}/{output_file}")
+    merge = input("Merge processed data? (y/n): ")
+    if merge == 'y':
+        _merge_processed()
+        print(f"Merged data saved to {MERGED_DIR}/merged_data.json")
+    else:
+        print("Data not merged")
