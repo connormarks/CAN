@@ -1,0 +1,82 @@
+[
+    {
+        "text": "Amazing discovery: ancient cave painting depicts unknown constellation. Scientists baffled.",
+        "emotion": [
+            "curiosity",
+            "surprise"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Record-breaking stock market drop leaves investors scrambling for safety, analysts alarmed.",
+        "emotion": [
+            "fear",
+            "nervousness"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Astronauts safely return home after historic spacewalk. Nation cheers.",
+        "emotion": [
+            "joy",
+            "pride"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Floods ravage coastal regions, leaving hundreds homeless and communities in despair.",
+        "emotion": [
+            "sadness",
+            "disappointment"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "New AI art generates buzz as it sells for record-breaking price at auction.",
+        "emotion": [
+            "surprise",
+            "admiration"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Cyclist breaks record, completing Tour de France in unprecedented time.",
+        "emotion": [
+            "admiration",
+            "excitement"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Scientists reveal shocking finding: coral reefs dying at alarming rates due to pollution.",
+        "emotion": [
+            "disappointment",
+            "fear"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Elon Musk unveils new electric truck, promises revolutionary capabilities.",
+        "emotion": [
+            "excitement",
+            "optimism"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    }
+]
