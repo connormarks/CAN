@@ -1,8 +1,11 @@
-# This folder contains tools for training and testing a Linear Regression baseline model
+# Linear Regression Baseline Model
 
+## Install dependencies
+1. (Optional) run `python -m venv venv` to create a venv. Then source it with `source venv/bin/activarte` (MacOS)
+2. Install requirements with `pip install -r requirements.txt`
 
-
-
+## Run the model
+Run `run_model.py` to download the datasets, fit the models, and score them on accuracy
 
 ## References
 https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html
