@@ -17,6 +17,7 @@ https://www.geeksforgeeks.org/pandas/add-column-names-to-dataframe-in-pandas/
 https://stackoverflow.com/questions/56621252/negative-accuracy-score-in-regression-models-with-scikit-learn
 https://imbalanced-learn.org/stable/user_guide.html#user-guide
 https://woteq.com/calculating-precision-and-recall-in-python-with-scikit-learn/
+https://datascience.stackexchange.com/questions/122056/logisticregression-loading-problem
 
 AI Used to:
  - help explain the difference between LinearRegression and LogisticRegression for this case

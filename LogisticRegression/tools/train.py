@@ -1,7 +1,6 @@
 from sklearn.linear_model import LogisticRegression
+from .config import MODEL_PATH
 import pickle
-
-MODEL_PATH = "models"
 
 def train_model(X_train, y_train, max_iter=100, class_weight=None, save_name=None):
     """
@@ -28,6 +27,6 @@ def get_models(go_X_train, go_y_train, ag_X_train, ag_y_train):
         ag_model = pickle.load(open(f'{MODEL_PATH}/ag_model.pkl', "rb"))
     else:
         print("Fitting agnews model...\n")
-        ag_model = train_model(ag_X_train, ag_y_train, class_weight="balanced", save_name="ag_model")
+        ag_model = train_model(ag_X_train, ag_y_train, max_iter=200, class_weight="balanced", save_name="ag_model")
 
     return go_model, ag_model
