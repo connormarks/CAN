@@ -2,8 +2,11 @@ from sklearn.metrics import confusion_matrix, classification_report
 from tools.dataset import load_datasets, create_test_train_split
 from tools.preprocess import preprocess_go_data, preprocess_ag_data
 from tools.train import get_models
+from collections import namedtuple
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+Data = namedtuple('Data', ['X_train', 'X_test', 'y_train', 'y_test'])
 
 def load_data():
     go_data, ag_data = load_datasets()
@@ -13,18 +16,21 @@ def load_data():
     print("Preprocessing agnews data...")
     ag_X_train, ag_X_test, ag_y_train, ag_y_test = preprocess_ag_data(ag_data)
 
-    return go_X_train, go_X_test, go_y_train, go_y_test, ag_X_train, ag_X_test, ag_y_train, ag_y_test
+    GoData = Data(go_X_train, go_X_test, go_y_train, go_y_test)
+    AgData = Data(ag_X_train, ag_X_test, ag_y_train, ag_y_test)
+
+    return GoData, AgData
 
 
-def score_models(go_model, ag_model, go_X_test, go_y_test, ag_X_test, ag_y_test):
+def score_models(go_model, ag_model, GoData, AgData):
     # Get the confusion matrices
-    go_cm = confusion_matrix(go_y_test, go_model.predict(go_X_test))
-    ag_cm = confusion_matrix(ag_y_test, ag_model.predict(ag_X_test))
+    go_cm = confusion_matrix(GoData.y_test, go_model.predict(GoData.X_test))
+    ag_cm = confusion_matrix(AgData.y_test, ag_model.predict(AgData.X_test))
 
     print("Goemotion classification report:")
-    print(classification_report(go_y_test, go_model.predict(go_X_test)))
+    print(classification_report(GoData.y_test, go_model.predict(GoData.X_test)))
     print("Agnews classification report:\n")
-    print(classification_report(ag_y_test, ag_model.predict(ag_X_test)))
+    print(classification_report(AgData.y_test, ag_model.predict(AgData.X_test)))
 
     # Visualize the confusion matrices
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
@@ -45,8 +51,8 @@ def score_models(go_model, ag_model, go_X_test, go_y_test, ag_X_test, ag_y_test)
 
 if __name__ == "__main__":
     # There has to be a better way to do this...
-    go_X_train, go_X_test, go_y_train, go_y_test, ag_X_train, ag_X_test, ag_y_train, ag_y_test = load_data()
+    GoData, AgData = load_data()
 
-    go_model, ag_model = get_models(go_X_train, go_y_train, ag_X_train, ag_y_train)
+    go_model, ag_model = get_models(GoData.X_train, GoData.y_train, AgData.X_train, AgData.y_train)
 
-    score_models(go_model, ag_model, go_X_test, go_y_test, ag_X_test, ag_y_test)
+    score_models(go_model, ag_model, GoData, AgData)
