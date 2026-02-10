@@ -8,6 +8,8 @@
 Run `quick_run.py` to download the datasets, fit the models, and score them on accuracy quickly
 
 ## Run a more in depth evaluation
+Run `advanced_run.py` to do a more in-depth evaluation and produce more metrics, including the confusion matricies.
+On the first run do not load the existing models.
 
 ## References
 https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html
