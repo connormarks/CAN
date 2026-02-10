@@ -19,8 +19,17 @@ class EmotionTopicClassifier(nn.Module):
         self.topic_head = nn.Linear(768, 4) # Topic Neural Net Head (4 outputs)
 
 
-    def forward(self):
-        pass
+    def forward(self, input_ids, attention_mask):
+        '''
+            Given tokenized text, produces emotion logits and topic logits.
+        '''
+        contextual_embeddings = self.bert(input_ids = input_ids, attention_mask = attention_mask) #run through bert, produces contextual embeddings
+        cls_representation = contextual_embeddings.last_hidden_state[:, 0]
+
+        emotion_logits = self.emotion_head(cls_representation)
+        topic_logits = self.topic_head(cls_representation)
+
+        return emotion_logits, topic_logits #
 
 
 
@@ -36,3 +45,6 @@ if __name__ == "__main__":
     
     print('\nconfig:\n')
     print(our_bert.bert.config)
+
+    print('\nBert Signature:\n')
+    print(help(BertModel.forward))
