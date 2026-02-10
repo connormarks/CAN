@@ -1,8 +1,8 @@
 import pandas as pd
 import torch
 from torch.utils.data import Dataset, DataLoader
-from sklearn.preprocessing import MultiLabelBinarizer
 import kagglehub
+from transformers import AutoTokenizer
 
 # For use if necesssary
 EMOTION_COLUMNS = [
@@ -54,12 +54,48 @@ def _prepare_datafiles(go_df, ag_df):
     ag_df.loc[:, "emotion_labels"] = [[-100] * NUM_EMOTIONS for _ in range(len(ag_df))] # populate emotion labels with Null for ag news
     return [go_df, ag_df]
 
+def _tokenize(text, max_length=128):
+    """
+    Tokenizes the given text based on the requirements of BERT. 
+    Returns the tokens in a tensor for processing.
+    """
+    tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+    return tokenizer(
+        text,
+        truncation=True,
+        padding="max_length",
+        max_length=max_length,
+        return_tensors="pt"
+    )
+
+class _MultiTaskDataset(Dataset): # We need this class to manage the properties of the combined dataset that torch will use during training
+    def __init__(self, df):
+        self.df = df
+
+    def __len__(self):
+        return len(self.df)
+
+    def __getitem__(self, idx):
+        row = self.df.iloc[idx]
+        tokens = _tokenize(row["text"]) # Tokenize the row before passing it back to the trainer
+
+        # Return the item from the dataset, including all the respective fields from the input as well as the tokenizer's added fields
+        return {
+            "input_ids": tokens["input_ids"].squeeze(0),
+            "attention_mask": tokens["attention_mask"].squeeze(0),
+            "task": row["task"],
+            "emotion_labels": torch.tensor(row["emotion_labels"], dtype=torch.float),
+            "topic_label": torch.tensor(row["topic_label"], dtype=torch.long),
+        }
+
 # Main Method
 def preprocess_data():
     go, ag = _load_datasets()
     combined = pd.concat(_prepare_datafiles(go, ag), ignore_index=True) # combine the datasets
     combined = combined.sample(frac=1).reset_index(drop=True) # shuffles dataset for training process, so we don't accidentally unlearn a task
-    return combined
+    dataset = _MultiTaskDataset(combined) 
+    loader = DataLoader(dataset, batch_size=16, shuffle=True)
+    return loader
 
 # For testing, remove when done
 print(preprocess_data())
