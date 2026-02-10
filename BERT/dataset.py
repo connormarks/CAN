@@ -13,11 +13,11 @@ EMOTION_COLUMNS = [
     "remorse","sadness","surprise","neutral"
 ]
 NUM_EMOTIONS = len(EMOTION_COLUMNS)
-TOPIC_TYPES = {
-    1: "World",
-    2: "Sports",
-    3: "Business",
-    4: "Sci/Tech"
+TOPIC_TYPES = { # NOTE: 0 indexed for compatibility with torch, but 1 indexed in the dataset itself
+    0: "World",
+    1: "Sports",
+    2: "Business",
+    3: "Sci/Tech"
 }
 NUM_TOPICS = len(TOPIC_TYPES)
 
@@ -52,6 +52,7 @@ def _prepare_datafiles(go_df, ag_df):
     ag_df = ag_df.loc[:, ["text", "topic_label"]].copy()
     ag_df.loc[:, "task"] = "topic"
     ag_df.loc[:, "emotion_labels"] = [[-100] * NUM_EMOTIONS for _ in range(len(ag_df))] # populate emotion labels with Null for ag news
+    ag_df.loc[:, "topic_label"] = ag_df["topic_label"] - 1 # make the labels 0 indexed so it is compatible with torch processes
     return [go_df, ag_df]
 
 def _tokenize(text, max_length=128):
@@ -96,6 +97,3 @@ def preprocess_data():
     dataset = _MultiTaskDataset(combined) 
     loader = DataLoader(dataset, batch_size=16, shuffle=True)
     return loader
-
-# For testing, remove when done
-print(preprocess_data())
