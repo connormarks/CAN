@@ -1,4 +1,4 @@
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import confusion_matrix, classification_report
 from tools.dataset import load_datasets, create_test_train_split
 from tools.preprocess import preprocess_go_data, preprocess_ag_data
 from tools.train import get_models
@@ -9,29 +9,22 @@ def load_data():
     go_data, ag_data = load_datasets()
 
     print("Preprocessing goemotion data...")
-    go_X, go_y = preprocess_go_data(go_data)
-    print("Preprocessing agnews data...\n")
-    ag_X, ag_y = preprocess_ag_data(ag_data)
-
-    print("Creating test train split...\n")
-    go_X_train, go_X_test, go_y_train, go_y_test = create_test_train_split(go_X, go_y)
-    ag_X_train, ag_X_test, ag_y_train, ag_y_test = create_test_train_split(ag_X, ag_y)
+    go_X_train, go_X_test, go_y_train, go_y_test = preprocess_go_data(go_data, fix_class_imbalance=True)
+    print("Preprocessing agnews data...")
+    ag_X_train, ag_X_test, ag_y_train, ag_y_test = preprocess_ag_data(ag_data)
 
     return go_X_train, go_X_test, go_y_train, go_y_test, ag_X_train, ag_X_test, ag_y_train, ag_y_test
 
 
 def score_models(go_model, ag_model, go_X_test, go_y_test, ag_X_test, ag_y_test):
-    print("Scoring goemotion model...")
-    go_score = accuracy_score(go_y_test, go_model.predict(go_X_test))
-    print("Scoring agnews model...\n")
-    ag_score = accuracy_score(ag_y_test, ag_model.predict(ag_X_test))
-
     # Get the confusion matrices
     go_cm = confusion_matrix(go_y_test, go_model.predict(go_X_test))
     ag_cm = confusion_matrix(ag_y_test, ag_model.predict(ag_X_test))
 
-    print(f"Goemotion accuracy: {go_score}")
-    print(f"Agnews accuracy: {ag_score}\n")
+    print("Goemotion classification report:")
+    print(classification_report(go_y_test, go_model.predict(go_X_test)))
+    print("Agnews classification report:\n")
+    print(classification_report(ag_y_test, ag_model.predict(ag_X_test)))
 
     # Visualize the confusion matrices
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
