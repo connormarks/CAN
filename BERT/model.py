@@ -7,7 +7,7 @@ from transformers import BertModel # huggingface
 
 #our bert model
 class EmotionTopicClassifier(nn.Module):
-    
+
     def __init__(self):
         super().__init__()
 
@@ -19,6 +19,8 @@ class EmotionTopicClassifier(nn.Module):
         self.topic_head = nn.Linear(768, 4) # Topic Neural Net Head (4 outputs)
 
 
+    def forward(self):
+        pass
 
 
 
