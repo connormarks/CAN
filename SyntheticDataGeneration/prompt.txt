@@ -43,8 +43,9 @@ For each generation request, provide:
 - Avoid commentary in the title. For example:
     - Invalid: "New AI model learns to compose music – a fascinating innovation."
     - Valid: "New AI model learns to compose music."
-    - Invalid: "The company is not doing well despite record sales."
-    - Valid: "This company is not doing well despite record sales."
+    - Invalid: "New space telescope reveals stunning images of distant galaxies, igniting awe and wonder."
+    - Valid: "New space telescope reveals stunning images of distant galaxies."
+
 - Generate text of various lengths between 10 and 20 words
 
 
