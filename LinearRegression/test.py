@@ -1,13 +1,14 @@
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
 from dataset import load_datasets, create_test_train_split
 from preprocess import preprocess_go_data, preprocess_ag_data
 
-def fit_model(data, target):
+def fit_model(X_train, y_train, max_iter=100):
     """
-    Fits the Linear Regression model to the data
+    Fits the Logistic Regression model to the data
     """
-    model = LinearRegression()
-    model.fit(data, target)
+    model = LogisticRegression(max_iter=max_iter)
+    model.fit(X_train, y_train)
     return model
 
 
@@ -24,14 +25,14 @@ if __name__ == "__main__":
     ag_X_train, ag_X_test, ag_y_train, ag_y_test = create_test_train_split(ag_X, ag_y)
 
     print("Fitting goemotion model...")
-    go_model = fit_model(go_X_train, go_y_train)
+    go_model = fit_model(go_X_train, go_y_train, max_iter=200)
     print("Fitting agnews model...\n")
     ag_model = fit_model(ag_X_train, ag_y_train)
 
     print("Scoring goemotion model...")
-    go_score = go_model.score(go_X_test, go_y_test)
+    go_score = accuracy_score(go_y_test, go_model.predict(go_X_test))
     print("Scoring agnews model...\n")
-    ag_score = ag_model.score(ag_X_test, ag_y_test)
+    ag_score = accuracy_score(ag_y_test, ag_model.predict(ag_X_test))
 
-    print(f"Goemotion score: {go_score}")
-    print(f"Agnews score: {ag_score}")
+    print(f"Goemotion accuracy: {go_score}")
+    print(f"Agnews accuracy: {ag_score}")
