@@ -1,1 +1,99 @@
-#optional nearby tokenization and loading of data
+import pandas as pd
+import torch
+from torch.utils.data import Dataset, DataLoader
+import kagglehub
+from transformers import AutoTokenizer
+
+# For use if necesssary
+EMOTION_COLUMNS = [
+    "admiration","amusement","anger","annoyance","approval","caring",
+    "confusion","curiosity","desire","disappointment","disapproval",
+    "disgust","embarrassment","excitement","fear","gratitude","grief",
+    "joy","love","nervousness","optimism","pride","realization","relief",
+    "remorse","sadness","surprise","neutral"
+]
+NUM_EMOTIONS = len(EMOTION_COLUMNS)
+TOPIC_TYPES = { # NOTE: 0 indexed for compatibility with torch, but 1 indexed in the dataset itself
+    0: "World",
+    1: "Sports",
+    2: "Business",
+    3: "Sci/Tech"
+}
+NUM_TOPICS = len(TOPIC_TYPES)
+
+def _load_datasets():
+    """
+    Loads the datasets from the repo and returns their contents
+    """
+    goemotion_path = kagglehub.dataset_download("debarshichanda/goemotions")
+    agnews_path = kagglehub.dataset_download("amananandrai/ag-news-classification-dataset")
+    return pd.read_csv(f"{goemotion_path}/data/full_dataset/goemotions_1.csv"), pd.read_csv(f"{agnews_path}/train.csv")
+
+def _prepare_datafiles(go_df, ag_df):
+    """
+    Takes the given datafiles and edits their columns so they can be merged using the pandas library
+
+    Outputted data files adhere to the following format:
+    text: full text associated with the data entry (psot for goemotions, headline + body for agnews)
+    emotion_labels: emotion labels if from goemotions, array of -100s if from agnews
+    task: what dataset the entry originates from (which head of BERT it will target)
+    topic_label: which 
+    """
+    # NOTE: we use -100 (not None) as a default label so we can know which values to ignore and still use the tensor datastructure later
+    go_df = go_df.copy()
+    go_df.loc[:, "emotion_labels"] = go_df[EMOTION_COLUMNS].values.tolist()
+    go_df = go_df.loc[:, ["text", "emotion_labels"]].copy()
+    go_df.loc[:, "task"] = "emotion"
+    go_df.loc[:, "topic_label"] = -100 # populate topic label with Null value for goemotions
+
+    ag_df = ag_df.copy()
+    ag_df.columns = ["topic_label", "title", "description"]
+    ag_df.loc[:, "text"] = ag_df["title"] + " " + ag_df["description"]
+    ag_df = ag_df.loc[:, ["text", "topic_label"]].copy()
+    ag_df.loc[:, "task"] = "topic"
+    ag_df.loc[:, "emotion_labels"] = [[-100] * NUM_EMOTIONS for _ in range(len(ag_df))] # populate emotion labels with Null for ag news
+    ag_df.loc[:, "topic_label"] = ag_df["topic_label"] - 1 # make the labels 0 indexed so it is compatible with torch processes
+    return [go_df, ag_df]
+
+def _tokenize(text, max_length=128):
+    """
+    Tokenizes the given text based on the requirements of BERT. 
+    Returns the tokens in a tensor for processing.
+    """
+    tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+    return tokenizer(
+        text,
+        truncation=True,
+        padding="max_length",
+        max_length=max_length,
+        return_tensors="pt"
+    )
+
+class _MultiTaskDataset(Dataset): # We need this class to manage the properties of the combined dataset that torch will use during training
+    def __init__(self, df):
+        self.df = df
+
+    def __len__(self):
+        return len(self.df)
+
+    def __getitem__(self, idx):
+        row = self.df.iloc[idx]
+        tokens = _tokenize(row["text"]) # Tokenize the row before passing it back to the trainer
+
+        # Return the item from the dataset, including all the respective fields from the input as well as the tokenizer's added fields
+        return {
+            "input_ids": tokens["input_ids"].squeeze(0),
+            "attention_mask": tokens["attention_mask"].squeeze(0),
+            "task": row["task"],
+            "emotion_labels": torch.tensor(row["emotion_labels"], dtype=torch.float),
+            "topic_label": torch.tensor(row["topic_label"], dtype=torch.long),
+        }
+
+# Main Method
+def preprocess_data():
+    go, ag = _load_datasets()
+    combined = pd.concat(_prepare_datafiles(go, ag), ignore_index=True) # combine the datasets
+    combined = combined.sample(frac=1).reset_index(drop=True) # shuffles dataset for training process, so we don't accidentally unlearn a task
+    dataset = _MultiTaskDataset(combined) 
+    loader = DataLoader(dataset, batch_size=16, shuffle=True)
+    return loader
