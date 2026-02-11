@@ -10,11 +10,11 @@ import torch
 -----Training loop notes----
 
 essential:
-    data loading ✓
-    forward pass ✓
-    task-specific loss (then combine) ✓
-    backpropagate ✓
-    optimizer ✓
+    data loading
+    forward pass
+    task-specific loss (then combine)
+    backpropagate
+    optimizer
 
 advanced techniques:
     task-specific adapters
@@ -23,7 +23,7 @@ advanced techniques:
     task-specific schedulers
 '''
 
-def train(dataloader):
+def train(emotion_loader, topic_loader):
     device = 'cuda' if torch.cuda.is_available() else 'cpu' #cuda = GPU, else cpu
     emotion_topic_model = EmotionTopicClassifier().to(device) #attach the device, this is in module.nn's to()
     emotion_topic_model.train() # set the module in training mode, also module.nn
@@ -35,23 +35,33 @@ def train(dataloader):
 
     for epoch in range(config.NUM_EPOCHS):
         
-        for batch in dataloader: #data loading
-            input_ids = batch['input_ids'].to(device)
-            attention_mask = batch['attention_mask'].to(device)
-            emotion_labels = batch['emotion_labels'].to(device)
-            topic_labels = batch['topic_label'].to(device)
+        for emotion_batch, topic_batch in zip(emotion_loader, topic_loader): #data loading
 
+            optimizer.zero_grad() #clear the gradients every batch
 
-            logits = emotion_topic_model.forward(input_ids, attention_mask) #forward pass
+            #EMOTION TRAINING
+            emotion_ids = emotion_batch['input_ids'].to(device)
+            emotion_mask = emotion_batch['attention_mask'].to(device)
+            emotion_labels = emotion_batch['emotion_labels'].to(device)
+
+            logits = emotion_topic_model(emotion_ids, emotion_mask, task='emotion') #forward pass
             emotion_logits = logits['emotion_logits']
-            topic_logits = logits['topic_logits']
 
             emotion_loss = emotion_loss_bce(emotion_logits,emotion_labels) #task-specific loss
+
+            #TOPIC TRAINING
+            topic_ids = topic_batch['input_ids'].to(device)
+            topic_mask = topic_batch['attention_mask'].to(device)
+            topic_labels = topic_batch['topic_label'].to(device)
+
+
+            logits = emotion_topic_model(topic_ids, topic_mask, task='topic') #forward pass
+            topic_logits = logits['topic_logits']
+
             topic_loss = topic_loss_ce(topic_logits, topic_labels) #task-specific loss
 
-            total_loss = emotion_loss + topic_loss # scalar tensor with one value inside (combine loss)
-
-            total_loss.backward() #backpropagation
-            
+            #JOINT OPTIMIZATION
+            total_loss = emotion_loss + topic_loss #combined loss
+            total_loss.backward() #backpropagation            
             optimizer.step() #gradient updates
 
