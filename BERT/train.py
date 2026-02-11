@@ -27,24 +27,27 @@ def train(dataloader):
     device = 'cuda' if torch.cuda.is_available() else 'cpu' #cuda = GPU, else cpu
     emotion_topic_model = EmotionTopicClassifier().to(device) #attach the device, this is in module.nn's to()
     emotion_topic_model.train() # set the module in training mode, also module.nn
+    optimizer = torch.optim.AdamW(emotion_topic_model.parameters(), lr=config.LEARNING_RATE, weight_decay=config.WEIGHT_DECAY)
 
     for epoch in config.NUM_EPOCHS:
         
-        for batch in dataloader:
+        for batch in dataloader: #data loading
             input_ids = batch['input_ids'].to(device)
             attention_mask = batch['attention_mask'].to(device)
             emotion_labels = batch['emotion_labels'].to(device)
             topic_labels = batch['topic_label'].to(device)
 
 
-            logits = emotion_topic_model.forward(input_ids, attention_mask) #logits is a dictionary
+            logits = emotion_topic_model.forward(input_ids, attention_mask) #forward pass
             emotion_logits = logits['emotion_logits']
             topic_logits = logits['topic_logits']
 
-            emotion_loss = torch.nn.BCEWithLogitsLoss(emotion_logits,emotion_labels)
-            topic_loss = torch.nn.CrossEntropyLoss(topic_logits, topic_labels, ignore_index=config.IGNORE_INDEX)
+            emotion_loss = torch.nn.BCEWithLogitsLoss(emotion_logits,emotion_labels) #task-specific loss
+            topic_loss = torch.nn.CrossEntropyLoss(topic_logits, topic_labels, ignore_index=config.IGNORE_INDEX) #task-specific loss
 
-            total_loss = emotion_loss + topic_loss
+            total_loss = emotion_loss + topic_loss # scalar tensor with one value inside (combine loss)
 
+            total_loss.backward() #backpropagation
+            
+            optimizer.step() #gradient updates
 
-  
