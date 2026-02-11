@@ -143,7 +143,7 @@ if __name__ == "__main__":
     # Create a vectorizer used for all datasets and models
     # https://datascience.stackexchange.com/questions/122056/logisticregression-loading-problem
     texts = [*go_data["text"], *ag_data["Description"]]
-    vectorizer = create_vectorizer(texts)
+    vectorizer = create_vectorizer(texts, save_name="vectorizer")
 
     # Ask the user if they want to simplify the GoEmotion classes with the provided Ekman mapping
     simplify_with_ekman = input("Simplify GoEmotion classes with Ekman? (y/n): ") == "y"
