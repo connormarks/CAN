@@ -1,8 +1,9 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
-from .dataset import create_test_train_split
 from imblearn.over_sampling import SMOTE
 from imblearn.combine import SMOTETomek
 from imblearn.under_sampling import RandomUnderSampler
+from .dataset import create_test_train_split
+from .config import EMOTION_MAPPING, EKMAN_IDX_TO_EMOTION_MAPPING
 import pandas as pd
 import numpy as np
 
@@ -24,6 +25,17 @@ def _map_go_emotion_to_index(row):
     """
     class_index = row.values.tolist().index(1)
     return class_index
+
+
+def _apply_ekman_mapping(value):
+    """
+    Applies the Ekman mapping to the value
+    """
+    emotion_key = list(EMOTION_MAPPING.keys())[value]
+    for ekman_key, replaced_emotions in EKMAN_IDX_TO_EMOTION_MAPPING.items():
+        if emotion_key in replaced_emotions:
+            return EMOTION_MAPPING[ekman_key]
+    return value
 
 
 def _balance_classes(X, y, sampling_count=1000):
@@ -49,7 +61,7 @@ def _balance_classes(X, y, sampling_count=1000):
     return X_resampled, y_resampled
 
 
-def preprocess_go_data(go_data, vectorizer, fix_class_imbalance=False):
+def preprocess_go_data(go_data, vectorizer, simplify_with_ekman=False, fix_class_imbalance=False):
     """
     Preprocesses the goemotion dataset
     """
@@ -73,6 +85,11 @@ def preprocess_go_data(go_data, vectorizer, fix_class_imbalance=False):
     y = go_data.drop(columns=["text"] + columns_to_ignore)
     # Map the emotion to its index for the linear regression model
     y = y.apply(lambda row: _map_go_emotion_to_index(row), axis=1)
+
+    if simplify_with_ekman:
+        print("\tSimplifying classes...")
+        y = y.apply(_apply_ekman_mapping)
+    
     y = y.values.tolist()
 
     print("\tCreating test train split...")
@@ -101,9 +118,14 @@ def preprocess_ag_data(ag_data, vectorizer):
     return X_train, X_test, y_train, y_test
 
 
-def preprocess_custom_dataset(X, vectorizer):
+def preprocess_custom_dataset(X, y, vectorizer, simplify_with_ekman=False):
     """
     Preprocesses the custom dataset
     """
     X = vectorizer.transform(X)
-    return X
+    print("\tSimplifying classes...")
+    if simplify_with_ekman:
+        y = map(_apply_ekman_mapping, y)
+        y = list(y)
+    print()
+    return X, y

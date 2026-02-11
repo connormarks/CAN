@@ -33,6 +33,17 @@ EMOTION_MAPPING = {
 }
 
 
+EKMAN_IDX_TO_EMOTION_MAPPING = {
+    "anger": ["anger", "annoyance", "disapproval"],
+    "disgust": ["disgust"],
+    "fear": ["fear", "nervousness"],
+    "joy": ["joy", "amusement", "approval", "excitement", "gratitude",  "love", "optimism", "relief", "pride", "admiration", "desire", "caring"],
+    "sadness": ["sadness", "disappointment", "embarrassment", "grief",  "remorse"],
+    "surprise": ["surprise", "realization", "confusion", "curiosity"],
+    "neutral": ["neutral"]
+}
+
+
 # Mapping from https://www.kaggle.com/datasets/amananandrai/ag-news-classification-dataset
 TOPIC_MAPPING = {
     "World": 1,

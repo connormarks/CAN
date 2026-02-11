@@ -11,9 +11,11 @@ import seaborn as sns
 Data = namedtuple('Data', ['X_train', 'X_test', 'y_train', 'y_test'])
 
 
-def process_data(go_data, ag_data, vectorizer):
+def process_data(go_data, ag_data, vectorizer, simplify_with_ekman=False):
     print("Preprocessing goemotion data...")
-    go_X_train, go_X_test, go_y_train, go_y_test = preprocess_go_data(go_data, vectorizer, fix_class_imbalance=True)
+    go_X_train, go_X_test, go_y_train, go_y_test = preprocess_go_data(go_data, vectorizer, 
+                                                                       simplify_with_ekman=simplify_with_ekman,
+                                                                       fix_class_imbalance=True)
     print("Preprocessing agnews data...")
     ag_X_train, ag_X_test, ag_y_train, ag_y_test = preprocess_ag_data(ag_data, vectorizer)
 
@@ -23,9 +25,11 @@ def process_data(go_data, ag_data, vectorizer):
     return GoData, AgData
 
 
-def load_custom_data(vectorizer):
+def load_custom_data(vectorizer, simplify_with_ekman=False):
+    print(f"Loading custom dataset {MERGED_DATASET_PATH}...\n")
     X, y_emotion, y_topic = load_custom_dataset(MERGED_DATASET_PATH)
-    X = preprocess_custom_dataset(X, vectorizer)
+    print("Preprocessing custom dataset...")
+    X, y_emotion = preprocess_custom_dataset(X, y_emotion, vectorizer, simplify_with_ekman)
     return X, y_emotion, y_topic
 
 
@@ -88,10 +92,13 @@ if __name__ == "__main__":
     # https://datascience.stackexchange.com/questions/122056/logisticregression-loading-problem
     texts = [*go_data["text"], *ag_data["Description"]]
     vectorizer = create_vectorizer(texts)
-    
-    GoData, AgData = process_data(go_data, ag_data, vectorizer)
 
-    X, y_emotion, y_topic = load_custom_data(vectorizer)
+    simplify_with_ekman = input("Simplify GoEmotion classes with Ekman? (y/n): ") == "y"
+    print()
+
+    GoData, AgData = process_data(go_data, ag_data, vectorizer, simplify_with_ekman)
+
+    X, y_emotion, y_topic = load_custom_data(vectorizer, simplify_with_ekman)
 
     go_model, ag_model = get_models(GoData.X_train, GoData.y_train, AgData.X_train, AgData.y_train)
 
@@ -100,3 +107,5 @@ if __name__ == "__main__":
 
     input("Press Enter to score the custom dataset...")
     custom_scoring(go_model, ag_model, X, y_emotion, y_topic)
+
+    # TODO: score on the joint dataset, taking output from the two models together
