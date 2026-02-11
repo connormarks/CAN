@@ -11,6 +11,16 @@ import numpy as np
 def create_vectorizer(texts, max_df=0.95, min_df=2, max_features=10000, stop_words='english'):
     """
     Vectorizes the text using the TfidfVectorizer
+
+    Inputs:
+        texts: list - The text data to vectorize
+        max_df: float - The maximum document frequency to remove terms from
+        min_df: int - The minimum document frequency to remove terms from
+        max_features: int - The maximum number of features to keep
+        stop_words: str - The language for stop words
+
+    Returns:
+        vectorizer: TfidfVectorizer object - The vectorizer
     """
     vectorizer = TfidfVectorizer(max_df=max_df, min_df=min_df, max_features=max_features, stop_words=stop_words)
     vectorizer.fit_transform(texts)
@@ -22,6 +32,12 @@ def _map_go_emotion_to_index(row):
     The go emotion classes, unlike AG News, are text and not indexed.
 
     This function maps the class to its index for the logistic regression model
+
+    Inputs:
+        row: pandas Series - The row of the goemotion data
+
+    Returns:
+        class_index: int - The index of the class
     """
     class_index = row.values.tolist().index(1)
     return class_index
@@ -30,6 +46,12 @@ def _map_go_emotion_to_index(row):
 def _apply_ekman_mapping(value):
     """
     Applies the Ekman mapping to the value
+
+    Inputs:
+        value: int - The value to apply the Ekman mapping to
+
+    Returns:
+        mapped_value: int - The mapped value
     """
     emotion_key = list(EMOTION_MAPPING.keys())[value]
     for ekman_key, replaced_emotions in EKMAN_IDX_TO_EMOTION_MAPPING.items():
@@ -41,6 +63,15 @@ def _apply_ekman_mapping(value):
 def _balance_classes(X, y, sampling_count=1000):
     """
     Balances the classes using the SMOTETomek algorithm
+
+    Inputs:
+        X: list - The feature data
+        y: list - The target data
+        sampling_count: int - The number of samples to take for each class
+
+    Returns:
+        X_resampled: list - The resampled feature data
+        y_resampled: list - The resampled target data
     """
     print("\tBalancing classes...")
     # smote = SMOTE(random_state=42)
@@ -64,6 +95,18 @@ def _balance_classes(X, y, sampling_count=1000):
 def preprocess_go_data(go_data, vectorizer, simplify_with_ekman=False, fix_class_imbalance=False):
     """
     Preprocesses the goemotion dataset
+
+    Inputs:
+        go_data: pandas DataFrame containing the goemotion data
+        vectorizer: TfidfVectorizer object
+        simplify_with_ekman: boolean indicating whether to simplify the goemotion classes with provided Ekman mapping
+        fix_class_imbalance: boolean indicating whether to fix the class imbalance
+
+    Returns:
+        X_train: list - The training feature data
+        X_test: list - The test feature data
+        y_train: list - The training target data
+        y_test: list - The test target data
     """
     # Filter out unclear examples
     go_data = go_data[go_data["example_very_unclear"] == False]
@@ -105,6 +148,16 @@ def preprocess_go_data(go_data, vectorizer, simplify_with_ekman=False, fix_class
 def preprocess_ag_data(ag_data, vectorizer):
     """
     Preprocesses the agnews dataset
+
+    Inputs:
+        ag_data: pandas DataFrame containing the agnews data
+        vectorizer: TfidfVectorizer object
+
+    Returns:
+        X_train: list - The training feature data
+        X_test: list - The test feature data
+        y_train: list - The training target data
+        y_test: list - The test target data
     """
     descriptions = ag_data["Description"]
     X = vectorizer.transform(descriptions)
@@ -121,10 +174,20 @@ def preprocess_ag_data(ag_data, vectorizer):
 def preprocess_custom_dataset(X, y, vectorizer, simplify_with_ekman=False):
     """
     Preprocesses the custom dataset
+
+    Inputs:
+        X: list - The text data to vectorize
+        y: list - The target data
+        vectorizer: TfidfVectorizer object
+        simplify_with_ekman: boolean indicating whether to simplify the classes with provided Ekman mapping
+
+    Returns:
+        X: list - The vectorized text data
+        y: list - The target data
     """
     X = vectorizer.transform(X)
-    print("\tSimplifying classes...")
     if simplify_with_ekman:
+        print("\tSimplifying classes...")
         y = map(_apply_ekman_mapping, y)
         y = list(y)
     print()

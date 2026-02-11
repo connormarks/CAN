@@ -1,5 +1,7 @@
 MERGED_DATASET_PATH = "../SyntheticDataGeneration/Output/Merged/merged_data.json"
+"""Location of merged custom dataset"""
 MODEL_PATH = "models"
+"""Folder to save the trained models"""
 
 EMOTION_MAPPING = {
     "admiration": 0,
@@ -31,6 +33,7 @@ EMOTION_MAPPING = {
     "surprise": 26,
     "neutral": 27,
 }
+"""Mapping of emotion class to index"""
 
 
 EKMAN_IDX_TO_EMOTION_MAPPING = {
@@ -42,12 +45,16 @@ EKMAN_IDX_TO_EMOTION_MAPPING = {
     "surprise": ["surprise", "realization", "confusion", "curiosity"],
     "neutral": ["neutral"]
 }
+"""Mapping of simplified emotion class to original emotion classes"""
 
 
-# Mapping from https://www.kaggle.com/datasets/amananandrai/ag-news-classification-dataset
 TOPIC_MAPPING = {
     "World": 1,
     "Sports": 2,
     "Business": 3,
     "Sci/Tech": 4,
 }
+"""
+Mapping of topic class to index, 1 indexed in within the dataset
+Mapping from https://www.kaggle.com/datasets/amananandrai/ag-news-classification-dataset
+"""
