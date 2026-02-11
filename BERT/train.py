@@ -10,11 +10,11 @@ import torch
 -----Training loop notes----
 
 essential:
-    data loading
-    forward pass
-    task-specific loss (then combine)
-    backpropagate
-    optimizer
+    data loading ✓
+    forward pass ✓
+    task-specific loss (then combine) ✓
+    backpropagate ✓
+    optimizer ✓
 
 advanced techniques:
     task-specific adapters
@@ -27,6 +27,7 @@ def train(dataloader):
     device = 'cuda' if torch.cuda.is_available() else 'cpu' #cuda = GPU, else cpu
     emotion_topic_model = EmotionTopicClassifier().to(device) #attach the device, this is in module.nn's to()
     emotion_topic_model.train() # set the module in training mode, also module.nn
+
     optimizer = torch.optim.AdamW(emotion_topic_model.parameters(), lr=config.LEARNING_RATE, weight_decay=config.WEIGHT_DECAY)
 
     for epoch in config.NUM_EPOCHS:
