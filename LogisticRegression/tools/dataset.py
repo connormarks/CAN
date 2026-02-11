@@ -8,6 +8,10 @@ import json
 def load_datasets():
     """
     Loads the datasets from the repo and returns their contents
+
+    Returns:
+        go_data: pandas DataFrame containing the goemotion data
+        ag_data: pandas DataFrame containing the agnews data
     """
     print("Loading goemotion dataset...")
     goemotion_path = kagglehub.dataset_download("debarshichanda/goemotions")
@@ -21,6 +25,14 @@ def load_datasets():
 def load_custom_dataset(path):
     """
     Loads our custom joint dataset for eval
+
+    Inputs:
+        path: str - The path to the custom dataset
+
+    Returns:
+        X: list - The text data
+        y_emotion: list - The emotion data
+        y_topic: list - The topic data
     """
     with open(path, 'r') as file:
         data = json.load(file)
@@ -37,7 +49,19 @@ def load_custom_dataset(path):
 
 def create_test_train_split(X, y, test_size=0.2, random_state=42):
     """
-    Creates a test train split of the data
+    Creates a test train split
+
+    Inputs:
+        X: list - The feature data
+        y: list - The target data
+        test_size: float - The size of the test set
+        random_state: int - The random state to use for the split
+
+    Returns:
+        X_train: list - The training feature data
+        X_test: list - The test feature data
+        y_train: list - The training target data
+        y_test: list - The test target data
     """
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
     return X_train, X_test, y_train, y_test
