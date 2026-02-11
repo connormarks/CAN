@@ -3,12 +3,13 @@ from imblearn.over_sampling import SMOTE
 from imblearn.combine import SMOTETomek
 from imblearn.under_sampling import RandomUnderSampler
 from .dataset import create_test_train_split
-from .config import EMOTION_MAPPING, EKMAN_IDX_TO_EMOTION_MAPPING
+from .config import EMOTION_MAPPING, EKMAN_IDX_TO_EMOTION_MAPPING, MODEL_PATH
 import pandas as pd
 import numpy as np
+import pickle
 
 
-def create_vectorizer(texts, max_df=0.95, min_df=2, max_features=10000, stop_words='english'):
+def create_vectorizer(texts, max_df=0.95, min_df=2, max_features=10000, stop_words='english', save_name=None):
     """
     Vectorizes the text using the TfidfVectorizer
 
@@ -24,6 +25,9 @@ def create_vectorizer(texts, max_df=0.95, min_df=2, max_features=10000, stop_wor
     """
     vectorizer = TfidfVectorizer(max_df=max_df, min_df=min_df, max_features=max_features, stop_words=stop_words)
     vectorizer.fit_transform(texts)
+    if save_name:
+        with open(f'{MODEL_PATH}/{save_name}.pkl', 'wb') as f:
+            pickle.dump(vectorizer, f)
     return vectorizer
 
 
