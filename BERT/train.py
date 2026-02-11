@@ -30,7 +30,10 @@ def train(dataloader):
 
     optimizer = torch.optim.AdamW(emotion_topic_model.parameters(), lr=config.LEARNING_RATE, weight_decay=config.WEIGHT_DECAY)
 
-    for epoch in config.NUM_EPOCHS:
+    emotion_loss_bce = torch.nn.BCEWithLogitsLoss() #instantiate first outside the loop
+    topic_loss_ce = torch.nn.CrossEntropyLoss(ignore_index=config.IGNORE_INDEX)
+
+    for epoch in range(config.NUM_EPOCHS):
         
         for batch in dataloader: #data loading
             input_ids = batch['input_ids'].to(device)
@@ -43,8 +46,8 @@ def train(dataloader):
             emotion_logits = logits['emotion_logits']
             topic_logits = logits['topic_logits']
 
-            emotion_loss = torch.nn.BCEWithLogitsLoss(emotion_logits,emotion_labels) #task-specific loss
-            topic_loss = torch.nn.CrossEntropyLoss(topic_logits, topic_labels, ignore_index=config.IGNORE_INDEX) #task-specific loss
+            emotion_loss = emotion_loss_bce(emotion_logits,emotion_labels) #task-specific loss
+            topic_loss = topic_loss_ce(topic_logits, topic_labels) #task-specific loss
 
             total_loss = emotion_loss + topic_loss # scalar tensor with one value inside (combine loss)
 
