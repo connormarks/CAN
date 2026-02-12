@@ -40,13 +40,14 @@ def process_data(go_data, ag_data, vectorizer, simplify_with_ekman=False, ignore
     return GoData, AgData
 
 
-def load_custom_data(vectorizer, simplify_with_ekman=False):
+def load_custom_data(vectorizer, simplify_with_ekman=False, ignore_neutral=False):
     """
     Load the custom dataset and preprocess it
 
     Inputs:
         vectorizer: TfidfVectorizer object
         simplify_with_ekman: boolean indicating whether to simplify the goemotion classes with provided Ekman mapping
+        ignore_neutral: boolean indicating whether to ignore the neutral class
 
     Returns:
         X: numpy array containing the preprocessed text data
@@ -56,7 +57,7 @@ def load_custom_data(vectorizer, simplify_with_ekman=False):
     print(f"Loading custom dataset {MERGED_DATASET_PATH}...\n")
     X, y_emotion, y_topic = load_custom_dataset(MERGED_DATASET_PATH)
     print("Preprocessing custom dataset...")
-    X, y_emotion = preprocess_custom_dataset(X, y_emotion, vectorizer, simplify_with_ekman)
+    X, y_emotion, y_topic = preprocess_custom_dataset(X, y_emotion, y_topic, vectorizer, simplify_with_ekman, ignore_neutral)
     return X, y_emotion, y_topic
 
 
@@ -78,7 +79,7 @@ if __name__ == "__main__":
     GoData, AgData = process_data(go_data, ag_data, vectorizer, simplify_with_ekman, ignore_neutral)
 
     # Load the custom dataset
-    X, y_emotion, y_topic = load_custom_data(vectorizer, simplify_with_ekman)
+    X, y_emotion, y_topic = load_custom_data(vectorizer, simplify_with_ekman, ignore_neutral)
 
     # Get the models, either loading from a file or training them
     go_model, ag_model = get_models(GoData.X_train, GoData.y_train, AgData.X_train, AgData.y_train)
