@@ -92,8 +92,24 @@ class _MultiTaskDataset(Dataset): # We need this class to manage the properties 
 # Main Method
 def preprocess_data():
     go, ag = _load_datasets()
+    go_df, ag_df = _prepare_datafiles(go, ag)
+    go_df = go_df.sample(frac=1).reset_index(drop=True) #no longer combine, but keep separate
+    ag_df = ag_df.sample(frac=1).reset_index(drop=True)
+    emotion_dataset = _MultiTaskDataset(go_df) 
+    topic_dataset = _MultiTaskDataset(ag_df)
+    emotion_loader = DataLoader(emotion_dataset, batch_size=16, shuffle=True)
+    topic_loader = DataLoader(topic_dataset, batch_size=16, shuffle=True)
+    return emotion_loader, topic_loader #return two dataloaders to be zipped later
+
+
+
+'''
+# Original Main Method
+def preprocess_data():
+    go, ag = _load_datasets()
     combined = pd.concat(_prepare_datafiles(go, ag), ignore_index=True) # combine the datasets
     combined = combined.sample(frac=1).reset_index(drop=True) # shuffles dataset for training process, so we don't accidentally unlearn a task
     dataset = _MultiTaskDataset(combined) 
     loader = DataLoader(dataset, batch_size=16, shuffle=True)
     return loader
+'''
