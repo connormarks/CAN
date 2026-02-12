@@ -1,0 +1,189 @@
+[
+    {
+        "text": "Our local high school team finally secured the state championship after twenty years of trying.",
+        "emotion": [
+            "pride"
+        ],
+        "topic": "Sports",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "Quarterly earnings fell significantly short of expectations, leaving long-term investors questioning the current leadership strategy.",
+        "emotion": [
+            "disappointment"
+        ],
+        "topic": "Business",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "How does this quantum processor maintain stability at room temperature without traditional cooling systems?",
+        "emotion": [
+            "curiosity"
+        ],
+        "topic": "Sci/Tech",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "Families gathered at the memorial today to mourn the thousands lost in the recent earthquake disaster.",
+        "emotion": [
+            "grief",
+            "sadness"
+        ],
+        "topic": "World",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "I want to thank the local lenders for believing in my startup when nobody else would.",
+        "emotion": [
+            "gratitude"
+        ],
+        "topic": "Business",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "Tensions rise at the border as tanks accumulate and residents scramble to find any possible escape route.",
+        "emotion": [
+            "fear",
+            "nervousness"
+        ],
+        "topic": "World",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "The mascot's clumsy fall during the halftime show accidentally resulted in a perfect backflip into the pool.",
+        "emotion": [
+            "amusement"
+        ],
+        "topic": "Sports",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "Wait, the signal we detected isn't coming from deep space, it's actually bouncing off our own satellite.",
+        "emotion": [
+            "realization",
+            "surprise"
+        ],
+        "topic": "Sci/Tech",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "Another massive layoff while the executives take home fifty million dollar bonuses is absolutely sickening.",
+        "emotion": [
+            "disgust",
+            "anger"
+        ],
+        "topic": "Business",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "This new privacy software is exactly what the industry needs to protect user data from invasive tracking.",
+        "emotion": [
+            "approval",
+            "admiration"
+        ],
+        "topic": "Sci/Tech",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "Why did the referee call a foul when the player clearly didn't even touch the ball?",
+        "emotion": [
+            "confusion",
+            "annoyance"
+        ],
+        "topic": "Sports",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "The ceasefire agreement was finally signed this morning, allowing humanitarian aid to enter the besieged city.",
+        "emotion": [
+            "relief"
+        ],
+        "topic": "World",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "Releasing this facial recognition tool before testing for bias is a dangerous step for the developers.",
+        "emotion": [
+            "disapproval"
+        ],
+        "topic": "Sci/Tech",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "The historic summit starts tomorrow, potentially ending decades of conflict between the two neighboring nations.",
+        "emotion": [
+            "excitement",
+            "optimism"
+        ],
+        "topic": "World",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "Emerging markets are showing strong signs of recovery, pointing toward a prosperous fiscal year for global trade.",
+        "emotion": [
+            "optimism"
+        ],
+        "topic": "Business",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "The legendary quarterback walked off the field for the last time today, ending a career that defined an era.",
+        "emotion": [
+            "sadness"
+        ],
+        "topic": "Sports",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "The rover discovered liquid water under the surface in a location where we never expected to find it.",
+        "emotion": [
+            "surprise"
+        ],
+        "topic": "Sci/Tech",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "Diplomats have been arguing over the seating chart for three hours instead of discussing the actual treaty.",
+        "emotion": [
+            "annoyance"
+        ],
+        "topic": "World",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "I would give anything to be among the first group of civilians to set foot on the lunar surface.",
+        "emotion": [
+            "desire"
+        ],
+        "topic": "Sci/Tech",
+        "verified": false,
+        "needs_editing": null
+    },
+    {
+        "text": "The committee will meet at ten o'clock tomorrow to discuss the updated guidelines for international travel.",
+        "emotion": [
+            "neutral"
+        ],
+        "topic": "World",
+        "verified": false,
+        "needs_editing": null
+    }
+]
