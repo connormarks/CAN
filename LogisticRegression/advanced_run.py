@@ -1,11 +1,9 @@
-from sklearn.metrics import confusion_matrix, classification_report
 from tools.dataset import load_datasets, load_custom_dataset
 from tools.preprocess import create_vectorizer, preprocess_go_data, preprocess_ag_data, preprocess_custom_dataset
+from tools.scoring import default_scoring, custom_scoring, joint_scoring
 from tools.train import get_models
 from tools.config import MERGED_DATASET_PATH
 from collections import namedtuple
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 
 Data = namedtuple('Data', ['X_train', 'X_test', 'y_train', 'y_test'])
@@ -60,82 +58,6 @@ def load_custom_data(vectorizer, simplify_with_ekman=False):
     return X, y_emotion, y_topic
 
 
-def default_scoring(go_model, ag_model, GoData, AgData):
-    """
-    Score the default dataset and show the data
-
-    Prints the classification report and shows the confusion matrices
-
-    Inputs:
-        go_model: LogisticRegression model for the goemotion data
-        ag_model: LogisticRegression model for the agnews data
-        GoData: Data namedtuple containing the training and test data for the goemotion model
-        AgData: Data namedtuple containing the training and test data for the agnews model
-    """
-    # Get the confusion matrices
-    go_cm = confusion_matrix(GoData.y_test, go_model.predict(GoData.X_test))
-    ag_cm = confusion_matrix(AgData.y_test, ag_model.predict(AgData.X_test))
-
-    print("Goemotion classification report:")
-    print(classification_report(GoData.y_test, go_model.predict(GoData.X_test)))
-    print("Agnews classification report:\n")
-    print(classification_report(AgData.y_test, ag_model.predict(AgData.X_test)))
-
-    # Visualize the confusion matrices
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
-    sns.heatmap(go_cm, annot=True, fmt='d', cmap='Blues', square=True, linewidths=0.5,
-                ax=ax1, cbar_kws={'label': 'Count'}, annot_kws={'size': 6})
-    ax1.set_title('GoEmotion Confusion Matrix', fontsize=12)
-    ax1.tick_params(axis='both', labelsize=6)
-    ax1.set_xlabel('Predicted')
-    ax1.set_ylabel('Actual')
-    sns.heatmap(ag_cm, annot=True, fmt='d', cmap='Blues', square=True, linewidths=0.5,
-                ax=ax2, cbar_kws={'label': 'Count'})
-    ax2.set_title('AG News Confusion Matrix', fontsize=12)
-    ax2.set_xlabel('Predicted')
-    ax2.set_ylabel('Actual')
-    plt.tight_layout()
-    plt.show()
-
-
-def custom_scoring(go_model, ag_model, X, y_emotion, y_topic):
-    """
-    Score the custom dataset and show the data
-
-    Prints the classification report and shows the confusion matrices
-
-    Inputs:
-        go_model: LogisticRegression model for the goemotion data
-        ag_model: LogisticRegression model for the agnews data
-        X: numpy array containing the preprocessed text data
-        y_emotion: numpy array containing the preprocessed emotion data
-        y_topic: numpy array containing the preprocessed topic data
-    """
-    go_cm = confusion_matrix(y_emotion, go_model.predict(X))
-    ag_cm = confusion_matrix(y_topic, ag_model.predict(X))
-
-    print("Goemotion classification report:")
-    print(classification_report(y_emotion, go_model.predict(X)))
-    print("Agnews classification report:\n")
-    print(classification_report(y_topic, ag_model.predict(X)))
-
-    # Visualize the confusion matrices
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
-    sns.heatmap(go_cm, annot=True, fmt='d', cmap='Blues', square=True, linewidths=0.5,
-                ax=ax1, cbar_kws={'label': 'Count'}, annot_kws={'size': 6})
-    ax1.set_title('GoEmotion Confusion Matrix', fontsize=12)
-    ax1.tick_params(axis='both', labelsize=6)
-    ax1.set_xlabel('Predicted')
-    ax1.set_ylabel('Actual')
-    sns.heatmap(ag_cm, annot=True, fmt='d', cmap='Blues', square=True, linewidths=0.5,
-                ax=ax2, cbar_kws={'label': 'Count'})
-    ax2.set_title('AG News Confusion Matrix', fontsize=12)
-    ax2.set_xlabel('Predicted')
-    ax2.set_ylabel('Actual')
-    plt.tight_layout()
-    plt.show()
-
-
 if __name__ == "__main__":
     # Load the default datasets
     go_data, ag_data = load_datasets()
@@ -166,4 +88,5 @@ if __name__ == "__main__":
     input("Press Enter to score the custom dataset...")
     custom_scoring(go_model, ag_model, X, y_emotion, y_topic)
 
-    # TODO: score on the joint dataset, taking output from the two models together
+    input("Press Enter to score the joint dataset...")
+    joint_scoring(go_model, ag_model, X, y_emotion, y_topic)
