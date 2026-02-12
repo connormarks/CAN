@@ -41,9 +41,6 @@ def load_custom_dataset(path):
     y_emotion = [obj['emotion'][0] for obj in data]
     y_topic = [obj['topic'] for obj in data]
 
-    y_emotion = [EMOTION_MAPPING[emotion] for emotion in y_emotion]
-    y_topic = [TOPIC_MAPPING[topic] for topic in y_topic]
-
     return X, y_emotion, y_topic
 
 
