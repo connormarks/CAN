@@ -5,7 +5,7 @@ import numpy as np
 from tools.config import EMOTION_MAPPING, TOPIC_MAPPING
 
 
-def _plot_confusion_matrix(cm, title, labels=[]):
+def _plot_confusion_matrix(cm, title, labels=[], block=False):
     """
     Plot the confusion matrix
 
@@ -21,7 +21,7 @@ def _plot_confusion_matrix(cm, title, labels=[]):
     ax.set_xlabel('Predicted')
     ax.set_ylabel('Actual')
     plt.tight_layout()
-    plt.show(block=False)
+    plt.show(block=block)
     plt.pause(0.001)
 
 
@@ -114,4 +114,4 @@ def joint_scoring(go_model, ag_model, X, y_emotion, y_topic):
     print("Joint classification report:")
     print(classification_report(y_joint, y_joint_pred))
 
-    _plot_confusion_matrix(joint_cm, 'Joint Confusion Matrix', labels)
+    _plot_confusion_matrix(joint_cm, 'Joint Confusion Matrix', labels, True)
