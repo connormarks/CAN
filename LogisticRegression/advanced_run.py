@@ -11,7 +11,7 @@ Data = namedtuple('Data', ['X_train', 'X_test', 'y_train', 'y_test'])
 Namedtuple containing the training and test data for a given dataset
 """
 
-def process_data(go_data, ag_data, vectorizer, simplify_with_ekman=False):
+def process_data(go_data, ag_data, vectorizer, simplify_with_ekman=False, ignore_neutral=False):
     """
     Process the data for model training
 
@@ -20,6 +20,7 @@ def process_data(go_data, ag_data, vectorizer, simplify_with_ekman=False):
         ag_data: pandas DataFrame containing the agnews data
         vectorizer: TfidfVectorizer object
         simplify_with_ekman: boolean indicating whether to simplify the goemotion classes with provided Ekman mapping
+        ignore_neutral: boolean indicating whether to ignore the neutral class
 
     Returns:
         GoData: Data namedtuple containing the training and test data for the goemotion model
@@ -28,7 +29,8 @@ def process_data(go_data, ag_data, vectorizer, simplify_with_ekman=False):
     print("Preprocessing goemotion data...")
     go_X_train, go_X_test, go_y_train, go_y_test = preprocess_go_data(go_data, vectorizer, 
                                                                        simplify_with_ekman=simplify_with_ekman,
-                                                                       fix_class_imbalance=True)
+                                                                       fix_class_imbalance=True,
+                                                                       ignore_neutral=ignore_neutral)
     print("Preprocessing agnews data...")
     ag_X_train, ag_X_test, ag_y_train, ag_y_test = preprocess_ag_data(ag_data, vectorizer)
 
@@ -69,10 +71,11 @@ if __name__ == "__main__":
 
     # Ask the user if they want to simplify the GoEmotion classes with the provided Ekman mapping
     simplify_with_ekman = input("Simplify GoEmotion classes with Ekman? (y/n): ") == "y"
+    ignore_neutral = input("Ignore the neutral class? (y/n): ") == "y"
     print()
 
     # Process the data for model training
-    GoData, AgData = process_data(go_data, ag_data, vectorizer, simplify_with_ekman)
+    GoData, AgData = process_data(go_data, ag_data, vectorizer, simplify_with_ekman, ignore_neutral)
 
     # Load the custom dataset
     X, y_emotion, y_topic = load_custom_data(vectorizer, simplify_with_ekman)
