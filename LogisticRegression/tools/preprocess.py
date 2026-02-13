@@ -3,7 +3,7 @@ from imblearn.over_sampling import SMOTE
 from imblearn.combine import SMOTETomek
 from imblearn.under_sampling import RandomUnderSampler
 from .dataset import create_test_train_split
-from .config import EMOTION_MAPPING, EKMAN_IDX_TO_EMOTION_MAPPING, MODEL_PATH
+from .config import EMOTION_MAPPING, TOPIC_MAPPING, EKMAN_IDX_TO_EMOTION_MAPPING, MODEL_PATH
 import pandas as pd
 import numpy as np
 import pickle
@@ -31,7 +31,7 @@ def create_vectorizer(texts, max_df=0.95, min_df=2, max_features=10000, stop_wor
     return vectorizer
 
 
-def _map_go_emotion_to_index(row):
+def _map_go_emotion_to_index(row, ignore_neutral=False):
     """
     The go emotion classes, unlike AG News, are text and not indexed.
 
@@ -44,6 +44,8 @@ def _map_go_emotion_to_index(row):
         class_index: int - The index of the class
     """
     class_index = row.values.tolist().index(1)
+    if ignore_neutral and class_index == 27:
+        return None
     return class_index
 
 
@@ -96,7 +98,12 @@ def _balance_classes(X, y, sampling_count=1000):
     return X_resampled, y_resampled
 
 
-def preprocess_go_data(go_data, vectorizer, simplify_with_ekman=False, fix_class_imbalance=False):
+def preprocess_go_data(
+        go_data, vectorizer, 
+        simplify_with_ekman=False, 
+        fix_class_imbalance=False, 
+        ignore_neutral=False
+    ):
     """
     Preprocesses the goemotion dataset
 
@@ -105,6 +112,7 @@ def preprocess_go_data(go_data, vectorizer, simplify_with_ekman=False, fix_class
         vectorizer: TfidfVectorizer object
         simplify_with_ekman: boolean indicating whether to simplify the goemotion classes with provided Ekman mapping
         fix_class_imbalance: boolean indicating whether to fix the class imbalance
+        ignore_neutral: boolean indicating whether to ignore the neutral class
 
     Returns:
         X_train: list - The training feature data
@@ -131,7 +139,11 @@ def preprocess_go_data(go_data, vectorizer, simplify_with_ekman=False, fix_class
     X = vectorizer.transform(texts)
     y = go_data.drop(columns=["text"] + columns_to_ignore)
     # Map the emotion to its index for the linear regression model
-    y = y.apply(lambda row: _map_go_emotion_to_index(row), axis=1)
+    y = y.apply(lambda row: _map_go_emotion_to_index(row, ignore_neutral), axis=1)
+    # If any classes are ignored (set to None), remove them from X and y
+    mask = y.notna()
+    X = X[mask.values]
+    y = y[mask].apply(lambda x: int(x))
 
     if simplify_with_ekman:
         print("\tSimplifying classes...")
@@ -175,24 +187,44 @@ def preprocess_ag_data(ag_data, vectorizer):
     return X_train, X_test, y_train, y_test
 
 
-def preprocess_custom_dataset(X, y, vectorizer, simplify_with_ekman=False):
+def preprocess_custom_dataset(X, y_emotion, y_topic, vectorizer, simplify_with_ekman=False, ignore_neutral=False):
     """
     Preprocesses the custom dataset
 
     Inputs:
         X: list - The text data to vectorize
-        y: list - The target data
+        y_emotion: list - The emotion target data
+        y_topic: list - The topic target data
         vectorizer: TfidfVectorizer object
         simplify_with_ekman: boolean indicating whether to simplify the classes with provided Ekman mapping
 
     Returns:
         X: list - The vectorized text data
-        y: list - The target data
+        y_emotion: list - The emotion target data
+        y_topic: list - The topic target data
     """
+    y_emotion = [EMOTION_MAPPING[emotion] for emotion in y_emotion]
+    y_topic = [TOPIC_MAPPING[topic] for topic in y_topic]
+
     X = vectorizer.transform(X)
     if simplify_with_ekman:
         print("\tSimplifying classes...")
-        y = map(_apply_ekman_mapping, y)
-        y = list(y)
+        y_emotion = map(_apply_ekman_mapping, y_emotion)
+        y_emotion = list(y_emotion)
+
+    if ignore_neutral:
+        y_emotion = np.array(y_emotion)
+        y_topic = np.array(y_topic)
+
+        y_emotion = np.where(y_emotion == 27, None, y_emotion)
+        # Mask out the neutral class in X and both targets
+        mask = y_emotion != None
+        X = X[mask]
+        y_topic = y_topic[mask]
+        y_emotion = y_emotion[mask]
+
+        y_emotion = y_emotion.tolist()
+        y_topic = y_topic.tolist()
     print()
-    return X, y
+
+    return X, y_emotion, y_topic
