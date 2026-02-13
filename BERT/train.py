@@ -1,27 +1,11 @@
 #traning loop
-
 import config
 from model import EmotionTopicClassifier
 from dataset import preprocess_data
 import numpy as np
 import torch
 
-'''
------Training loop notes----
 
-essential:
-    data loading
-    forward pass
-    task-specific loss (then combine)
-    backpropagate
-    optimizer
-
-advanced techniques:
-    task-specific adapters
-    gradient projection
-    dynamic loss-reweighting
-    task-specific schedulers
-'''
 
 def train(dataloader):
     device = 'cuda' if torch.cuda.is_available() else 'cpu' #cuda = GPU, else cpu
@@ -33,8 +17,14 @@ def train(dataloader):
     emotion_loss_bce = torch.nn.BCEWithLogitsLoss() #instantiate first outside the loop
     topic_loss_ce = torch.nn.CrossEntropyLoss(ignore_index=config.IGNORE_INDEX)
 
+    max_loss = float('-inf') #max validation loss for the patience metric
+    patience = 2 #epochs allowed without any improvement ^^
+    patience_counter = 0
+
     for epoch in range(config.NUM_EPOCHS):
-        
+
+        sum_loss = 0.0
+
         for batch in dataloader: #data loading
             optimizer.zero_grad() #clear the gradients every batch
 
@@ -56,7 +46,17 @@ def train(dataloader):
 
             total_loss.backward() #backpropagation
 
-            torch.nn.utils.clip_grad_norm_(emotion_topic_model.parameters(), max_norm=1.0) # gradient clipping
+            torch.nn.utils.clip_grad_norm_(emotion_topic_model.parameters(), max_norm=1.0) # gradient clipping, limits the max norm for gradients to add stability.
 
             optimizer.step() #gradient updates
 
+            sum_loss += total_loss.item() #extracts the scalar number and adds to sum outside loop
+        
+        # patience validation loss
+        validation_loss = validate(emotion_topic_model, dataloader, device)
+
+
+
+
+def validate(emotion_topic_model, dataloader, device):
+    pass
