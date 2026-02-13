@@ -13,10 +13,10 @@ class EmotionTopicClassifier(nn.Module):
         super().__init__()
         self.bert = BertModel.from_pretrained("google-bert/bert-base-uncased") # THIS IS THE MODEL FROM TRANSFORMERS.
 
-        self.bert.add_adapter('emotion') # task-specific adapters for training
-        self.bert.add_adapter('topic')
+        #self.bert.add_adapter('emotion') # task-specific adapters for training
+        #self.bert.add_adapter('topic')
 
-        self.bert.train_adapter(['emotion', 'topic']) #this line freezes the base model (making training more efficient)
+        #self.bert.train_adapter(['emotion', 'topic']) #this line freezes the base model (making training more efficient)
 
         hidden = self.bert.config.hidden_size # tracks size of hidden layer vectors for training
 
@@ -25,9 +25,9 @@ class EmotionTopicClassifier(nn.Module):
         self.topic_head = nn.Linear(hidden, 4)
 
 
-    def forward(self, input_ids, attention_mask, task): # used by torch in the training process
+    def forward(self, input_ids, attention_mask): # used by torch in the training process
 
-        self.bert.set_active_adapters(task)
+        #self.bert.set_active_adapters(task)
 
         out = self.bert(
             input_ids=input_ids,
@@ -48,41 +48,41 @@ class EmotionTopicClassifier(nn.Module):
 
 
 
-# NOTE: Don't use this in final, I generated it with ChatGPT. I just used this to validate the preprocessing methods.
-# leaving it here for now for testing purposes
-def train(training_data: DataLoader, num_epochs=1):
-    # Initialize model, optimizer, loss
-    model = EmotionTopicClassifier()
-    optimizer = torch.optim.AdamW(model.parameters(), lr=2e-5)
-    emotion_loss_fn = torch.nn.BCEWithLogitsLoss()
-    topic_loss_fn = torch.nn.CrossEntropyLoss(ignore_index=-100) # using the aforementioned -100 as a Null value
+# # NOTE: Don't use this in final, I generated it with ChatGPT. I just used this to validate the preprocessing methods.
+# # leaving it here for now for testing purposes
+# def train(training_data: DataLoader, num_epochs=1):
+#     # Initialize model, optimizer, loss
+#     model = EmotionTopicClassifier()
+#     optimizer = torch.optim.AdamW(model.parameters(), lr=2e-5)
+#     emotion_loss_fn = torch.nn.BCEWithLogitsLoss()
+#     topic_loss_fn = torch.nn.CrossEntropyLoss(ignore_index=-100) # using the aforementioned -100 as a Null value
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    model.to(device)
+#     device = "cuda" if torch.cuda.is_available() else "cpu"
+#     model.to(device)
 
-    # Training loop
-    for epoch in range(num_epochs):
-        model.train()
-        for batch in training_data:
-            # Move tensors to device
-            input_ids = batch["input_ids"].to(device)
-            attention_mask = batch["attention_mask"].to(device)
-            emotion_labels = batch["emotion_labels"].to(device)
-            topic_labels = batch["topic_label"].to(device)
+#     # Training loop
+#     for epoch in range(num_epochs):
+#         model.train()
+#         for batch in training_data:
+#             # Move tensors to device
+#             input_ids = batch["input_ids"].to(device)
+#             attention_mask = batch["attention_mask"].to(device)
+#             emotion_labels = batch["emotion_labels"].to(device)
+#             topic_labels = batch["topic_label"].to(device)
 
-            optimizer.zero_grad()
-            outputs = model(input_ids, attention_mask)
+#             optimizer.zero_grad()
+#             outputs = model(input_ids, attention_mask)
 
-            # Pick the correct head
-            if batch["task"][0] == "emotion":
-                loss = emotion_loss_fn(outputs["emotion_logits"], emotion_labels)
-            else:
-                loss = topic_loss_fn(outputs["topic_logits"], topic_labels)
+#             # Pick the correct head
+#             if batch["task"][0] == "emotion":
+#                 loss = emotion_loss_fn(outputs["emotion_logits"], emotion_labels)
+#             else:
+#                 loss = topic_loss_fn(outputs["topic_logits"], topic_labels)
 
-            loss.backward()
-            optimizer.step()
+#             loss.backward()
+#             optimizer.step()
         
-        print(f"Epoch {epoch+1} done")
+#         print(f"Epoch {epoch+1} done")
 
-# for testing purposes, remove when done
-train(preprocess_data())
+# # for testing purposes, remove when done
+# train(preprocess_data())
