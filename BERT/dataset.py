@@ -55,12 +55,14 @@ def _prepare_datafiles(go_df, ag_df):
     ag_df.loc[:, "topic_label"] = ag_df["topic_label"] - 1 # make the labels 0 indexed so it is compatible with torch processes
     return [go_df, ag_df]
 
+
+tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+
 def _tokenize(text, max_length=128):
     """
     Tokenizes the given text based on the requirements of BERT. 
     Returns the tokens in a tensor for processing.
     """
-    tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
     return tokenizer(
         text,
         truncation=True,
