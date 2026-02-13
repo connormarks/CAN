@@ -48,12 +48,15 @@ def train(dataloader):
             emotion_logits = logits['emotion_logits']
             topic_logits = logits['topic_logits']
 
-            emotion_loss = emotion_loss_bce(emotion_logits, emotion_labels) #task-specific loss
+            emotion_mask = (emotion_labels != -100).any(dim=1)
+            emotion_loss = emotion_loss_bce(emotion_logits[emotion_mask], emotion_labels[emotion_mask]) if emotion_mask.any() else torch.tensor(0.0, device=device) #task-specific loss
             topic_loss = topic_loss_ce(topic_logits, topic_labels) #task-specific loss
 
             total_loss = emotion_loss + topic_loss # scalar tensor with one value inside (combine loss)
 
             total_loss.backward() #backpropagation
-            
+
+            torch.nn.utils.clip_grad_norm_(emotion_topic_model.parameters(), max_norm=1.0) # gradient clipping
+
             optimizer.step() #gradient updates
 
