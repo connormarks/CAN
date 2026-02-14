@@ -76,8 +76,8 @@ def custom_scoring(go_model, ag_model, X, y_emotion, y_topic):
     emotion_labels = [list(EMOTION_MAPPING.keys())[emotion] for emotion in go_model.classes_]
     topic_labels = [list(TOPIC_MAPPING.keys())[topic-1] for topic in ag_model.classes_]
 
-    _plot_confusion_matrix(go_cm, 'GoEmotion Confusion Matrix', emotion_labels)
-    _plot_confusion_matrix(ag_cm, 'AG News Confusion Matrix', topic_labels)
+    _plot_confusion_matrix(go_cm, 'Custom Emotion Confusion Matrix', emotion_labels)
+    _plot_confusion_matrix(ag_cm, 'Custom Topic Confusion Matrix', topic_labels)
 
 
 def joint_scoring(go_model, ag_model, X, y_emotion, y_topic):
