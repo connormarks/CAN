@@ -61,3 +61,28 @@ def stream_response(model, prompt, system=None, message_history=[]):
 
     new_message_history = add_new_message(message_history, message, for_api=True)
     return new_message_history
+
+
+def generate_response(model, prompt, system=None, message_history=[]):
+    """
+    Generate the response from the LLM.
+
+    Input:
+        model: str - The model to use.
+        prompt: str - The prompt to the LLM.
+        system: str - The system prompt as a string.
+        message_history: list - The message history as a list of dictionaries.
+    Returns:
+        new_message_history: list - The message history as a list of dictionaries.
+    """
+    client = create_client()
+    system, messages = setup_context(prompt, system, message_history, for_api=True)
+
+    response = client.models.generate_content(
+        model=model,
+        contents=messages["contents"],
+        config=system
+    )
+
+    new_message_history = add_new_message(message_history, response.text, for_api=True)
+    return new_message_history

@@ -6,3 +6,7 @@ __pycache__/
 
 # Environment variables
 .env
+
+# Ignore data output directories
+SyntheticDataGeneration/Output/
+SyntheticDataGeneration/Verified/
