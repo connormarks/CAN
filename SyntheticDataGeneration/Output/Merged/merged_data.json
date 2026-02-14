@@ -586,16 +586,6 @@
         "needs_editing": false
     },
     {
-        "text": "The heavy-weight champion finally met his match and was knocked out in the very first round of the fight.",
-        "emotion": [
-            "surprise",
-            "shock"
-        ],
-        "topic": "Sports",
-        "verified": true,
-        "needs_editing": false
-    },
-    {
         "text": "I'm so sorry for the way our government has treated your people in the past and I hope for reconciliation.",
         "emotion": [
             "remorse",
@@ -1579,16 +1569,6 @@
             "caring"
         ],
         "topic": "World",
-        "verified": true,
-        "needs_editing": false
-    },
-    {
-        "text": "The prototype worked perfectly in the lab, but it failed completely when we tested it in the field today.",
-        "emotion": [
-            "disappointment",
-            "frustration"
-        ],
-        "topic": "Sci/Tech",
         "verified": true,
         "needs_editing": false
     },
@@ -10168,16 +10148,6 @@
         "needs_editing": false
     },
     {
-        "text": "The election results are finally in and the nation is bracing for the significant changes that the new government has promised.",
-        "emotion": [
-            "nervousness",
-            "anticipation"
-        ],
-        "topic": "World",
-        "verified": true,
-        "needs_editing": false
-    },
-    {
         "text": "The store manager was caught overcharging customers for basic necessities during the hurricane and the community is absolutely furious about it.",
         "emotion": [
             "anger",
@@ -11202,16 +11172,6 @@
         "needs_editing": false
     },
     {
-        "text": "The auditor found a discrepancy of three million dollars, and now the CFO has suddenly gone on an 'extended vacation'.",
-        "emotion": [
-            "suspicion",
-            "realization"
-        ],
-        "topic": "Business",
-        "verified": true,
-        "needs_editing": false
-    },
-    {
         "text": "This new VR headset is so realistic that I actually tried to lean on a virtual table and fell over.",
         "emotion": [
             "amusement",
@@ -11410,16 +11370,6 @@
         "needs_editing": false
     },
     {
-        "text": "Wait, does this app really require access to my microphone and camera just to edit a simple photo?",
-        "emotion": [
-            "confusion",
-            "suspicion"
-        ],
-        "topic": "Sci/Tech",
-        "verified": true,
-        "needs_editing": false
-    },
-    {
         "text": "The sight of the former star player sitting on the bench, unable to play due to age, is quite depressing.",
         "emotion": [
             "sadness",
@@ -11594,26 +11544,6 @@
             "excitement"
         ],
         "topic": "World",
-        "verified": true,
-        "needs_editing": false
-    },
-    {
-        "text": "The stock price is climbing higher every single day, and I am finally seeing the returns I've been waiting for.",
-        "emotion": [
-            "joy",
-            "satisfaction"
-        ],
-        "topic": "Business",
-        "verified": true,
-        "needs_editing": false
-    },
-    {
-        "text": "I'm really worried that this 'smart' home tech is just making it easier for people to spy on their neighbors.",
-        "emotion": [
-            "fear",
-            "suspicion"
-        ],
-        "topic": "Sci/Tech",
         "verified": true,
         "needs_editing": false
     },
