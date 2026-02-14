@@ -3,9 +3,9 @@ This file contains the API for the Gemini model.
 Code from example at https://github.com/google-gemini/cookbook/blob/main/quickstarts/Streaming.ipynb
 """
 
+from .context import setup_context, add_new_message
 from google import genai
 from dotenv import load_dotenv
-from context import setup_context, add_new_message
 import os
 
 
