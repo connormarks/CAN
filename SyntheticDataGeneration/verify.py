@@ -64,7 +64,7 @@ def _verify_object(obj):
     return obj
 
 
-def _merge_processed():
+def merge_verified():
     merged_json_objs = []
     for file in os.listdir(VERIFIED_DIR):
         with open(f'{VERIFIED_DIR}/{file}', 'r') as f:
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     print(f"Data verified and saved to {VERIFIED_DIR}/{output_file}")
     merge = input("Merge processed data? (y/n): ")
     if merge == 'y':
-        _merge_processed()
+        merge_verified()
         print(f"Merged data saved to {MERGED_DIR}/merged_data.json")
     else:
         print("Data not merged")
