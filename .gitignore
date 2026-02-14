@@ -10,3 +10,6 @@ __pycache__/
 # Ignore data output directories
 SyntheticDataGeneration/Output/
 SyntheticDataGeneration/Verified/
+
+# Ignore model directories
+LogisticRegression/models/
