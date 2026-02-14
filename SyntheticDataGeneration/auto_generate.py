@@ -5,7 +5,7 @@ from gemini_api import generate_response as generate_gemini_response
 from ollama_api import generate_response as generate_ollama_response
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
-from google.genai.errors import ServerError
+from google.genai.errors import ServerError, ClientError
 import numpy as np
 import time
 import datetime
@@ -34,6 +34,9 @@ def _generate_rate_limited_gemini_response(model, prompt, system, tries=0, max_t
         _sleep_with_print(sleep_time)
         print("Retrying...", end='', flush=True)
         return _generate_rate_limited_gemini_response(model, prompt, system, tries + 1, max_tries, sleep_time)
+    except ClientError:
+        print("Client error. Rate limited. Stopping generation.")
+        return RateLimitResponse()
     return result
 
 
