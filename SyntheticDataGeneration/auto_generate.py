@@ -138,22 +138,10 @@ def verify_generated(batch_files):
 
 
 if __name__ == "__main__":
-    # example_goal = int(input("Enter the number of examples you want to generate: "))
-    # print()
+    example_goal = int(input("Enter the number of examples you want to generate: "))
+    print()
 
-    # batch_files = auto_generate(example_goal)
-
-    batch_files = [
-        'auto_222935_0.json',
-        'auto_223616_0.json',
-        'auto_223716_1.json',
-        'auto_223823_2.json',
-        'auto_223919_3.json',
-        'auto_224037_4.json',
-        'auto_224138_5.json',
-        'auto_224234_6.json',
-        'auto_224445_7.json'
-    ]
+    batch_files = auto_generate(example_goal)
 
     verify_generated(batch_files)
 
