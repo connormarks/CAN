@@ -1,5 +1,5 @@
-import ollama
 from context import setup_context, add_new_message
+import ollama
 
 
 def get_models():
