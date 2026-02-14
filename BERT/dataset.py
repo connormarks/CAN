@@ -3,6 +3,7 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 import kagglehub
 from transformers import AutoTokenizer
+from torch.utils.data import random_split
 
 # For use if necesssary
 EMOTION_COLUMNS = [
@@ -97,12 +98,26 @@ def preprocess_data():
     combined = pd.concat(_prepare_datafiles(go, ag), ignore_index=True) # combine the datasets
     combined = combined.sample(frac=1).reset_index(drop=True) # shuffles dataset for training process, so we don't accidentally unlearn a task
     dataset = _MultiTaskDataset(combined) 
-    loader = DataLoader(dataset, batch_size=16, shuffle=True)
-    return loader
+    train_size = int(0.9 * len(dataset)) #90% training
+    val_size = len(dataset) - train_size #10% validation
+    train_dataset, val_dataset = random_split(dataset, [train_size, val_size]) #random split usage
+    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True) #train loader
+    val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False) # val loader
+    return train_loader, val_loader
 
 
 
 '''
+without validation:
+def preprocess_data():
+    go, ag = _load_datasets()
+    combined = pd.concat(_prepare_datafiles(go, ag), ignore_index=True) # combine the datasets
+    combined = combined.sample(frac=1).reset_index(drop=True) # shuffles dataset for training process, so we don't accidentally unlearn a task
+    dataset = _MultiTaskDataset(combined) 
+    loader = DataLoader(dataset, batch_size=16, shuffle=True)
+    return loader
+
+
 adapter
 def preprocess_data():
     go, ag = _load_datasets()
