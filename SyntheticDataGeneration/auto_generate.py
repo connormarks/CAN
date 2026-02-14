@@ -1,5 +1,5 @@
 from generate import select_model, format_json, load_system_prompt
-from config import OUTPUT_DIR, VERIFIED_DIR, MERGED_DIR
+from config import OUTPUT_DIR, VERIFIED_DIR, MERGED_DIR, EMOTION_LABELS, TOPIC_LABELS
 from verify import merge_verified
 from gemini_api import generate_response as generate_gemini_response
 from ollama_api import generate_response as generate_ollama_response
@@ -92,6 +92,20 @@ def verify_batch(vectorizer, corpus, filename):
         json_obj = json.load(f)
 
     for obj in json_obj:
+        valid = True
+        for emotion in obj['emotion']:
+            if emotion not in EMOTION_LABELS:
+                obj['verified'] = False
+                obj['needs_editing'] = None
+                valid = False
+                break
+        if not valid:
+            continue
+        if obj['topic'] not in TOPIC_LABELS:
+            obj['verified'] = False
+            obj['needs_editing'] = None
+            continue
+
         new_embedding = vectorizer.encode([obj['text']])
         if not check_in_corpus(new_embedding, corpus):
             if corpus.size == 0:
