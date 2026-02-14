@@ -1,5 +1,5 @@
-from ollama_api import get_models as get_ollama_models, stream_response as stream_ollama_response
-from gemini_api import get_models as get_gemini_models, stream_response as stream_gemini_response
+from tools.ollama_api import get_models as get_ollama_models, stream_response as stream_ollama_response
+from tools.gemini_api import get_models as get_gemini_models, stream_response as stream_gemini_response
 from config import OUTPUT_DIR
 import datetime
 import json

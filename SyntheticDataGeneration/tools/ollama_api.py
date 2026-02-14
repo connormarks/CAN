@@ -1,4 +1,4 @@
-from context import setup_context, add_new_message
+from .context import setup_context, add_new_message
 import ollama
 
 

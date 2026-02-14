@@ -1,6 +1,6 @@
+from config import OUTPUT_DIR, VERIFIED_DIR, EMOTION_LABELS, TOPIC_LABELS, MERGED_DIR
 import os
 import json
-from config import OUTPUT_DIR, VERIFIED_DIR, EMOTION_LABELS, TOPIC_LABELS, MERGED_DIR
 
 
 def _output_information(obj):
