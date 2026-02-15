@@ -8,8 +8,8 @@ __pycache__/
 .env
 
 # Ignore data output directories
-SyntheticDataGeneration/Output/
-SyntheticDataGeneration/Verified/
+SyntheticDataGeneration/Output/*.json
+SyntheticDataGeneration/Output/Processed/
 
 # Ignore model directories
 LogisticRegression/models/
