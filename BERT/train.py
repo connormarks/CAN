@@ -1,5 +1,5 @@
 #traning loop
-import config
+from CAN.BERT import config
 from model import EmotionTopicClassifier
 from dataset import preprocess_data
 import numpy as np
