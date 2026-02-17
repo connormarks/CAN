@@ -1,7 +1,6 @@
 #traning loop
 from CAN.BERT import config
-from model import EmotionTopicClassifier
-from dataset import preprocess_data
+from CAN.BERT.model import EmotionTopicClassifier
 import numpy as np
 import torch
 

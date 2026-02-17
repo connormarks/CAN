@@ -1,10 +1,7 @@
 # BERT base model + emotion and topic heads
 
-import torch
 import torch.nn as nn
 from transformers import BertModel # huggingface
-from torch.utils.data import DataLoader
-from dataset import preprocess_data
 
 # our bert model
 class EmotionTopicClassifier(nn.Module):
