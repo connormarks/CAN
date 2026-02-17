@@ -7,7 +7,7 @@ import torch
 
 
 
-def train(train_loader, val_loader):
+def train(train_loader, val_loader, run_dir):
     torch.manual_seed(config.RANDOM_SEED) #reproducability
     np.random.seed(config.RANDOM_SEED)
     if torch.cuda.is_available():
@@ -64,7 +64,7 @@ def train(train_loader, val_loader):
         if validation_loss < min_loss:
             min_loss = validation_loss
             patience_counter = 0
-            torch.save(emotion_topic_model.state_dict(), "best.pt") # you can save the models dict which has the values of every tensor / parameter values
+            torch.save(emotion_topic_model.state_dict(), f"{run_dir}/best.pt") # you can save the models dict which has the values of every tensor / parameter values
         else:
             patience_counter+=1
 
