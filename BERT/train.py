@@ -7,7 +7,7 @@ import torch
 
 
 
-def train(train_loader, val_loader, run_dir):
+def train(train_loader, val_loader, run_dir, summary_file):
     torch.manual_seed(config.RANDOM_SEED) #reproducability
     np.random.seed(config.RANDOM_SEED)
     if torch.cuda.is_available():
