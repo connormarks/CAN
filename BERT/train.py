@@ -28,7 +28,7 @@ def train(train_loader, val_loader, run_dir, summary_file):
     for epoch in range(config.NUM_EPOCHS):
 
         sum_loss = 0.0
-
+        print(f"Epoch {epoch+1} started...")
         for batch in train_loader: #data loading
             optimizer.zero_grad() #clear the gradients every batch
 

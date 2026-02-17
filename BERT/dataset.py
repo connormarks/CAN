@@ -81,12 +81,12 @@ class _MultiTaskDataset(Dataset): # We need this class to manage the properties 
 
     def __getitem__(self, idx):
         row = self.df.iloc[idx]
-        tokens = _tokenize(row["text"]) # Tokenize the row before passing it back to the trainer
+        #tokens = _tokenize(row["text"]) # Tokenize the row before passing it back to the trainer
 
         # Return the item from the dataset, including all the respective fields from the input as well as the tokenizer's added fields
         return {
-            "input_ids": tokens["input_ids"].squeeze(0),
-            "attention_mask": tokens["attention_mask"].squeeze(0),
+            "input_ids": row["input_ids"],
+            "attention_mask": row["attention_mask"],
             "task": row["task"],
             "emotion_labels": torch.tensor(row["emotion_labels"], dtype=torch.float),
             "topic_label": torch.tensor(row["topic_label"], dtype=torch.long),
@@ -97,6 +97,9 @@ def preprocess_data():
     go, ag = _load_datasets()
     combined = pd.concat(_prepare_datafiles(go, ag), ignore_index=True) # combine the datasets
     combined = combined.sample(frac=1).reset_index(drop=True) # shuffles dataset for training process, so we don't accidentally unlearn a task
+    tokens = _tokenize(combined["text"].tolist())
+    combined["input_ids"] = list(tokens["input_ids"])
+    combined["attention_mask"] = list(tokens["attention_mask"])
     dataset = _MultiTaskDataset(combined) 
     train_size = int(0.9 * len(dataset)) #90% training
     val_size = len(dataset) - train_size #10% validation
