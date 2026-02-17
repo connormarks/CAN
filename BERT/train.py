@@ -28,8 +28,9 @@ def train(train_loader, val_loader, run_dir, summary_file):
     for epoch in range(config.NUM_EPOCHS):
 
         sum_loss = 0.0
-        print(f"Epoch {epoch+1} started...")
-        for batch in train_loader: #data loading
+        print(f"epoch {epoch+1} started...")
+
+        for step, batch in enumerate(train_loader): #data loading
             optimizer.zero_grad() #clear the gradients every batch
 
             input_ids = batch['input_ids'].to(device)
@@ -55,6 +56,13 @@ def train(train_loader, val_loader, run_dir, summary_file):
             optimizer.step() #gradient updates
 
             sum_loss += total_loss.item() #extracts the scalar number and adds to sum outside loop
+            
+            if (step+1) % config.LOG_N_STEPS == 0:
+                avg = sum_loss / (step + 1)
+                print(
+                    f"batch {step+1}/{len(train_loader)} | "
+                    f"average loss: {avg:.4f}") #print every 100
+
         
 
         # patience validation loss
@@ -65,8 +73,8 @@ def train(train_loader, val_loader, run_dir, summary_file):
 
         loss_metrics = (
             f"epoch {epoch+1}/{config.NUM_EPOCHS} | "
-            f"training_loss: {training_loss:.6f} | "
-            f"validation_loss: {validation_loss:.6f}"
+            f"training loss: {training_loss:.6f} | "
+            f"validation loss: {validation_loss:.6f}"
         )
 
         print(loss_metrics)
