@@ -8,6 +8,11 @@ import torch
 
 
 def train(train_loader, val_loader):
+    torch.manual_seed(config.RANDOM_SEED) #reproducability
+    np.random.seed(config.RANDOM_SEED)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(config.RANDOM_SEED)
+
     device = 'cuda' if torch.cuda.is_available() else 'cpu' #cuda = GPU, else cpu
     emotion_topic_model = EmotionTopicClassifier().to(device) #attach the device, this is in module.nn's to()
     emotion_topic_model.train() # set the module in training mode, also module.nn
