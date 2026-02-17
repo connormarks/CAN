@@ -61,15 +61,34 @@ def train(train_loader, val_loader, run_dir, summary_file):
         # patience validation loss
         validation_loss = validate(emotion_topic_model, val_loader, device)
 
+
+        training_loss = sum_loss / len(train_loader) # average training loss per epoch
+
+        loss_metrics = (
+            f"epoch {epoch+1}/{config.NUM_EPOCHS} | "
+            f"training_loss: {training_loss:.6f} | "
+            f"validation_loss: {validation_loss:.6f}"
+        )
+
+        print(loss_metrics)
+        summary_file.write(loss_metrics + "\n")
+        summary_file.flush()
+
         if validation_loss < min_loss:
             min_loss = validation_loss
             patience_counter = 0
             torch.save(emotion_topic_model.state_dict(), f"{run_dir}/best.pt") # you can save the models dict which has the values of every tensor / parameter values
+            summary_file.write("New best model saved.\n")
         else:
             patience_counter+=1
+            summary_file.write(f"No improvement. Patience: {patience_counter}/{patience}\n")
+
 
         if patience_counter >= patience: # this is our limit
+            summary_file.write("Early stopping triggered.\n")
             break
+
+    summary_file.close()
 
 
 
