@@ -1,13 +1,17 @@
 #traning loop
-import config
-from model import EmotionTopicClassifier
-from dataset import preprocess_data
+from CAN.BERT import config
+from CAN.BERT.model import EmotionTopicClassifier
 import numpy as np
 import torch
 
 
 
-def train(train_loader, val_loader):
+def train(train_loader, val_loader, run_dir, summary_file):
+    torch.manual_seed(config.RANDOM_SEED) #reproducability
+    np.random.seed(config.RANDOM_SEED)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(config.RANDOM_SEED)
+
     device = 'cuda' if torch.cuda.is_available() else 'cpu' #cuda = GPU, else cpu
     emotion_topic_model = EmotionTopicClassifier().to(device) #attach the device, this is in module.nn's to()
     emotion_topic_model.train() # set the module in training mode, also module.nn
@@ -24,8 +28,9 @@ def train(train_loader, val_loader):
     for epoch in range(config.NUM_EPOCHS):
 
         sum_loss = 0.0
+        print(f"epoch {epoch+1} started...")
 
-        for batch in train_loader: #data loading
+        for step, batch in enumerate(train_loader): #data loading
             optimizer.zero_grad() #clear the gradients every batch
 
             input_ids = batch['input_ids'].to(device)
@@ -51,20 +56,46 @@ def train(train_loader, val_loader):
             optimizer.step() #gradient updates
 
             sum_loss += total_loss.item() #extracts the scalar number and adds to sum outside loop
+            
+            if (step+1) % config.LOG_N_STEPS == 0:
+                avg = sum_loss / (step + 1)
+                print(
+                    f"batch {step+1}/{len(train_loader)} | "
+                    f"average loss: {avg:.4f}") #print every 100
+
         
 
         # patience validation loss
         validation_loss = validate(emotion_topic_model, val_loader, device)
 
+
+        training_loss = sum_loss / len(train_loader) # average training loss per epoch
+
+        loss_metrics = (
+            f"epoch {epoch+1}/{config.NUM_EPOCHS} | "
+            f"training loss: {training_loss:.6f} | "
+            f"validation loss: {validation_loss:.6f}"
+        )
+
+        print(loss_metrics)
+        summary_file.write(loss_metrics + "\n")
+        summary_file.flush()
+
         if validation_loss < min_loss:
             min_loss = validation_loss
             patience_counter = 0
-            torch.save(emotion_topic_model.state_dict(), "best.pt") # you can save the models dict which has the values of every tensor / parameter values
+            torch.save(emotion_topic_model.state_dict(), f"{run_dir}/best.pt") # you can save the models dict which has the values of every tensor / parameter values
+            summary_file.write("New best model saved.\n")
         else:
             patience_counter+=1
+            summary_file.write(f"No improvement. Patience: {patience_counter}/{patience}\n")
+
 
         if patience_counter >= patience: # this is our limit
+            summary_file.write("Early stopping triggered.\n")
             break
+
+    summary_file.close()
 
 
 
