@@ -13,3 +13,7 @@ SyntheticDataGeneration/Output/Processed/
 
 # Ignore model directories
 LogisticRegression/models/
+
+
+# ignore model checkpoints
+*.pt
