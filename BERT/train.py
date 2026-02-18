@@ -3,8 +3,8 @@ from CAN.BERT import config
 from CAN.BERT.model import EmotionTopicClassifier
 import numpy as np
 import torch
-
-
+from torch.utils.tensorboard import SummaryWriter
+import os
 
 def train(train_loader, val_loader, run_dir, summary_file):
     torch.manual_seed(config.RANDOM_SEED) #reproducability
@@ -15,6 +15,9 @@ def train(train_loader, val_loader, run_dir, summary_file):
     device = 'cuda' if torch.cuda.is_available() else 'cpu' #cuda = GPU, else cpu
     emotion_topic_model = EmotionTopicClassifier().to(device) #attach the device, this is in module.nn's to()
     emotion_topic_model.train() # set the module in training mode, also module.nn
+
+    log_dir = os.path.join(run_dir, "tensorboard") # Tensorboard implementation - puts output logs in the run_dir
+    writer = SummaryWriter(log_dir=log_dir) # initializes tensorboard
 
     optimizer = torch.optim.AdamW(emotion_topic_model.parameters(), lr=config.LEARNING_RATE, weight_decay=config.WEIGHT_DECAY)
 
@@ -49,6 +52,9 @@ def train(train_loader, val_loader, run_dir, summary_file):
 
             total_loss = emotion_loss + topic_loss # scalar tensor with one value inside (combine loss)
 
+            global_step = epoch * len(train_loader) + step # computes loss per batch and sends results to tensorboard
+            writer.add_scalar("Loss/Train_Batch", total_loss.item(), global_step)
+
             total_loss.backward() #backpropagation
 
             torch.nn.utils.clip_grad_norm_(emotion_topic_model.parameters(), max_norm=1.0) # gradient clipping, limits the max norm for gradients to add stability.
@@ -70,6 +76,9 @@ def train(train_loader, val_loader, run_dir, summary_file):
 
 
         training_loss = sum_loss / len(train_loader) # average training loss per epoch
+
+        writer.add_scalar("Loss/Train_Epoch", training_loss, epoch) # adds training/validation loss to tensorboard
+        writer.add_scalar("Loss/Validation", validation_loss, epoch)
 
         loss_metrics = (
             f"epoch {epoch+1}/{config.NUM_EPOCHS} | "
@@ -94,11 +103,9 @@ def train(train_loader, val_loader, run_dir, summary_file):
         if patience_counter >= patience: # this is our limit
             summary_file.write("Early stopping triggered.\n")
             break
-
+        
     summary_file.close()
-
-
-
+    writer.close() # closes tensorboard
 
 def validate(emotion_topic_model, val_loader, device):
     emotion_topic_model.eval() # evaluation mode now, not training
