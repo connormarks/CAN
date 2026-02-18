@@ -1,11 +1,12 @@
 from sklearn.metrics import confusion_matrix, classification_report
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import seaborn as sns
 import numpy as np
 from tools.config import EMOTION_MAPPING, TOPIC_MAPPING
 
 
-def _plot_confusion_matrix(cm, title, labels=[], block=False):
+def _plot_confusion_matrix(cm, title, labels=[], block=False, log_scale=False):
     """
     Plot the confusion matrix
 
@@ -13,10 +14,21 @@ def _plot_confusion_matrix(cm, title, labels=[], block=False):
         cm: numpy array containing the confusion matrix
         title: str containing the title of the plot
         labels: list of labels to use for the plot
+        block: whether to block when showing the plot
+        log_scale: if True, use logarithmic scale for the color map (zeros shown as 0)
     """
     fig, ax = plt.subplots(figsize=(5, 5))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', square=True, linewidths=0.5,
-                ax=ax, cbar_kws={'label': 'Count'}, annot_kws={'size': 6}, xticklabels=labels, yticklabels=labels)
+    if log_scale:
+        # LogNorm cannot handle 0; plot cm+1 for colors, annotate with actual counts
+        plot_values = cm + 1
+        norm = mcolors.LogNorm(vmin=1, vmax=plot_values.max())
+        sns.heatmap(plot_values, annot=cm, fmt='d', cmap='Blues', square=True, linewidths=0.5,
+                    ax=ax, cbar_kws={'label': 'Count'}, annot_kws={'size': 6},
+                    xticklabels=labels, yticklabels=labels, norm=norm)
+    else:
+        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', square=True, linewidths=0.5,
+                    ax=ax, cbar_kws={'label': 'Count'}, annot_kws={'size': 6},
+                    xticklabels=labels, yticklabels=labels)
     ax.set_title(title, fontsize=12)
     ax.set_xlabel('Predicted')
     ax.set_ylabel('Actual')
@@ -114,4 +126,4 @@ def joint_scoring(go_model, ag_model, X, y_emotion, y_topic):
     print("Joint classification report:")
     print(classification_report(y_joint, y_joint_pred))
 
-    _plot_confusion_matrix(joint_cm, 'Joint Confusion Matrix', labels, True)
+    _plot_confusion_matrix(joint_cm, 'Joint Confusion Matrix', labels, True, True)
