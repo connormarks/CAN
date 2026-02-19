@@ -92,7 +92,7 @@ def custom_scoring(go_model, ag_model, X, y_emotion, y_topic):
     _plot_confusion_matrix(ag_cm, 'Custom Topic Confusion Matrix', topic_labels)
 
 
-def joint_scoring(go_model, ag_model, X, y_emotion, y_topic):
+def joint_scoring(go_model, ag_model, X, y_emotion, y_topic, ignore_neutral=False):
     """
     Score the joint dataset and show the data
 
@@ -108,6 +108,8 @@ def joint_scoring(go_model, ag_model, X, y_emotion, y_topic):
     # Build full ordered list of joint labels (same format for data and matrix)
     labels = []
     for emotion in go_model.classes_:
+        if emotion == 27 and ignore_neutral:
+            continue
         for topic in ag_model.classes_:
             emotion_name = list(EMOTION_MAPPING.keys())[emotion]
             topic_name = list(TOPIC_MAPPING.keys())[topic - 1]

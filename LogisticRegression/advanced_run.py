@@ -93,4 +93,4 @@ if __name__ == "__main__":
     custom_scoring(go_model, ag_model, X, y_emotion, y_topic)
 
     input("Press Enter to score the joint dataset...")
-    joint_scoring(go_model, ag_model, X, y_emotion, y_topic)
+    joint_scoring(go_model, ag_model, X, y_emotion, y_topic, ignore_neutral=ignore_neutral)
