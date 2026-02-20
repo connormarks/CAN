@@ -1,6 +1,7 @@
 #traning loop
 from CAN.BERT import config
 from CAN.BERT.model import EmotionTopicClassifier
+from CAN.BERT.evaluate import evaluate
 import numpy as np
 import torch
 from torch.utils.tensorboard import SummaryWriter
@@ -27,12 +28,12 @@ def train(train_loader, val_loader, run_dir, summary_file):
     min_loss = float('inf') #max validation loss for the patience metric
     patience = 2 #epochs allowed without any improvement ^^
     patience_counter = 0
-
+    
     for epoch in range(config.NUM_EPOCHS):
 
         sum_loss = 0.0
         print(f"epoch {epoch+1} started...")
-
+        """
         for step, batch in enumerate(train_loader): #data loading
             optimizer.zero_grad() #clear the gradients every batch
 
@@ -68,9 +69,9 @@ def train(train_loader, val_loader, run_dir, summary_file):
                 print(
                     f"batch {step+1}/{len(train_loader)} | "
                     f"average loss: {avg:.4f}") #print every 100
-
+        """
         
-
+        """
         # patience validation loss
         validation_loss = validate(emotion_topic_model, val_loader, device)
 
@@ -89,6 +90,9 @@ def train(train_loader, val_loader, run_dir, summary_file):
         print(loss_metrics)
         summary_file.write(loss_metrics + "\n")
         summary_file.flush()
+        """
+        # output confusion matrix
+        evaluate(emotion_topic_model, val_loader, device)
 
         if validation_loss < min_loss:
             min_loss = validation_loss
@@ -114,7 +118,7 @@ def validate(emotion_topic_model, val_loader, device):
 
     emotion_loss_bce = torch.nn.BCEWithLogitsLoss()
     topic_loss_ce = torch.nn.CrossEntropyLoss(ignore_index=config.IGNORE_INDEX)
-
+    
     with torch.no_grad(): #context manager prevents permanent storage (goes away each loop)
         for batch in val_loader:
             #following code is copy pasted from above

@@ -16,3 +16,4 @@ typing_extensions==4.15.0
 kagglehub==0.4.3
 tensorboard==2.20.0
 torch-tb-profiler==0.4.3
+seaborn==0.13.2
