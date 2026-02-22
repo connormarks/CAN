@@ -76,8 +76,8 @@ def evaluate(model, loader, device, run_dir, epoch) -> None:
                 true_emotion = topic_labels[i].item()
                 pred_emotion = topic_preds[i].item()
 
-                joint_true.append(f"{true_topic} about {true_emotion}")
-                joint_pred.append(f"{pred_topic} about {pred_emotion}")
+                joint_true.append(f"{true_emotion} about {true_topic}")
+                joint_pred.append(f"{pred_emotion} about {pred_topic}")
     
     labels = []
     for emotion in EMOTION_MAPPING.keys():
