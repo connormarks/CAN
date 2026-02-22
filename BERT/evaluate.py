@@ -136,3 +136,11 @@ def evaluate(model, loader, device, run_dir, epoch):
     plt.close()
 
     model.train()
+
+    topic_accuracy = np.mean(np.array(topic_true) == np.array(topic_pred))
+    emotion_accuracy = np.mean(np.array(emotion_true) == np.array(emotion_pred))
+
+    return {
+        "topic_accuracy": topic_accuracy,
+        "emotion_accuracy": emotion_accuracy
+    }

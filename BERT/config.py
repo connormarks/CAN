@@ -9,7 +9,7 @@ SHUFFLE = True #shuffle to make learning more pure
 #{OPTIMIZATION}
 LEARNING_RATE = 2e-5 #learning rate for the optimizer FROM THE BERT PAPER
 WEIGHT_DECAY = 0.01 #weight decay coeff for adamW, L2 reg
-NUM_EPOCHS = 3 # num full passes over training data
+NUM_EPOCHS = 10 # num full passes over training data
 WARMUP_RATIO = 0.1 #fraction of total traning steps for learning rate
 
 EMOTION_LOSS_TYPE = 'bce' #BCEWithLogitsLoss, multi label

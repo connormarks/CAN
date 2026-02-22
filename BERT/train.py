@@ -67,7 +67,7 @@ def train(train_loader, val_loader, run_dir, summary_file):
                 avg = sum_loss / (step + 1)
                 print(
                     f"batch {step+1}/{len(train_loader)} | "
-                    f"average loss: {avg:.4f}") #print every 100
+                    f"average loss: {avg:.6f}") #print every 100
         
         # patience validation loss
         validation_loss = validate(emotion_topic_model, val_loader, device)
@@ -89,7 +89,12 @@ def train(train_loader, val_loader, run_dir, summary_file):
         summary_file.flush()
         
         # output confusion matrix
-        evaluate(emotion_topic_model, val_loader, device, run_dir, epoch+1)
+        metrics = evaluate(emotion_topic_model, val_loader, device, run_dir, epoch+1)
+        summary_file.write(
+            f"Topic Accuracy: {metrics['topic_accuracy']:.6f} | "
+            f"Emotion Accuracy: {metrics['emotion_accuracy']:.6f}\n"
+        )
+        summary_file.flush()
 
         if validation_loss < min_loss:
             min_loss = validation_loss
