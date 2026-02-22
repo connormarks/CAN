@@ -7,11 +7,13 @@ import os
 
 # used in matrix charting
 TOPIC_MAPPING = {
-    "World": 1,
-    "Sports": 2,
-    "Business": 3,
-    "Sci/Tech": 4,
+    "World": 0,
+    "Sports": 1,
+    "Business": 2,
+    "Sci/Tech": 3,
+    "NULL": -100
 }
+REVERSE_TOPIC_MAPPING = {v: k for k, v in TOPIC_MAPPING.items()}
 EMOTION_MAPPING = {
     "admiration": 0,
     "amusement": 1,
@@ -41,7 +43,9 @@ EMOTION_MAPPING = {
     "sadness": 25,
     "surprise": 26,
     "neutral": 27,
+    "NULL": -100
 }
+REVERSE_EMOTION_MAPPING = {v: k for k, v in EMOTION_MAPPING.items()}
 
 def evaluate(model, loader, device, run_dir, epoch) -> None:
     """
@@ -73,11 +77,11 @@ def evaluate(model, loader, device, run_dir, epoch) -> None:
             for i in range(len(topic_labels)):
                 true_topic = topic_labels[i].item()
                 pred_topic = topic_preds[i].item()
-                true_emotion = topic_labels[i].item()
-                pred_emotion = topic_preds[i].item()
+                true_emotion = torch.argmax(emotion_labels[i]).item()
+                pred_emotion = emotion_preds[i].item()
 
-                joint_true.append(f"{true_emotion} about {true_topic}")
-                joint_pred.append(f"{pred_emotion} about {pred_topic}")
+                joint_true.append(f"{REVERSE_EMOTION_MAPPING[true_emotion]} about {REVERSE_TOPIC_MAPPING[true_topic]}")
+                joint_pred.append(f"{REVERSE_EMOTION_MAPPING[pred_emotion]} about {REVERSE_TOPIC_MAPPING[pred_topic]}")
     
     labels = []
     for emotion in EMOTION_MAPPING.keys():
@@ -87,11 +91,11 @@ def evaluate(model, loader, device, run_dir, epoch) -> None:
     joint_cm = confusion_matrix(joint_true, joint_pred, labels=labels)
 
     # assembles and outputs graph of CM heatmap
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(30, 24))
     sns.heatmap(
         joint_cm,
         cmap="Blues",
-        annot=True,
+        annot=False,
         fmt="d",
         xticklabels=labels,
         yticklabels=labels,
