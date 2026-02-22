@@ -92,7 +92,7 @@ def train(train_loader, val_loader, run_dir, summary_file):
         summary_file.flush()
         """
         # output confusion matrix
-        evaluate(emotion_topic_model, val_loader, device)
+        evaluate(emotion_topic_model, val_loader, device, run_dir, epoch)
 
         if validation_loss < min_loss:
             min_loss = validation_loss
