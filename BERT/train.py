@@ -33,7 +33,6 @@ def train(train_loader, val_loader, run_dir, summary_file):
 
         sum_loss = 0.0
         print(f"epoch {epoch+1} started...")
-        """
         for step, batch in enumerate(train_loader): #data loading
             optimizer.zero_grad() #clear the gradients every batch
 
@@ -69,9 +68,7 @@ def train(train_loader, val_loader, run_dir, summary_file):
                 print(
                     f"batch {step+1}/{len(train_loader)} | "
                     f"average loss: {avg:.4f}") #print every 100
-        """
         
-        """
         # patience validation loss
         validation_loss = validate(emotion_topic_model, val_loader, device)
 
@@ -90,9 +87,9 @@ def train(train_loader, val_loader, run_dir, summary_file):
         print(loss_metrics)
         summary_file.write(loss_metrics + "\n")
         summary_file.flush()
-        """
+        
         # output confusion matrix
-        evaluate(emotion_topic_model, val_loader, device, run_dir, epoch)
+        evaluate(emotion_topic_model, val_loader, device, run_dir, epoch+1)
 
         if validation_loss < min_loss:
             min_loss = validation_loss

@@ -47,18 +47,16 @@ EMOTION_MAPPING = {
 }
 REVERSE_EMOTION_MAPPING = {v: k for k, v in EMOTION_MAPPING.items()}
 
-def evaluate(model, loader, device, run_dir, epoch) -> None:
-    """
-    Calculates and outputs the confusion matrix on the validation data.
-    Confusion Matrix is calculated with sklearn and output with seaborn
-    """
+def evaluate(model, loader, device, run_dir, epoch):
     model.eval()
 
-    joint_true = []
-    joint_pred = []
+    topic_true = []
+    topic_pred = []
+
+    emotion_true = []
+    emotion_pred = []
 
     with torch.no_grad():
-        # copied from validation loop in train.py and modified for cm computation
         for batch in loader:
             input_ids = batch["input_ids"].to(device)
             attention_mask = batch["attention_mask"].to(device)
@@ -73,45 +71,68 @@ def evaluate(model, loader, device, run_dir, epoch) -> None:
             topic_preds = torch.argmax(topic_logits, dim=1)
             emotion_preds = torch.argmax(emotion_logits, dim=1)
 
-            # assembles the cm array with both predictions encapsulated
             for i in range(len(topic_labels)):
-                true_topic = topic_labels[i].item()
-                pred_topic = topic_preds[i].item()
-                true_emotion = torch.argmax(emotion_labels[i]).item()
-                pred_emotion = emotion_preds[i].item()
+                if topic_labels[i].item() != -100:
+                    topic_true.append(topic_labels[i].item())
+                    topic_pred.append(topic_preds[i].item())
+                if emotion_labels[i].sum() > 0:
+                    true_emotion = torch.argmax(emotion_labels[i]).item()
+                    emotion_true.append(true_emotion)
+                    emotion_pred.append(emotion_preds[i].item())
 
-                joint_true.append(f"{REVERSE_EMOTION_MAPPING[true_emotion]} about {REVERSE_TOPIC_MAPPING[true_topic]}")
-                joint_pred.append(f"{REVERSE_EMOTION_MAPPING[pred_emotion]} about {REVERSE_TOPIC_MAPPING[pred_topic]}")
-    
-    labels = []
-    for emotion in EMOTION_MAPPING.keys():
-        for topic in TOPIC_MAPPING.keys():
-            labels.append(f"{emotion} about {topic}")
+    topic_labels_list = sorted([
+        v for v in TOPIC_MAPPING.values() if v != -100
+    ])
+    topic_names = [REVERSE_TOPIC_MAPPING[i] for i in topic_labels_list]
 
-    joint_cm = confusion_matrix(joint_true, joint_pred, labels=labels)
-
-    # assembles and outputs graph of CM heatmap
-    plt.figure(figsize=(30, 24))
-    sns.heatmap(
-        joint_cm,
-        cmap="Blues",
-        annot=False,
-        fmt="d",
-        xticklabels=labels,
-        yticklabels=labels,
-        square=True,
-        linewidths=0.5,
-        cbar_kws={"label": "Count"},
-        annot_kws={"size": 6}
+    topic_cm = confusion_matrix(
+        topic_true,
+        topic_pred,
+        labels=topic_labels_list
     )
-    plt.title(f"Topic + Emotion Confusion Matrix: Epoch {epoch}")
+
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(
+        topic_cm,
+        annot=True,
+        fmt="d",
+        cmap="Blues",
+        xticklabels=topic_names,
+        yticklabels=topic_names
+    )
+    plt.title(f"Topic Confusion Matrix - Epoch {epoch}")
+    plt.xlabel("Predicted")
+    plt.ylabel("Actual")
+    plt.tight_layout()
+    plt.savefig(os.path.join(run_dir, f"topic_cm_epoch{epoch}.png"), dpi=300)
+    plt.close()
+
+    emotion_labels_list = sorted([
+        v for v in EMOTION_MAPPING.values() if v != -100
+    ])
+
+    emotion_names = [REVERSE_EMOTION_MAPPING[i] for i in emotion_labels_list]
+
+    emotion_cm = confusion_matrix(
+        emotion_true,
+        emotion_pred,
+        labels=emotion_labels_list
+    )
+
+    plt.figure(figsize=(14, 12))
+    sns.heatmap(
+        emotion_cm,
+        annot=False,
+        cmap="Blues",
+        xticklabels=emotion_names,
+        yticklabels=emotion_names
+    )
+    plt.title(f"Emotion Confusion Matrix - Epoch {epoch}")
     plt.xlabel("Predicted")
     plt.ylabel("Actual")
     plt.xticks(rotation=90)
-    plt.yticks(rotation=0)
     plt.tight_layout()
-    save_path = os.path.join(run_dir, f"confusion_matrix{epoch}.png")
-    plt.savefig(save_path, dpi=300)
+    plt.savefig(os.path.join(run_dir, f"emotion_cm_epoch{epoch}.png"), dpi=300)
     plt.close()
 
     model.train()
