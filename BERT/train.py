@@ -71,7 +71,7 @@ def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
                     f"average loss: {avg:.6f}") #print every 100
         
         # patience validation loss
-        validation_loss = validate(emotion_topic_model, val_loader, device)
+        validation_loss = validate(emotion_topic_model, val_loader, device, pos_weight)
 
 
         training_loss = sum_loss / len(train_loader) # average training loss per epoch
