@@ -92,11 +92,24 @@ class _MultiTaskDataset(Dataset): # We need this class to manage the properties 
             "topic_label": torch.tensor(row["topic_label"], dtype=torch.long),
         }
 
+def compute_pos_weights(df):
+    emotion_rows = df[df["task"] == "emotion"]
+    labels = torch.tensor(emotion_rows["emotion_labels"].tolist(), dtype=torch.float)
+    
+    pos_counts = labels.sum(dim=0)
+    total = labels.shape[0]
+    neg_counts = total - pos_counts
+
+    # add small epsilon to avoid division by zero
+    pos_weight = neg_counts / (pos_counts + 1e-5)
+    return pos_weight
+
 # Main Method
 def preprocess_data():
     go, ag = _load_datasets()
     combined = pd.concat(_prepare_datafiles(go, ag), ignore_index=True) # combine the datasets
     combined = combined.sample(frac=1).reset_index(drop=True) # shuffles dataset for training process, so we don't accidentally unlearn a task
+    pos_weight = compute_pos_weights(combined) # Compute pos weights for emotion task
     tokens = _tokenize(combined["text"].tolist())
     combined["input_ids"] = list(tokens["input_ids"])
     combined["attention_mask"] = list(tokens["attention_mask"])
@@ -106,7 +119,7 @@ def preprocess_data():
     train_dataset, val_dataset = random_split(dataset, [train_size, val_size]) #random split usage
     train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True) #train loader
     val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False) # val loader
-    return train_loader, val_loader
+    return train_loader, val_loader, pos_weight
 
 
 

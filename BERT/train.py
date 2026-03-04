@@ -7,7 +7,7 @@ import torch
 from torch.utils.tensorboard import SummaryWriter
 import os
 
-def train(train_loader, val_loader, run_dir, summary_file):
+def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
     torch.manual_seed(config.RANDOM_SEED) #reproducability
     np.random.seed(config.RANDOM_SEED)
     if torch.cuda.is_available():
@@ -22,7 +22,7 @@ def train(train_loader, val_loader, run_dir, summary_file):
 
     optimizer = torch.optim.AdamW(emotion_topic_model.parameters(), lr=config.LEARNING_RATE, weight_decay=config.WEIGHT_DECAY)
 
-    emotion_loss_bce = torch.nn.BCEWithLogitsLoss() #instantiate first outside the loop
+    emotion_loss_bce = torch.nn.BCEWithLogitsLoss(pos_weight=pos_weight.to(device)) #instantiate first outside the loop with position weights
     topic_loss_ce = torch.nn.CrossEntropyLoss(ignore_index=config.IGNORE_INDEX)
 
     min_loss = float('inf') #max validation loss for the patience metric
@@ -113,12 +113,12 @@ def train(train_loader, val_loader, run_dir, summary_file):
     summary_file.close()
     writer.close() # closes tensorboard
 
-def validate(emotion_topic_model, val_loader, device):
+def validate(emotion_topic_model, val_loader, device, pos_weight):
     emotion_topic_model.eval() # evaluation mode now, not training
 
     sum_loss = 0.0
 
-    emotion_loss_bce = torch.nn.BCEWithLogitsLoss()
+    emotion_loss_bce = torch.nn.BCEWithLogitsLoss(pos_weight=pos_weight.to(device))
     topic_loss_ce = torch.nn.CrossEntropyLoss(ignore_index=config.IGNORE_INDEX)
     
     with torch.no_grad(): #context manager prevents permanent storage (goes away each loop)

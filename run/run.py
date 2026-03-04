@@ -40,6 +40,6 @@ if __name__ == "__main__":
 
     summary_file = create_run_summary(run_dir)
 
-    train_loader, val_loader = preprocess_data() # preprocessing
+    train_loader, val_loader, pos_weights = preprocess_data() # preprocessing
 
-    train(train_loader, val_loader, run_dir, summary_file) # training the model
+    train(train_loader, val_loader, pos_weights, run_dir, summary_file) # training the model
