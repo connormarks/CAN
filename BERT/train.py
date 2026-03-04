@@ -1,7 +1,7 @@
 #traning loop
 from CAN.BERT import config
 from CAN.BERT.model import EmotionTopicClassifier
-from CAN.BERT.evaluate import evaluate
+from CAN.BERT.evaluate import evaluate, REVERSE_EMOTION_MAPPING
 import numpy as np
 import torch
 from torch.utils.tensorboard import SummaryWriter
@@ -28,6 +28,7 @@ def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
     min_loss = float('inf') #max validation loss for the patience metric
     patience = 2 #epochs allowed without any improvement ^^
     patience_counter = 0
+    best_f1 = 0.0
     
     for epoch in range(config.NUM_EPOCHS):
 
@@ -75,39 +76,64 @@ def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
 
         training_loss = sum_loss / len(train_loader) # average training loss per epoch
 
-        writer.add_scalar("Loss/Train_Epoch", training_loss, epoch) # adds training/validation loss to tensorboard
+        writer.add_scalar("Loss/Train_Epoch", training_loss, epoch) #tensorboard info
         writer.add_scalar("Loss/Validation", validation_loss, epoch)
 
-        loss_metrics = (
-            f"epoch {epoch+1}/{config.NUM_EPOCHS} | "
-            f"training loss: {training_loss:.6f} | "
-            f"validation loss: {validation_loss:.6f}"
-        )
+        metrics = evaluate(emotion_topic_model, val_loader, device, run_dir, epoch+1) #evaluate gets ran
 
-        print(loss_metrics)
-        summary_file.write(loss_metrics + "\n")
-        summary_file.flush()
-        
-        # output confusion matrix
-        metrics = evaluate(emotion_topic_model, val_loader, device, run_dir, epoch+1)
-        summary_file.write(
-            f"Topic Accuracy: {metrics['topic_accuracy']:.6f} | "
-            f"Emotion Accuracy: {metrics['emotion_accuracy']:.6f}\n"
-        )
-        summary_file.flush()
+        writer.add_scalar("Metrics/Topic_Accuracy", metrics["topic_accuracy"], epoch)# tensorboard
+        writer.add_scalar("Metrics/Emotion_Micro_F1", metrics["emotion_micro_f1"], epoch)
+        writer.add_scalar("Metrics/Emotion_Macro_F1", metrics["emotion_macro_f1"], epoch)
 
-        if validation_loss < min_loss:
-            min_loss = validation_loss
+        emotion_micro_f1 = metrics["emotion_micro_f1"] #micro F1 option
+        emotion_macro_f1 = metrics["emotion_macro_f1"] #macro F1 option
+
+        per_class_f1 = np.array(metrics["emotion_per_class_f1"]) 
+        support = np.array(metrics["emotion_support"]) # 'support' is the number of actual samples that are true in the val set. we need it for interpreting the success of that emotion in the heatmap
+
+        emotion_names = list(REVERSE_EMOTION_MAPPING.values())[:-1]  # removed NULL
+        top_indices = np.argsort(per_class_f1)[-3:][::-1] #top 3 f1 backwards
+        worst_indices = np.argsort(per_class_f1)[:3] # bottom 3 f1
+
+        top_emotions = ", ".join(f"{emotion_names[i]} ({per_class_f1[i]:.2f})" for i in top_indices) #strings for printing in run summary
+        worst_emotions = ", ".join(f"{emotion_names[i]} ({per_class_f1[i]:.2f})" for i in worst_indices)
+
+        support_min = int(support.min()) # emotion with least samples in val
+        support_mean = int(support.mean()) # avg per emotion
+        support_max = int(support.max()) #with most
+
+        current_f1 = emotion_micro_f1 #stopping metric for patience
+
+        if current_f1 > best_f1:
+            best_f1 = current_f1
             patience_counter = 0
-            torch.save(emotion_topic_model.state_dict(), f"{run_dir}/best.pt") # you can save the models dict which has the values of every tensor / parameter values
-            summary_file.write("New best model saved.\n")
+            torch.save(emotion_topic_model.state_dict(), f"{run_dir}/best.pt")
+            status_line = f"New best model saved (Emotion Micro F1: {best_f1:.6f})."
         else:
-            patience_counter+=1
-            summary_file.write(f"No improvement. Patience: {patience_counter}/{patience}\n")
+            patience_counter += 1
+            status_line = f"No improvement for F1. Patience: {patience_counter}/{patience}"
 
+        summary_file.write(
+            f"\nEpoch {epoch+1}/{config.NUM_EPOCHS}\n"
+            f"Training Loss: {training_loss:.6f}\n"
+            f"Validation Loss: {validation_loss:.6f}\n"
+            f"Topic Accuracy: {metrics['topic_accuracy']:.6f}\n"
+            f"Emotion Micro F1: {emotion_micro_f1:.6f}\n"
+            f"Emotion Macro F1: {emotion_macro_f1:.6f}\n"
+            f"Best Emotion F1 So Far: {best_f1:.6f}\n"
+            f"Top Emotions: {top_emotions}\n"
+            f"Worst Emotions: {worst_emotions}\n"
+            f"Emotion Support (min/mean/max): {support_min} / {support_mean} / {support_max}\n"
+            f"Patience: {patience_counter}/{patience}\n"
+            "\n"
+        )
 
-        if patience_counter >= patience: # this is our limit
+        summary_file.write(status_line + "\n\n")
+        summary_file.flush()
+
+        if patience_counter >= patience:
             summary_file.write("Early stopping triggered.\n")
+            summary_file.flush()
             break
         
     summary_file.close()

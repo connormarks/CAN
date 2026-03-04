@@ -2,8 +2,9 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, f1_score
 import os
+
 
 # used in matrix charting
 TOPIC_MAPPING = {
@@ -34,7 +35,7 @@ EMOTION_MAPPING = {
     "grief": 16,
     "joy": 17,
     "love": 18,
-    "nervousness": 19   ,
+    "nervousness": 19,
     "optimism": 20,
     "pride": 21,
     "realization": 22,
@@ -46,6 +47,7 @@ EMOTION_MAPPING = {
     "NULL": -100
 }
 REVERSE_EMOTION_MAPPING = {v: k for k, v in EMOTION_MAPPING.items()}
+
 
 def evaluate(model, loader, device, run_dir, epoch):
     model.eval()
@@ -69,16 +71,16 @@ def evaluate(model, loader, device, run_dir, epoch):
             topic_logits = logits["topic_logits"]
 
             topic_preds = torch.argmax(topic_logits, dim=1)
-            emotion_preds = torch.argmax(emotion_logits, dim=1)
+            emotion_preds = (torch.sigmoid(emotion_logits) > 0.5).int() #multi-label prediction
 
             for i in range(len(topic_labels)):
                 if topic_labels[i].item() != -100:
                     topic_true.append(topic_labels[i].item())
                     topic_pred.append(topic_preds[i].item())
+
                 if emotion_labels[i].sum() > 0:
-                    true_emotion = torch.argmax(emotion_labels[i]).item()
-                    emotion_true.append(true_emotion)
-                    emotion_pred.append(emotion_preds[i].item())
+                    emotion_true.append(emotion_labels[i].cpu().numpy())# label vector
+                    emotion_pred.append(emotion_preds[i].cpu().numpy()) # prediction vector
 
     topic_labels_list = sorted([
         v for v in TOPIC_MAPPING.values() if v != -100
@@ -107,40 +109,54 @@ def evaluate(model, loader, device, run_dir, epoch):
     plt.savefig(os.path.join(run_dir, f"topic_cm_epoch{epoch}.png"), dpi=300)
     plt.close()
 
-    emotion_labels_list = sorted([
-        v for v in EMOTION_MAPPING.values() if v != -100
-    ])
+    emotion_true_np = np.array(emotion_true)
+    emotion_pred_np = np.array(emotion_pred)
 
-    emotion_names = [REVERSE_EMOTION_MAPPING[i] for i in emotion_labels_list]
-
-    emotion_cm = confusion_matrix(
-        emotion_true,
-        emotion_pred,
-        labels=emotion_labels_list
+    emotion_micro_f1 = f1_score( 
+        emotion_true_np,
+        emotion_pred_np,
+        average="micro"
     )
 
-    plt.figure(figsize=(14, 12))
+    emotion_per_class_f1 = f1_score(
+        emotion_true_np,
+        emotion_pred_np,
+        average=None
+    )
+
+    emotion_macro_f1 = f1_score(
+        emotion_true_np,
+        emotion_pred_np,
+        average="macro"
+    )
+
+    emotion_names = [
+        REVERSE_EMOTION_MAPPING[i]
+        for i in sorted([v for v in EMOTION_MAPPING.values() if v != -100])
+    ]
+
+    plt.figure(figsize=(12, 3))#heatmap
     sns.heatmap(
-        emotion_cm,
+        emotion_per_class_f1.reshape(1, -1),#reshape for heatmap
         annot=False,
         cmap="Blues",
         xticklabels=emotion_names,
-        yticklabels=emotion_names
+        yticklabels=["F1"]
     )
-    plt.title(f"Emotion Confusion Matrix - Epoch {epoch}")
-    plt.xlabel("Predicted")
-    plt.ylabel("Actual")
+    plt.title(f"Emotion Per-Class F1 - Epoch {epoch}")
     plt.xticks(rotation=90)
     plt.tight_layout()
-    plt.savefig(os.path.join(run_dir, f"emotion_cm_epoch{epoch}.png"), dpi=300)
+    plt.savefig(os.path.join(run_dir, f"emotion_f1_epoch{epoch}.png"), dpi=300)
     plt.close()
 
     model.train()
 
     topic_accuracy = np.mean(np.array(topic_true) == np.array(topic_pred))
-    emotion_accuracy = np.mean(np.array(emotion_true) == np.array(emotion_pred))
-
+    emotion_support = emotion_true_np.sum(axis=0)
     return {
         "topic_accuracy": topic_accuracy,
-        "emotion_accuracy": emotion_accuracy
+        "emotion_micro_f1": emotion_micro_f1,
+        "emotion_macro_f1": emotion_macro_f1,
+        "emotion_per_class_f1": emotion_per_class_f1.tolist(),
+        "emotion_support": emotion_support.tolist()
     }
