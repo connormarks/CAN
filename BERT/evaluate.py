@@ -130,16 +130,13 @@ def evaluate(model, loader, device, run_dir, epoch):
         average="macro"
     )
     emotion_support = emotion_true_np.sum(axis=0).astype(int) #how many val samples contained the emotion
-    emotion_names = [
-        REVERSE_EMOTION_MAPPING[i]
-        for i in sorted([v for v in EMOTION_MAPPING.values() if v != -100])
-    ]
-    annot = np.array([[f"{emotion_per_class_f1[i]:.2f}\n(n={emotion_support[i]})"for i in range(len(emotion_per_class_f1))]]) #to get the amount
-    plt.figure(figsize=(12, 3))#heatmap
+    emotion_ids = sorted([v for v in EMOTION_MAPPING.values() if v != -100]) #names
+    emotion_names = [f"{REVERSE_EMOTION_MAPPING[i]}({emotion_support[i]})" for i in emotion_ids]
+
+    plt.figure(figsize=(16, 3))#heatmap
     sns.heatmap(
         emotion_per_class_f1.reshape(1, -1),#reshape for heatmap
-        annot=annot,
-        fmt="",
+        annot=False,
         cmap="Blues",
         xticklabels=emotion_names,
         yticklabels=["F1"]
