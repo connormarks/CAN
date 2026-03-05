@@ -1,8 +1,9 @@
-from tools.ollama_api import get_models as get_ollama_models, stream_response as stream_ollama_response
-from tools.gemini_api import get_models as get_gemini_models, stream_response as stream_gemini_response
-from config import OUTPUT_DIR
+from custom_llm_tools.ollama_api import get_models as get_ollama_models, stream_response as stream_ollama_response
+from custom_llm_tools.gemini_api import get_models as get_gemini_models, stream_response as stream_gemini_response
 import datetime
 import json
+
+OUTPUT_DIR = 'Output'
 
 def select_model(api_models=False):
     """
