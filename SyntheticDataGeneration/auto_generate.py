@@ -1,8 +1,8 @@
 from generate import select_model, format_json, load_system_prompt
 from config import OUTPUT_DIR, VERIFIED_DIR, MERGED_DIR, EMOTION_LABELS, TOPIC_LABELS
 from verify import merge_verified
-from tools.gemini_api import generate_response as generate_gemini_response
-from tools.ollama_api import generate_response as generate_ollama_response
+from custom_llm_tools.gemini_api import generate_response as generate_gemini_response
+from custom_llm_tools.ollama_api import generate_response as generate_ollama_response
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 from google.genai.errors import ServerError, ClientError
