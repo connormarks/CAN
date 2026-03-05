@@ -16,3 +16,6 @@ LogisticRegression/models/
 
 # ignore model checkpoints
 *.pt
+
+# Custom python builds
+*.egg-info/
