@@ -32,8 +32,8 @@ def select_model(api_models=False):
         if choice == len(models):
             return select_model(api_models=not api_models)
         model = models[int(choice)]
-    except Exception:
-        print(f"Invalid choice")
+    except Exception as e:
+        print(f"Invalid choice: {e}")
         return select_model(api_models)
 
     print(f"Selected model: {model}")
