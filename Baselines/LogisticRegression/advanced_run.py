@@ -80,11 +80,13 @@ if __name__ == "__main__":
     GoData, AgData = process_data(go_data, ag_data, vectorizer, simplify_with_ekman, ignore_neutral)
 
     # Load the custom dataset
-    X, y_emotion, y_topic = load_custom_data(vectorizer, MERGED_DATASET_PATH, 
+    X, y_emotion, y_topic = load_custom_data(MERGED_DATASET_PATH, 
                                              EMOTION_MAPPING, TOPIC_MAPPING, \
                                              EKMAN_IDX_TO_EMOTION_MAPPING, \
-                                             simplify_with_ekman, ignore_neutral \
-                                             )
+                                             vectorizer, \
+                                             simplify_with_ekman, \
+                                             ignore_neutral \
+                                            )
 
     # Get the models, either loading from a file or training them
     go_model, ag_model = get_models(GoData.X_train, GoData.y_train, AgData.X_train, AgData.y_train)
