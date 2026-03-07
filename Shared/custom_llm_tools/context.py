@@ -1,5 +1,6 @@
 from google import genai
 from google.genai.types import GenerateContentConfig, HttpOptions
+import json
 
 
 def _setup_context_for_gemini(prompt, system=None, message_history={}):
@@ -62,3 +63,36 @@ def add_new_message(message_history, message, for_api=False):
         return _add_new_message_for_gemini(message_history, message)
     else:
         return _add_new_message_for_ollama(message_history, message)
+
+
+def load_system_prompt(file_path):
+    """
+    Load the system prompt from the file path.
+    Returns the system prompt as a string.
+
+    Input:
+        file_path: str - The path to the system prompt file.
+    Returns:
+        system_prompt: str - The system prompt as a string.
+    """
+    with open(file_path, 'r') as file:
+        return file.read()
+
+
+def format_json(llm_json_string):
+    """
+    Format the JSON string returned by the LLM into a list of dictionaries.
+    Returns the list of dictionaries and adds a verified flag to each object.
+
+    Input:
+        llm_json_string: str - The JSON string returned by the LLM.
+    Returns:
+        json_obj: list - The list of dictionaries.
+    """
+    cleaned_json_string = llm_json_string.replace('```json', '').replace('```', '')
+    json_obj = json.loads(cleaned_json_string)
+    # Add verified flag to each object
+    for obj in json_obj:
+        obj['verified'] = False
+        obj['needs_editing'] = None
+    return json_obj
