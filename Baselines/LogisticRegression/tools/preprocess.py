@@ -4,6 +4,7 @@ from imblearn.combine import SMOTETomek
 from imblearn.under_sampling import RandomUnderSampler
 from .dataset import create_test_train_split
 from .config import EMOTION_MAPPING, TOPIC_MAPPING, EKMAN_IDX_TO_EMOTION_MAPPING, MODEL_PATH
+from custom_llm_tools.custom_data import apply_ekman_mapping
 import pandas as pd
 import numpy as np
 import pickle
@@ -49,21 +50,21 @@ def _map_go_emotion_to_index(row, ignore_neutral=False):
     return class_index
 
 
-def _apply_ekman_mapping(value):
-    """
-    Applies the Ekman mapping to the value
+# def _apply_ekman_mapping(value):
+#     """
+#     Applies the Ekman mapping to the value
 
-    Inputs:
-        value: int - The value to apply the Ekman mapping to
+#     Inputs:
+#         value: int - The value to apply the Ekman mapping to
 
-    Returns:
-        mapped_value: int - The mapped value
-    """
-    emotion_key = list(EMOTION_MAPPING.keys())[value]
-    for ekman_key, replaced_emotions in EKMAN_IDX_TO_EMOTION_MAPPING.items():
-        if emotion_key in replaced_emotions:
-            return EMOTION_MAPPING[ekman_key]
-    return value
+#     Returns:
+#         mapped_value: int - The mapped value
+#     """
+#     emotion_key = list(EMOTION_MAPPING.keys())[value]
+#     for ekman_key, replaced_emotions in EKMAN_IDX_TO_EMOTION_MAPPING.items():
+#         if emotion_key in replaced_emotions:
+#             return EMOTION_MAPPING[ekman_key]
+#     return value
 
 
 def _balance_classes(X, y, sampling_count=1000):
@@ -147,7 +148,7 @@ def preprocess_go_data(
 
     if simplify_with_ekman:
         print("\tSimplifying classes...")
-        y = y.apply(_apply_ekman_mapping)
+        y = y.apply(apply_ekman_mapping, emotion_mapping=EMOTION_MAPPING, ekman_idx_to_emotion_mapping=EKMAN_IDX_TO_EMOTION_MAPPING)
     
     y = y.values.tolist()
 
@@ -187,44 +188,44 @@ def preprocess_ag_data(ag_data, vectorizer):
     return X_train, X_test, y_train, y_test
 
 
-def preprocess_custom_dataset(X, y_emotion, y_topic, vectorizer, simplify_with_ekman=False, ignore_neutral=False):
-    """
-    Preprocesses the custom dataset
+# def preprocess_custom_dataset(X, y_emotion, y_topic, vectorizer, simplify_with_ekman=False, ignore_neutral=False):
+#     """
+#     Preprocesses the custom dataset
 
-    Inputs:
-        X: list - The text data to vectorize
-        y_emotion: list - The emotion target data
-        y_topic: list - The topic target data
-        vectorizer: TfidfVectorizer object
-        simplify_with_ekman: boolean indicating whether to simplify the classes with provided Ekman mapping
+#     Inputs:
+#         X: list - The text data to vectorize
+#         y_emotion: list - The emotion target data
+#         y_topic: list - The topic target data
+#         vectorizer: TfidfVectorizer object
+#         simplify_with_ekman: boolean indicating whether to simplify the classes with provided Ekman mapping
 
-    Returns:
-        X: list - The vectorized text data
-        y_emotion: list - The emotion target data
-        y_topic: list - The topic target data
-    """
-    y_emotion = [EMOTION_MAPPING[emotion] for emotion in y_emotion]
-    y_topic = [TOPIC_MAPPING[topic] for topic in y_topic]
+#     Returns:
+#         X: list - The vectorized text data
+#         y_emotion: list - The emotion target data
+#         y_topic: list - The topic target data
+#     """
+#     y_emotion = [EMOTION_MAPPING[emotion] for emotion in y_emotion]
+#     y_topic = [TOPIC_MAPPING[topic] for topic in y_topic]
 
-    X = vectorizer.transform(X)
-    if simplify_with_ekman:
-        print("\tSimplifying classes...")
-        y_emotion = map(_apply_ekman_mapping, y_emotion)
-        y_emotion = list(y_emotion)
+#     X = vectorizer.transform(X)
+#     if simplify_with_ekman:
+#         print("\tSimplifying classes...")
+#         y_emotion = map(_apply_ekman_mapping, y_emotion)
+#         y_emotion = list(y_emotion)
 
-    if ignore_neutral:
-        y_emotion = np.array(y_emotion)
-        y_topic = np.array(y_topic)
+#     if ignore_neutral:
+#         y_emotion = np.array(y_emotion)
+#         y_topic = np.array(y_topic)
 
-        y_emotion = np.where(y_emotion == 27, None, y_emotion)
-        # Mask out the neutral class in X and both targets
-        mask = y_emotion != None
-        X = X[mask]
-        y_topic = y_topic[mask]
-        y_emotion = y_emotion[mask]
+#         y_emotion = np.where(y_emotion == 27, None, y_emotion)
+#         # Mask out the neutral class in X and both targets
+#         mask = y_emotion != None
+#         X = X[mask]
+#         y_topic = y_topic[mask]
+#         y_emotion = y_emotion[mask]
 
-        y_emotion = y_emotion.tolist()
-        y_topic = y_topic.tolist()
-    print()
+#         y_emotion = y_emotion.tolist()
+#         y_topic = y_topic.tolist()
+#     print()
 
-    return X, y_emotion, y_topic
+#     return X, y_emotion, y_topic
