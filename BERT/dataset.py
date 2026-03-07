@@ -6,12 +6,20 @@ from transformers import AutoTokenizer
 from torch.utils.data import random_split
 
 # For use if necesssary
-EMOTION_COLUMNS = [
+EMOTION_COLUMNS_PRE_EKMAN = [
     "admiration","amusement","anger","annoyance","approval","caring",
     "confusion","curiosity","desire","disappointment","disapproval",
     "disgust","embarrassment","excitement","fear","gratitude","grief",
     "joy","love","nervousness","optimism","pride","realization","relief",
     "remorse","sadness","surprise","neutral"
+]
+EMOTION_COLUMNS = [
+    "anger",
+    "disgust",
+    "fear",
+    "joy",
+    "sadness",
+    "surprise"
 ]
 NUM_EMOTIONS = len(EMOTION_COLUMNS)
 TOPIC_TYPES = { # NOTE: 0 indexed for compatibility with torch, but 1 indexed in the dataset itself
@@ -21,6 +29,17 @@ TOPIC_TYPES = { # NOTE: 0 indexed for compatibility with torch, but 1 indexed in
     3: "Sci/Tech"
 }
 NUM_TOPICS = len(TOPIC_TYPES)
+
+
+EKMAN_MAPPING = {
+    "anger": ["anger", "annoyance", "disapproval"],
+    "disgust": ["disgust"],
+    "fear": ["fear", "nervousness"],
+    "joy": ["joy", "amusement", "approval", "excitement", "gratitude",  "love", "optimism", "relief", "pride", "admiration", "desire", "caring"],
+    "sadness": ["sadness", "disappointment", "embarrassment", "grief",  "remorse"],
+    "surprise": ["surprise", "realization", "confusion", "curiosity"],
+    "neutral": ["neutral"]
+}
 
 def _load_datasets():
     """
@@ -42,6 +61,9 @@ def _prepare_datafiles(go_df, ag_df):
     """
     # NOTE: we use -100 (not None) as a default label so we can know which values to ignore and still use the tensor datastructure later
     go_df = go_df.copy()
+    for ekman_emotion in EMOTION_COLUMNS:
+        fine_grained_columns = EKMAN_MAPPING[ekman_emotion]
+        go_df.loc[:, ekman_emotion] = go_df[fine_grained_columns].max(axis=1)
     go_df.loc[:, "emotion_labels"] = go_df[EMOTION_COLUMNS].values.tolist()
     go_df = go_df.loc[:, ["text", "emotion_labels"]].copy()
     go_df.loc[:, "task"] = "emotion"
@@ -109,7 +131,7 @@ def preprocess_data():
     go, ag = _load_datasets()
     combined = pd.concat(_prepare_datafiles(go, ag), ignore_index=True) # combine the datasets
     combined = combined.sample(frac=1).reset_index(drop=True) # shuffles dataset for training process, so we don't accidentally unlearn a task
-    pos_weight = compute_pos_weights(combined) # Compute pos weights for emotion task
+    #pos_weight = compute_pos_weights(combined) # Compute pos weights for emotion task
     tokens = _tokenize(combined["text"].tolist())
     combined["input_ids"] = list(tokens["input_ids"])
     combined["attention_mask"] = list(tokens["attention_mask"])
@@ -119,6 +141,8 @@ def preprocess_data():
     train_dataset, val_dataset = random_split(dataset, [train_size, val_size]) #random split usage
     train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True) #train loader
     val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False) # val loader
+    train_df = combined.iloc[train_dataset.indices]
+    pos_weight = compute_pos_weights(train_df) # Compute pos weights for emotion task
     return train_loader, val_loader, pos_weight
 
 
