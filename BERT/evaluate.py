@@ -15,7 +15,7 @@ TOPIC_MAPPING = {
     "NULL": -100
 }
 REVERSE_TOPIC_MAPPING = {v: k for k, v in TOPIC_MAPPING.items()}
-EMOTION_MAPPING = {
+EMOTION_MAPPING_PRE_EKMAN = {
     "admiration": 0,
     "amusement": 1,
     "anger": 2,
@@ -46,7 +46,27 @@ EMOTION_MAPPING = {
     "neutral": 27,
     "NULL": -100
 }
+
+EMOTION_MAPPING = {
+    "anger": 0,
+    "disgust": 1,
+    "fear": 2,
+    "joy": 3,
+    "sadness": 4,
+    "surprise": 5,
+    "NULL": -100
+}
 REVERSE_EMOTION_MAPPING = {v: k for k, v in EMOTION_MAPPING.items()}
+
+EKMAN_MAPPING = {
+    "anger": ["anger", "annoyance", "disapproval"],
+    "disgust": ["disgust"],
+    "fear": ["fear", "nervousness"],
+    "joy": ["joy", "amusement", "approval", "excitement", "gratitude",  "love", "optimism", "relief", "pride", "admiration", "desire", "caring"],
+    "sadness": ["sadness", "disappointment", "embarrassment", "grief",  "remorse"],
+    "surprise": ["surprise", "realization", "confusion", "curiosity"],
+    "neutral": ["neutral"]
+}
 
 
 def evaluate(model, loader, device, run_dir, epoch):
@@ -150,7 +170,6 @@ def evaluate(model, loader, device, run_dir, epoch):
     model.train()
 
     topic_accuracy = np.mean(np.array(topic_true) == np.array(topic_pred))
-    emotion_support = emotion_true_np.sum(axis=0)
     return {
         "topic_accuracy": topic_accuracy,
         "emotion_micro_f1": emotion_micro_f1,
