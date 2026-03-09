@@ -5,7 +5,7 @@ cffi==2.0.0
 charset-normalizer==3.4.4
 contourpy==1.3.3
 cryptography==46.0.5
--e git+https://github.com/connormarks/CAN.git@03f009344aa92515f0f00ca087e414b59fea0a37#egg=custom_llm_tools&subdirectory=Shared
+-e git+https://github.com/connormarks/CAN.git@57678474ef786e2bc3e71dfb9029408da791bf18#egg=custom_llm_tools&subdirectory=Shared
 cycler==0.12.1
 distro==1.9.0
 fonttools==4.61.1
