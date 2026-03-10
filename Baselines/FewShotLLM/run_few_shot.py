@@ -9,6 +9,7 @@ import numpy as np
 
 DATA_PATH = '../../SyntheticDataGeneration/Output/Merged/merged_data.json'
 SYSTEM_PROMPT_PATH = 'prompts/prompt_template.txt'
+OUTPUT_DIR = 'Output'
 
 
 EMOTION_TEMPLATE_PATHS = {
@@ -81,6 +82,14 @@ def _classify_example(model, example, system, y_emotion, y_topic, retry_count=0,
 
     return emotion_class, topic_class
 
+
+def _get_next_output_index():
+    output_files = os.listdir(OUTPUT_DIR)
+    if not output_files:
+        return 1
+    return len(output_files) + 1
+
+
 if __name__ == "__main__":
     is_api, model = select_model()
     data_path = _get_data_path()
@@ -88,6 +97,7 @@ if __name__ == "__main__":
 
     apply_ekman = input("Apply Ekman mapping? (y/n): ") == "y"
     remove_neutral = input("Remove neutral class? (y/n): ") == "y"
+    save_every_n_examples = int(input("Save every n examples? (0 to not save): "))
     print()
 
     X, y_emotion, y_topic = load_custom_data(data_path, EMOTION_MAPPING, TOPIC_MAPPING, EKMAN_IDX_TO_EMOTION_MAPPING, 
@@ -101,24 +111,36 @@ if __name__ == "__main__":
     emotion_template = _get_emotion_template(apply_ekman, remove_neutral)
     system = load_system_prompt(SYSTEM_PROMPT_PATH, template_filler={'EMOTIONS': load_system_prompt(emotion_template)})
 
-    unable_to_classify = 0
-    emotion_classifications = []
-    topic_classifications = []
+    save_data = {"model": model, "apply_ekman": apply_ekman, 
+                 "remove_neutral": remove_neutral, "classifications": [], 
+                 "unable_to_classify": 0, "total_examples": 0}
+    save_file = f"{OUTPUT_DIR}/run_{_get_next_output_index()}.json"
+
+
     for example, emotion, topic in zip(X, y_emotion, y_topic):
         emotion_class, topic_class = _classify_example(model, example, system, emotion, topic)
+        print(f"Emotion validation: {emotion_class == emotion}\nTopic validation: {topic_class == topic}")
+        
         if emotion_class is None or topic_class is None:
             print("Error classifying example")
-            unable_to_classify += 1
+            save_data["unable_to_classify"] += 1
             emotion_class = -1
             topic_class = -1
-        emotion_classifications.append(emotion_class)
-        topic_classifications.append(topic_class)
-        print("Emotion accuracy: ", emotion_class == emotion)
-        print("Topic accuracy: ", topic_class == topic)
+        
+        save_data["total_examples"] += 1
+        save_data["classifications"].append({
+            "example": example,
+            "true_emotion": emotion,
+            "true_topic": topic,
+            "predicted_emotion": emotion_class,
+            "predicted_topic": topic_class,
+        })
+        if save_every_n_examples > 0 and len(save_data["classifications"]) % save_every_n_examples == 0:
+            with open(save_file, 'w') as f:
+                json.dump(save_data, f, indent=4)
+            print(f"Saved data to {save_file}")
         print()
     
-    emotion_classifications = np.array(emotion_classifications)
-    topic_classifications = np.array(topic_classifications)
-    print("Unable to classify: ", unable_to_classify)
-    print("Emotion accuracy: ", np.mean(emotion_classifications == y_emotion))
-    print("Topic accuracy: ", np.mean(topic_classifications == y_topic))
+    with open(save_file, 'w') as f:
+        json.dump(save_data, f, indent=4)
+    print(f"Saved data to {save_file}")
