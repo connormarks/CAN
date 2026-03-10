@@ -131,7 +131,6 @@ def preprocess_data():
     go, ag = _load_datasets()
     combined = pd.concat(_prepare_datafiles(go, ag), ignore_index=True) # combine the datasets
     combined = combined.sample(frac=1).reset_index(drop=True) # shuffles dataset for training process, so we don't accidentally unlearn a task
-    #pos_weight = compute_pos_weights(combined) # Compute pos weights for emotion task
     tokens = _tokenize(combined["text"].tolist())
     combined["input_ids"] = list(tokens["input_ids"])
     combined["attention_mask"] = list(tokens["attention_mask"])
