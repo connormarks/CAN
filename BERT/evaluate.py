@@ -2,9 +2,8 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.metrics import confusion_matrix, f1_score
+from sklearn.metrics import confusion_matrix
 import os
-
 
 # used in matrix charting
 TOPIC_MAPPING = {
@@ -15,7 +14,7 @@ TOPIC_MAPPING = {
     "NULL": -100
 }
 REVERSE_TOPIC_MAPPING = {v: k for k, v in TOPIC_MAPPING.items()}
-EMOTION_MAPPING_PRE_EKMAN = {
+EMOTION_MAPPING = {
     "admiration": 0,
     "amusement": 1,
     "anger": 2,
@@ -35,7 +34,7 @@ EMOTION_MAPPING_PRE_EKMAN = {
     "grief": 16,
     "joy": 17,
     "love": 18,
-    "nervousness": 19,
+    "nervousness": 19   ,
     "optimism": 20,
     "pride": 21,
     "realization": 22,
@@ -46,18 +45,7 @@ EMOTION_MAPPING_PRE_EKMAN = {
     "neutral": 27,
     "NULL": -100
 }
-
-EMOTION_MAPPING = {
-    "anger": 0,
-    "disgust": 1,
-    "fear": 2,
-    "joy": 3,
-    "sadness": 4,
-    "surprise": 5,
-    "NULL": -100
-}
 REVERSE_EMOTION_MAPPING = {v: k for k, v in EMOTION_MAPPING.items()}
-
 EKMAN_MAPPING = {
     "anger": ["anger", "annoyance", "disapproval"],
     "disgust": ["disgust"],
@@ -67,7 +55,14 @@ EKMAN_MAPPING = {
     "surprise": ["surprise", "realization", "confusion", "curiosity"],
     "neutral": ["neutral"]
 }
+EKMAN_CATEGORIES = list(EKMAN_MAPPING.keys())
 
+def map_to_ekman(emotion_idx):
+    name = REVERSE_EMOTION_MAPPING[emotion_idx]
+    for ekman, emotions in EKMAN_MAPPING.items():
+        if name in emotions:
+            return ekman
+    return "neutral"
 
 def evaluate(model, loader, device, run_dir, epoch):
     model.eval()
@@ -75,8 +70,11 @@ def evaluate(model, loader, device, run_dir, epoch):
     topic_true = []
     topic_pred = []
 
-    emotion_true = []
+    emotion_true = [] # leaving these in in case we want all 28 emotions again later
     emotion_pred = []
+
+    ekman_true = []
+    ekman_pred = []
 
     with torch.no_grad():
         for batch in loader:
@@ -91,16 +89,21 @@ def evaluate(model, loader, device, run_dir, epoch):
             topic_logits = logits["topic_logits"]
 
             topic_preds = torch.argmax(topic_logits, dim=1)
-            emotion_preds = (torch.sigmoid(emotion_logits) > 0.5).int() #multi-label prediction
+            emotion_preds = torch.argmax(emotion_logits, dim=1)
 
             for i in range(len(topic_labels)):
                 if topic_labels[i].item() != -100:
                     topic_true.append(topic_labels[i].item())
                     topic_pred.append(topic_preds[i].item())
-
                 if emotion_labels[i].sum() > 0:
-                    emotion_true.append(emotion_labels[i].cpu().numpy())# label vector
-                    emotion_pred.append(emotion_preds[i].cpu().numpy()) # prediction vector
+                    true_emotion = torch.argmax(emotion_labels[i]).item()
+                    pred_emotion = emotion_preds[i].item()
+                    emotion_true.append(true_emotion)
+                    emotion_pred.append(pred_emotion)
+
+                    # map to EKMAN for CM output
+                    ekman_true.append(map_to_ekman(true_emotion))
+                    ekman_pred.append(map_to_ekman(pred_emotion))
 
     topic_labels_list = sorted([
         v for v in TOPIC_MAPPING.values() if v != -100
@@ -129,51 +132,26 @@ def evaluate(model, loader, device, run_dir, epoch):
     plt.savefig(os.path.join(run_dir, f"topic_cm_epoch{epoch}.png"), dpi=300)
     plt.close()
 
-    emotion_true_np = np.array(emotion_true)
-    emotion_pred_np = np.array(emotion_pred)
-
-    emotion_micro_f1 = f1_score( 
-        emotion_true_np,
-        emotion_pred_np,
-        average="micro"
+    emotion_cm = confusion_matrix(
+        ekman_true,
+        ekman_pred,
+        labels=EKMAN_CATEGORIES
     )
 
-    emotion_per_class_f1 = f1_score(
-        emotion_true_np,
-        emotion_pred_np,
-        average=None
-    )
-
-    emotion_macro_f1 = f1_score(
-        emotion_true_np,
-        emotion_pred_np,
-        average="macro"
-    )
-    emotion_support = emotion_true_np.sum(axis=0).astype(int) #how many val samples contained the emotion
-    emotion_ids = sorted([v for v in EMOTION_MAPPING.values() if v != -100]) #names
-    emotion_names = [f"{REVERSE_EMOTION_MAPPING[i]}({emotion_support[i]})" for i in emotion_ids]
-
-    plt.figure(figsize=(16, 3))#heatmap
+    plt.figure(figsize=(14, 12))
     sns.heatmap(
-        emotion_per_class_f1.reshape(1, -1),#reshape for heatmap
+        emotion_cm,
         annot=False,
         cmap="Blues",
-        xticklabels=emotion_names,
-        yticklabels=["F1"]
+        xticklabels=EKMAN_CATEGORIES,
+        yticklabels=EKMAN_CATEGORIES
     )
-    plt.title(f"Emotion Per-Class F1 - Epoch {epoch}")
+    plt.title(f"Emotion Confusion Matrix - Epoch {epoch}")
+    plt.xlabel("Predicted")
+    plt.ylabel("Actual")
     plt.xticks(rotation=90)
     plt.tight_layout()
-    plt.savefig(os.path.join(run_dir, f"emotion_f1_epoch{epoch}.png"), dpi=300)
+    plt.savefig(os.path.join(run_dir, f"emotion_cm_epoch{epoch}.png"), dpi=300)
     plt.close()
 
     model.train()
-
-    topic_accuracy = np.mean(np.array(topic_true) == np.array(topic_pred))
-    return {
-        "topic_accuracy": topic_accuracy,
-        "emotion_micro_f1": emotion_micro_f1,
-        "emotion_macro_f1": emotion_macro_f1,
-        "emotion_per_class_f1": emotion_per_class_f1.tolist(),
-        "emotion_support": emotion_support.tolist()
-    }
