@@ -1,11 +1,22 @@
 #traning loop
 from CAN.BERT import config
 from CAN.BERT.model import EmotionTopicClassifier
-from CAN.BERT.evaluate import evaluate, REVERSE_EMOTION_MAPPING
+from CAN.BERT.evaluate import evaluate
 import numpy as np
 import torch
 from torch.utils.tensorboard import SummaryWriter
 import os
+
+
+EMOTION_NAMES = [
+    "anger",
+    "disgust",
+    "fear",
+    "joy",
+    "sadness",
+    "surprise",
+    "neutral"
+]
 
 def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
     torch.manual_seed(config.RANDOM_SEED) #reproducability
@@ -25,7 +36,6 @@ def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
     emotion_loss_bce = torch.nn.BCEWithLogitsLoss(pos_weight=pos_weight.to(device)) #instantiate first outside the loop with position weights
     topic_loss_ce = torch.nn.CrossEntropyLoss(ignore_index=config.IGNORE_INDEX)
 
-    min_loss = float('inf') #max validation loss for the patience metric
     patience = 2 #epochs allowed without any improvement ^^
     patience_counter = 0
     best_f1 = 0.0
@@ -91,7 +101,7 @@ def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
         per_class_f1 = np.array(metrics["emotion_per_class_f1"]) 
         support = np.array(metrics["emotion_support"]) # 'support' is the number of actual samples that are true in the val set. we need it for interpreting the success of that emotion in the heatmap
 
-        emotion_names = list(REVERSE_EMOTION_MAPPING.values())[:-1]  # removed NULL
+        emotion_names = EMOTION_NAMES
         top_indices = np.argsort(per_class_f1)[-3:][::-1] #top 3 f1 backwards
         worst_indices = np.argsort(per_class_f1)[:3] # bottom 3 f1
 
@@ -164,3 +174,4 @@ def validate(emotion_topic_model, val_loader, device, pos_weight):
             sum_loss += (emotion_loss+topic_loss).item()
 
     emotion_topic_model.train() #back to training mode
+    return sum_loss / len(val_loader)

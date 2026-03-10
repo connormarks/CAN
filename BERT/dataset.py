@@ -139,8 +139,8 @@ def preprocess_data():
     train_size = int(0.9 * len(dataset)) #90% training
     val_size = len(dataset) - train_size #10% validation
     train_dataset, val_dataset = random_split(dataset, [train_size, val_size]) #random split usage
-    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True) #train loader
-    val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False) # val loader
+    train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True) #train loader
+    val_loader = DataLoader(val_dataset, batch_size=8, shuffle=False) # val loader
     train_df = combined.iloc[train_dataset.indices]
     pos_weight = compute_pos_weights(train_df) # Compute pos weights for emotion task
     return train_loader, val_loader, pos_weight
