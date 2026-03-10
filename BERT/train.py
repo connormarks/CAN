@@ -59,7 +59,8 @@ def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
 
             emotion_mask = (emotion_labels != -100).any(dim=1)
             emotion_loss = emotion_loss_bce(emotion_logits[emotion_mask], emotion_labels[emotion_mask]) if emotion_mask.any() else 0.0 #task-specific loss
-            topic_loss = topic_loss_ce(topic_logits, topic_labels) #task-specific loss
+            topic_mask = (topic_labels != config.IGNORE_INDEX)
+            topic_loss = topic_loss_ce(topic_logits[topic_mask], topic_labels[topic_mask]) if topic_mask.any() else 0.0
 
             total_loss = emotion_loss + topic_loss # scalar tensor with one value inside (combine loss)
 
@@ -169,7 +170,8 @@ def validate(emotion_topic_model, val_loader, device, pos_weight):
             topic_logits = logits['topic_logits']
             emotion_mask = (emotion_labels != -100).any(dim=1)
             emotion_loss = emotion_loss_bce(emotion_logits[emotion_mask], emotion_labels[emotion_mask]) if emotion_mask.any() else 0.0 #task-specific loss
-            topic_loss = topic_loss_ce(topic_logits, topic_labels)
+            topic_mask = (topic_labels != config.IGNORE_INDEX)
+            topic_loss = topic_loss_ce(topic_logits[topic_mask], topic_labels[topic_mask]) if topic_mask.any() else 0.0
 
             sum_loss += (emotion_loss+topic_loss).item()
 
