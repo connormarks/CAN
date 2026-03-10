@@ -58,11 +58,7 @@ EKMAN_MAPPING = {
 EKMAN_CATEGORIES = list(EKMAN_MAPPING.keys())
 
 def map_to_ekman(emotion_idx):
-    name = REVERSE_EMOTION_MAPPING[emotion_idx]
-    for ekman, emotions in EKMAN_MAPPING.items():
-        if name in emotions:
-            return ekman
-    return "neutral"
+    return EKMAN_CATEGORIES[emotion_idx]
 
 def evaluate(model, loader, device, run_dir, epoch):
     model.eval()

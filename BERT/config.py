@@ -3,7 +3,7 @@
 MODEL_NAME = 'google-bert/bert-base-uncased' #hugging face
 
 MAX_SEQUENCE_LENGTH = 128 #max number of tokens per seq, longer is truncated.
-BATCH_SIZE = 16 #num of examples processed together in one forward pass
+BATCH_SIZE = 8 #num of examples processed together in one forward pass
 SHUFFLE = True #shuffle to make learning more pure
 
 #{OPTIMIZATION}
