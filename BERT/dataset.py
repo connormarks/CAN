@@ -19,7 +19,8 @@ EMOTION_COLUMNS = [
     "fear",
     "joy",
     "sadness",
-    "surprise"
+    "surprise",
+    "neutral"
 ]
 NUM_EMOTIONS = len(EMOTION_COLUMNS)
 TOPIC_TYPES = { # NOTE: 0 indexed for compatibility with torch, but 1 indexed in the dataset itself
