@@ -30,3 +30,10 @@ EMOTION_NAMES = [
     "surprise"
     ]
 
+EMOTION_ID = {name: i for i, name in enumerate(EMOTION_NAMES)}
+
+EKMAN_DICT= {}
+for new, old in EKMAN_MAPPING.items():
+    for emo in old:
+        EKMAN_DICT[emo] = new
+
