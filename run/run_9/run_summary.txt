@@ -1,0 +1,64 @@
+CONFIGURATION
+MODEL_NAME: google-bert/bert-base-uncased
+MAX_SEQUENCE_LENGTH: 128
+BATCH_SIZE: 8
+SHUFFLE: True
+LEARNING_RATE: 2e-05
+WEIGHT_DECAY: 0.01
+NUM_EPOCHS: 10
+WARMUP_RATIO: 0.1
+EMOTION_LOSS_TYPE: bce
+TOPIC_LOSS_TYPE: cross_entropy
+IGNORE_INDEX: -100
+EMOTION_LOSS_WEIGHT: 1.0
+TOPIC_LOSS_WEIGHT: 1.0
+RANDOM_SEED: 42
+USE_CUDA: True
+LOG_N_STEPS: 100
+
+
+Epoch 1/10
+Training Loss: 1.250109
+Validation Loss: 1.270029
+Topic Accuracy: 0.937265
+Emotion Micro F1: 0.551465
+Emotion Macro F1: 0.453590
+Best Emotion F1 So Far: 0.551465
+Top Emotions: joy (0.73), surprise (0.48), anger (0.47)
+Worst Emotions: disgust (0.30), fear (0.35), neutral (0.41)
+Emotion Support (min/mean/max): 144 / 989 / 2617
+Patience: 0/2
+
+New best model saved (Emotion Micro F1: 0.551465).
+
+
+Epoch 2/10
+Training Loss: 1.073076
+Validation Loss: 1.230480
+Topic Accuracy: 0.941782
+Emotion Micro F1: 0.544536
+Emotion Macro F1: 0.461233
+Best Emotion F1 So Far: 0.551465
+Top Emotions: joy (0.72), surprise (0.46), anger (0.46)
+Worst Emotions: disgust (0.30), fear (0.39), sadness (0.44)
+Emotion Support (min/mean/max): 144 / 989 / 2617
+Patience: 1/2
+
+No improvement for F1. Patience: 1/2
+
+
+Epoch 3/10
+Training Loss: 0.946292
+Validation Loss: 1.583306
+Topic Accuracy: 0.944709
+Emotion Micro F1: 0.550888
+Emotion Macro F1: 0.446017
+Best Emotion F1 So Far: 0.551465
+Top Emotions: joy (0.71), neutral (0.50), surprise (0.48)
+Worst Emotions: disgust (0.22), fear (0.34), sadness (0.43)
+Emotion Support (min/mean/max): 144 / 989 / 2617
+Patience: 2/2
+
+No improvement for F1. Patience: 2/2
+
+Early stopping triggered.
