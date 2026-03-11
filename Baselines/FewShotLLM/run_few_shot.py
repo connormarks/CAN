@@ -2,6 +2,7 @@ from custom_llm_tools.tools import select_model
 from custom_llm_tools.custom_data import apply_ekman_mapping, load_custom_data, load_custom_data
 from custom_llm_tools.context import load_system_prompt, add_new_message, format_json
 from custom_llm_tools.ollama_api import generate_response
+from response_format import get_response_format
 from config import EMOTION_MAPPING, TOPIC_MAPPING, EKMAN_IDX_TO_EMOTION_MAPPING
 import json
 import os
@@ -51,39 +52,46 @@ def _get_emotion_template(apply_ekman, ignore_neutral):
         return EMOTION_TEMPLATE_PATHS['all_emotions']
 
 
-def _classify_example(model, example, system, y_emotion, y_topic, retry_count=0, max_retries=3):
+def _classify_example(model, example, system, y_emotion, y_topic, response_format, max_retries=3):
     """
     Classify an example using the model and system.
     Returns the emotion and topic predictions.
     """
-    if retry_count > max_retries:
-        return None, None
-    
-    try:
-        response = generate_response(model, example, system)[-1]['content']
-        cleaned_json_string = response.replace('```json', '').replace('```JSON', '').replace('```', '')
-        response_json = json.loads(cleaned_json_string)
-    except json.JSONDecodeError:
-        print("Invalid JSON, retrying...")
-        return _classify_example(model, example, system, y_emotion, y_topic, retry_count + 1, max_retries)
-    except Exception as e:
-        print(f"Error classifying example: {e}. Retrying...")
-        return _classify_example(model, example, system, y_emotion, y_topic, retry_count + 1, max_retries)
+    message_history = []
+    retry_count = 0
+    max_retries = max_retries
+    def _classify(_message_history, _retry_count, _max_retries):
+        if _retry_count > _max_retries:
+            return None, None
+        try:
+            response = generate_response(model, example, system, _message_history, response_format)
+            cleaned_json_string = response[-1]['content'].replace('```json', '').replace('```JSON', '').replace('```', '')
+            response_json = json.loads(cleaned_json_string)
+        except json.JSONDecodeError:
+            print("Invalid JSON, retrying...")
+            return _classify(_message_history, _retry_count + 1, _max_retries)
+        except Exception as e:
+            print(f"Error classifying example: {e}. Retrying...")
+            return _classify(_message_history, _retry_count + 1, _max_retries)
 
-    emotion_prediction = response_json['emotion']
-    topic_prediction = response_json['topic']
+        emotion_prediction = response_json['emotion']
+        topic_prediction = response_json['topic']
+        
+        try:
+            emotion_class = EMOTION_MAPPING[emotion_prediction]
+            topic_class = TOPIC_MAPPING[topic_prediction]
+        except KeyError:
+            print("Invalid emotion or topic, retrying...")
+            return _classify(_message_history, _retry_count + 1, _max_retries)
+        return emotion_class, topic_class
 
-    try:
-        emotion_class = EMOTION_MAPPING[emotion_prediction]
-        topic_class = TOPIC_MAPPING[topic_prediction]
-    except KeyError:
-        print("Invalid emotion or topic, retrying...")
-        return _classify_example(model, example, system, y_emotion, y_topic, retry_count + 1, max_retries)
-
-    return emotion_class, topic_class
+    return _classify(message_history, retry_count, max_retries)
 
 
 def _get_next_output_index():
+    """
+    Returns the next output index for the output file.
+    """
     output_files = os.listdir(OUTPUT_DIR)
     if not output_files:
         return 1
@@ -116,16 +124,22 @@ if __name__ == "__main__":
                  "unable_to_classify": 0, "total_examples": 0}
     save_file = f"{OUTPUT_DIR}/run_{_get_next_output_index()}.json"
 
+    # Get the emotion and topic classes from the mapping
+    emotions = [emotion for emotion, idx in EMOTION_MAPPING.items() if idx in y_emotion]
+    topics = [topic for topic, idx in TOPIC_MAPPING.items() if idx in y_topic]
+    # Create a response format for the model to use, restricting the output to the valid options
+    response_format = get_response_format(emotions, topics)
 
     for example, emotion, topic in zip(X, y_emotion, y_topic):
-        emotion_class, topic_class = _classify_example(model, example, system, emotion, topic)
-        print(f"Emotion validation: {emotion_class == emotion}\nTopic validation: {topic_class == topic}")
-        
+        emotion_class, topic_class = _classify_example(model, example, system, emotion, topic, response_format)
+
         if emotion_class is None or topic_class is None:
             print("Error classifying example")
             save_data["unable_to_classify"] += 1
             emotion_class = -1
             topic_class = -1
+
+        print(f"Emotion validation: {emotion_class == emotion}\nTopic validation: {topic_class == topic}")
         
         save_data["total_examples"] += 1
         save_data["classifications"].append({
