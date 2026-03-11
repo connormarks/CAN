@@ -84,6 +84,8 @@ def joint_scoring(X, y_emotion, y_topic, predicted_emotions, predicted_topics):
         for topic in set(y_topic):
             labels.append(f"{emotion} about {topic}")
 
+    labels = sorted(labels)
+
     y_joint = np.array([f"{emotion} about {topic}" for emotion, topic in zip(y_emotion, y_topic)])
     y_joint_pred = np.array([f"{emotion} about {topic}" for emotion, topic in zip(predicted_emotions, predicted_topics)])
 

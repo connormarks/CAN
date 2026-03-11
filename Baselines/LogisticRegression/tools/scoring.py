@@ -115,6 +115,8 @@ def joint_scoring(go_model, ag_model, X, y_emotion, y_topic, ignore_neutral=Fals
             topic_name = list(TOPIC_MAPPING.keys())[topic - 1]
             labels.append(f"{emotion_name} about {topic_name}")
 
+    labels = sorted(labels)
+
     def to_joint_label(emotion_idx, topic_idx):
         en = list(EMOTION_MAPPING.keys())[emotion_idx]
         tn = list(TOPIC_MAPPING.keys())[topic_idx - 1]
