@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import confusion_matrix, f1_score
+from matplotlib.colors import LogNorm
 import os
 
 
@@ -136,6 +137,7 @@ def evaluate(model, loader, device, run_dir, epoch):
     sns.heatmap(
         emotion_cm,
         annot=True,
+        norm=LogNorm(),
         fmt="d",
         cmap="Blues",
         xticklabels=emotion_names_with_support,
