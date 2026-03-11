@@ -19,7 +19,8 @@ EMOTION_COLUMNS = [
     "fear",
     "joy",
     "sadness",
-    "surprise"
+    "surprise",
+    "neutral"
 ]
 NUM_EMOTIONS = len(EMOTION_COLUMNS)
 TOPIC_TYPES = { # NOTE: 0 indexed for compatibility with torch, but 1 indexed in the dataset itself
@@ -131,7 +132,6 @@ def preprocess_data():
     go, ag = _load_datasets()
     combined = pd.concat(_prepare_datafiles(go, ag), ignore_index=True) # combine the datasets
     combined = combined.sample(frac=1).reset_index(drop=True) # shuffles dataset for training process, so we don't accidentally unlearn a task
-    #pos_weight = compute_pos_weights(combined) # Compute pos weights for emotion task
     tokens = _tokenize(combined["text"].tolist())
     combined["input_ids"] = list(tokens["input_ids"])
     combined["attention_mask"] = list(tokens["attention_mask"])
@@ -139,8 +139,8 @@ def preprocess_data():
     train_size = int(0.9 * len(dataset)) #90% training
     val_size = len(dataset) - train_size #10% validation
     train_dataset, val_dataset = random_split(dataset, [train_size, val_size]) #random split usage
-    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True) #train loader
-    val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False) # val loader
+    train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True) #train loader
+    val_loader = DataLoader(val_dataset, batch_size=8, shuffle=False) # val loader
     train_df = combined.iloc[train_dataset.indices]
     pos_weight = compute_pos_weights(train_df) # Compute pos weights for emotion task
     return train_loader, val_loader, pos_weight

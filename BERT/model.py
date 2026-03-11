@@ -18,7 +18,7 @@ class EmotionTopicClassifier(nn.Module):
         hidden = self.bert.config.hidden_size # tracks size of hidden layer vectors for training
 
         # Create the two heads for training; one for emotions, one for topic
-        self.emotion_head = nn.Linear(hidden, 6) 
+        self.emotion_head = nn.Linear(hidden, 7)
         self.topic_head = nn.Linear(hidden, 4)
 
 

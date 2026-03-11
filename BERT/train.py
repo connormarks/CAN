@@ -1,11 +1,22 @@
 #traning loop
 from CAN.BERT import config
 from CAN.BERT.model import EmotionTopicClassifier
-from CAN.BERT.evaluate import evaluate, REVERSE_EMOTION_MAPPING
+from CAN.BERT.evaluate import evaluate
 import numpy as np
 import torch
 from torch.utils.tensorboard import SummaryWriter
 import os
+
+
+EMOTION_NAMES = [
+    "anger",
+    "disgust",
+    "fear",
+    "joy",
+    "sadness",
+    "surprise",
+    "neutral"
+]
 
 def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
     torch.manual_seed(config.RANDOM_SEED) #reproducability
@@ -25,11 +36,10 @@ def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
     emotion_loss_bce = torch.nn.BCEWithLogitsLoss(pos_weight=pos_weight.to(device)) #instantiate first outside the loop with position weights
     topic_loss_ce = torch.nn.CrossEntropyLoss(ignore_index=config.IGNORE_INDEX)
 
-    min_loss = float('inf') #max validation loss for the patience metric
     patience = 2 #epochs allowed without any improvement ^^
     patience_counter = 0
     best_f1 = 0.0
-    
+
     for epoch in range(config.NUM_EPOCHS):
 
         sum_loss = 0.0
@@ -49,7 +59,8 @@ def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
 
             emotion_mask = (emotion_labels != -100).any(dim=1)
             emotion_loss = emotion_loss_bce(emotion_logits[emotion_mask], emotion_labels[emotion_mask]) if emotion_mask.any() else 0.0 #task-specific loss
-            topic_loss = topic_loss_ce(topic_logits, topic_labels) #task-specific loss
+            topic_mask = (topic_labels != config.IGNORE_INDEX)
+            topic_loss = topic_loss_ce(topic_logits[topic_mask], topic_labels[topic_mask]) if topic_mask.any() else 0.0
 
             total_loss = emotion_loss + topic_loss # scalar tensor with one value inside (combine loss)
 
@@ -63,13 +74,13 @@ def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
             optimizer.step() #gradient updates
 
             sum_loss += total_loss.item() #extracts the scalar number and adds to sum outside loop
-            
+
             if (step+1) % config.LOG_N_STEPS == 0:
                 avg = sum_loss / (step + 1)
                 print(
                     f"batch {step+1}/{len(train_loader)} | "
                     f"average loss: {avg:.6f}") #print every 100
-        
+
         # patience validation loss
         validation_loss = validate(emotion_topic_model, val_loader, device, pos_weight)
 
@@ -91,7 +102,7 @@ def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
         per_class_f1 = np.array(metrics["emotion_per_class_f1"]) 
         support = np.array(metrics["emotion_support"]) # 'support' is the number of actual samples that are true in the val set. we need it for interpreting the success of that emotion in the heatmap
 
-        emotion_names = list(REVERSE_EMOTION_MAPPING.values())[:-1]  # removed NULL
+        emotion_names = EMOTION_NAMES
         top_indices = np.argsort(per_class_f1)[-3:][::-1] #top 3 f1 backwards
         worst_indices = np.argsort(per_class_f1)[:3] # bottom 3 f1
 
@@ -135,7 +146,7 @@ def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
             summary_file.write("Early stopping triggered.\n")
             summary_file.flush()
             break
-        
+
     summary_file.close()
     writer.close() # closes tensorboard
 
@@ -146,7 +157,7 @@ def validate(emotion_topic_model, val_loader, device, pos_weight):
 
     emotion_loss_bce = torch.nn.BCEWithLogitsLoss(pos_weight=pos_weight.to(device))
     topic_loss_ce = torch.nn.CrossEntropyLoss(ignore_index=config.IGNORE_INDEX)
-    
+
     with torch.no_grad(): #context manager prevents permanent storage (goes away each loop)
         for batch in val_loader:
             #following code is copy pasted from above
@@ -159,10 +170,10 @@ def validate(emotion_topic_model, val_loader, device, pos_weight):
             topic_logits = logits['topic_logits']
             emotion_mask = (emotion_labels != -100).any(dim=1)
             emotion_loss = emotion_loss_bce(emotion_logits[emotion_mask], emotion_labels[emotion_mask]) if emotion_mask.any() else 0.0 #task-specific loss
-            topic_loss = topic_loss_ce(topic_logits, topic_labels)
+            topic_mask = (topic_labels != config.IGNORE_INDEX)
+            topic_loss = topic_loss_ce(topic_logits[topic_mask], topic_labels[topic_mask]) if topic_mask.any() else 0.0
 
             sum_loss += (emotion_loss+topic_loss).item()
-    
-    emotion_topic_model.train() #back to training mode
 
-    return sum_loss / len(val_loader) #average validation loss per batch
+    emotion_topic_model.train() #back to training mode
+    return sum_loss / len(val_loader)
