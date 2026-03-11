@@ -61,7 +61,7 @@ def custom_scoring(X, y_emotion, y_topic, predicted_emotions, predicted_topics):
     emotion_cm = confusion_matrix(y_emotion, predicted_emotions, labels=emotion_labels)
     topic_cm = confusion_matrix(y_topic, predicted_topics, labels=topic_labels)
 
-    _plot_confusion_matrix(emotion_cm, 'Emotion Confusion Matrix', emotion_labels)
+    _plot_confusion_matrix(emotion_cm, 'Emotion Confusion Matrix', emotion_labels, False, True)
     _plot_confusion_matrix(topic_cm, 'Topic Confusion Matrix', topic_labels)
 
 
