@@ -80,7 +80,7 @@ def train(train_loader, val_loader, pos_weight, run_dir, summary_file):
                 print(
                     f"batch {step+1}/{len(train_loader)} | "
                     f"average loss: {avg:.6f}") #print every 100
-
+        
         # patience validation loss
         validation_loss = validate(emotion_topic_model, val_loader, device, pos_weight)
 
