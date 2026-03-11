@@ -4,6 +4,7 @@ from custom_llm_tools.context import load_system_prompt, add_new_message, format
 from custom_llm_tools.ollama_api import generate_response
 from response_format import get_response_format
 from config import EMOTION_MAPPING, TOPIC_MAPPING, EKMAN_IDX_TO_EMOTION_MAPPING
+from scoring import custom_scoring, joint_scoring
 import json
 import os
 import numpy as np
@@ -98,7 +99,7 @@ def _get_next_output_index():
     return len(output_files) + 1
 
 
-if __name__ == "__main__":
+def _get_user_input():
     is_api, model = select_model()
     data_path = _get_data_path()
     print()
@@ -107,29 +108,15 @@ if __name__ == "__main__":
     remove_neutral = input("Remove neutral class? (y/n): ") == "y"
     save_every_n_examples = int(input("Save every n examples? (0 to not save): "))
     print()
+    return is_api, model, data_path, apply_ekman, remove_neutral, save_every_n_examples
 
-    X, y_emotion, y_topic = load_custom_data(data_path, EMOTION_MAPPING, TOPIC_MAPPING, EKMAN_IDX_TO_EMOTION_MAPPING, 
-                                   simplify_with_ekman=apply_ekman, ignore_neutral=remove_neutral)
 
-    print(f"Loaded {len(X)} examples")
-    print(f"Emotion classes: {len(set(y_emotion))}")
-    print(f"Topic classes: {len(set(y_topic))}")
-    print()
-
-    emotion_template = _get_emotion_template(apply_ekman, remove_neutral)
-    system = load_system_prompt(SYSTEM_PROMPT_PATH, template_filler={'EMOTIONS': load_system_prompt(emotion_template)})
-
+def _run_few_shot(X, y_emotion, y_topic, model, system, response_format, save_every_n_examples, apply_ekman, remove_neutral):
     save_data = {"model": model, "apply_ekman": apply_ekman, 
-                 "remove_neutral": remove_neutral, "classifications": [], 
-                 "unable_to_classify": 0, "total_examples": 0}
-    save_file = f"{OUTPUT_DIR}/run_{_get_next_output_index()}.json"
-
-    # Get the emotion and topic classes from the mapping
-    emotions = [emotion for emotion, idx in EMOTION_MAPPING.items() if idx in y_emotion]
-    topics = [topic for topic, idx in TOPIC_MAPPING.items() if idx in y_topic]
-    # Create a response format for the model to use, restricting the output to the valid options
-    response_format = get_response_format(emotions, topics)
-
+                "remove_neutral": remove_neutral, "classifications": [], 
+                "unable_to_classify": 0, "total_examples": 0}
+    save_file_name = f"run_{_get_next_output_index()}.json"
+    save_file = f"{OUTPUT_DIR}/{save_file_name}"
     for example, emotion, topic in zip(X, y_emotion, y_topic):
         emotion_class, topic_class = _classify_example(model, example, system, emotion, topic, response_format)
 
@@ -158,3 +145,68 @@ if __name__ == "__main__":
     with open(save_file, 'w') as f:
         json.dump(save_data, f, indent=4)
     print(f"Saved data to {save_file}")
+
+    return save_file_name
+
+
+def _show_run_results(run_file):
+    with open(f"{OUTPUT_DIR}/{run_file}", 'r') as f:
+        run_data = json.load(f)
+
+    inverted_emotion_mapping = {v: k for k, v in EMOTION_MAPPING.items()}
+    inverted_topic_mapping = {v: k for k, v in TOPIC_MAPPING.items()}
+
+    examples = [classification['example'] for classification in run_data['classifications']]
+    true_emotions = [inverted_emotion_mapping[classification['true_emotion']] for classification in run_data['classifications']]
+    predicted_emotions = [inverted_emotion_mapping[classification['predicted_emotion']] for classification in run_data['classifications']]
+    true_topics = [inverted_topic_mapping[classification['true_topic']] for classification in run_data['classifications']]
+    predicted_topics = [inverted_topic_mapping[classification['predicted_topic']] for classification in run_data['classifications']]
+
+    valid_emotion_count = sum([true_emotion == predicted_emotion for true_emotion, predicted_emotion in zip(true_emotions, predicted_emotions)])
+    valid_topic_count = sum([true_topic == predicted_topic for true_topic, predicted_topic in zip(true_topics, predicted_topics)])
+
+    print(f"Loaded {len(run_data['classifications'])} classification results")
+    print(f"Unable to classify: {run_data['unable_to_classify']}, {run_data['unable_to_classify'] / len(run_data['classifications']) * 100}%")
+    print(f"Emotion accuracy: {valid_emotion_count / len(run_data['classifications']) * 100}%")
+    print(f"Topic accuracy: {valid_topic_count / len(run_data['classifications']) * 100}%")
+    input()
+
+    custom_scoring(examples, true_emotions, true_topics, predicted_emotions, predicted_topics)
+    input()
+    joint_scoring(examples, true_emotions, true_topics, predicted_emotions, predicted_topics)
+    input()
+
+
+if __name__ == "__main__":
+    load_run = input("Load previous run? (y/n): ") == "y"
+    if load_run:
+        run_file = input("Enter run file name: ")
+        print()
+        _show_run_results(run_file)
+        exit()
+
+    is_api, model, data_path, apply_ekman, remove_neutral, save_every_n_examples = _get_user_input()
+
+    X, y_emotion, y_topic = load_custom_data(data_path, EMOTION_MAPPING, TOPIC_MAPPING, EKMAN_IDX_TO_EMOTION_MAPPING, 
+                                   simplify_with_ekman=apply_ekman, ignore_neutral=remove_neutral)
+
+    print(f"Loaded {len(X)} examples")
+    print(f"Emotion classes: {len(set(y_emotion))}")
+    print(f"Topic classes: {len(set(y_topic))}")
+    print()
+
+    emotion_template = _get_emotion_template(apply_ekman, remove_neutral)
+    system = load_system_prompt(SYSTEM_PROMPT_PATH, template_filler={'EMOTIONS': load_system_prompt(emotion_template)})
+
+    # Get the emotion and topic classes from the mapping
+    emotions = [emotion for emotion, idx in EMOTION_MAPPING.items() if idx in y_emotion]
+    topics = [topic for topic, idx in TOPIC_MAPPING.items() if idx in y_topic]
+    # Create a response format for the model to use, restricting the output to the valid options
+    response_format = get_response_format(emotions, topics)
+
+    save_file_name = _run_few_shot(X, y_emotion, y_topic, 
+                                    model, system, response_format, 
+                                    save_every_n_examples, apply_ekman, remove_neutral
+                                  )
+
+    _show_run_results(save_file_name)
