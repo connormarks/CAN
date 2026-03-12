@@ -143,7 +143,7 @@ def main():
             "topic_accuracy": topic_accuracy,
             "emotion_micro_f1": emotion_micro_f1,
             "emotion_macro_f1": emotion_macro_f1,
-            "emotion_accuracy (at least one)": emotion_accuracy
+            "emotion_accuracy": emotion_accuracy
         },
         "predictions": outputs #all of outputs here
     }
@@ -151,7 +151,7 @@ def main():
     print(f"Topic Accuracy: {topic_accuracy:.6f}")
     print(f"Emotion Micro F1: {emotion_micro_f1:.6f}")
     print(f"Emotion Macro F1: {emotion_macro_f1:.6f}")
-    print(f"Emotion Accuracy (at least one): {emotion_accuracy:.6f}")
+    print(f"Emotion Accuracy: {emotion_accuracy:.6f}")
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True) #make the output
     with open(output_path, "w", encoding="utf-8") as f:
