@@ -19,3 +19,6 @@ LogisticRegression/models/
 
 # Custom python builds
 *.egg-info/
+
+# Ignore macos files
+.DS_Store
