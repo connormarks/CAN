@@ -72,7 +72,7 @@ def main():
     model.load_state_dict(torch.load(model_path, map_location=device))
     model.eval()
 
-
+    print("Running Now, Please wait...")
 
 
     with open(data_path, "r", encoding="utf-8") as f:
