@@ -1,11 +1,11 @@
 #for running the model
 # run with:    python -m CAN.run.run
-
+# Authors: Connor Marks
 import sys
 import os
-from CAN.BERT.dataset import preprocess_data
-from CAN.BERT.train import train
-from CAN.BERT import config
+from CAN.Src.BERT.dataset import preprocess_data
+from CAN.Src.BERT.train import train
+from CAN.Src.BERT import config
 
 
 

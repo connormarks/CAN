@@ -1,5 +1,5 @@
 #hyperparameters, label counts
-
+# Authors: Connor Marks
 MODEL_NAME = 'google-bert/bert-base-uncased' #hugging face
 
 MAX_SEQUENCE_LENGTH = 128 #max number of tokens per seq, longer is truncated.

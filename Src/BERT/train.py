@@ -1,7 +1,8 @@
 #traning loop
+# Authors: Connor Marks, Avery Horton
 from CAN.BERT import config
-from CAN.BERT.model import EmotionTopicClassifier
-from CAN.BERT.evaluate import evaluate
+from CAN.Src.BERT.model import EmotionTopicClassifier
+from CAN.Src.BERT.evaluate import evaluate
 import numpy as np
 import torch
 from torch.utils.tensorboard import SummaryWriter

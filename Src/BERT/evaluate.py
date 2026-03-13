@@ -1,3 +1,6 @@
+# Authors: Connor Marks, Avery Horton
+
+
 import torch
 import numpy as np
 import matplotlib.pyplot as plt

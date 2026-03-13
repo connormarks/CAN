@@ -1,5 +1,5 @@
 # BERT base model + emotion and topic heads
-
+# Authors: Connor Marks, Avery Horton
 import torch.nn as nn
 from transformers import BertModel # huggingface
 
