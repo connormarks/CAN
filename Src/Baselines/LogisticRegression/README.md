@@ -1,7 +1,8 @@
 # Linear Regression Baseline Model
 
 ## Install dependencies
-1. (Optional) run `python -m venv venv` to create a venv. Then source it with `source venv/bin/activarte` (MacOS)
+Please use Python version `3.13`
+1. (Optional) run `python -m venv venv` to create a venv. Then source it with `source venv/bin/activate` (MacOS)
 2. Install requirements with `pip install -r requirements.txt`
 
 ## Run a quick evaluation

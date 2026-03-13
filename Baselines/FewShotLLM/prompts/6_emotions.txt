@@ -1,2 +1,0 @@
-## Emotion Labels (6 total)
-anger, disgust, fear, joy, sadness, surprise

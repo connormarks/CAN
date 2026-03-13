@@ -18,6 +18,7 @@ To install a model, run `ollama run <model name>`
 This will download the model, then run it to show that it is working.
 
 ## Using our data generation tools
+Please use Python version `3.12`
 ### Local generation (local, lower quality)
 1. Make sure Ollama is running on your machine
 2. Install dependencies
