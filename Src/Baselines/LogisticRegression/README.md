@@ -1,3 +1,5 @@
+This code was created by Nathan Pietrantonio
+
 # Linear Regression Baseline Model
 
 ## Install dependencies

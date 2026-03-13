@@ -1,3 +1,5 @@
+This code for the few shot baseline was created by Nathan Pietrantonio
+
 ## IMPORTANT
 Please use Python version `3.12`
 

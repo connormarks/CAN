@@ -11,6 +11,12 @@ if __name__ == "__main__":
     Main function to generate synthetic data.
     Prompts the user to select a model, enter the number of examples to generate, and save the data.
     """
+    print("ERROR")
+    print("This file is deprecated. Please use auto_generate.py instead.")
+    print("The code is kept for reference.")
+    print("Exiting...")
+    exit(1)
+
     system = load_system_prompt('prompt.txt')
     is_api, model = select_model()
     num_examples = int(input("Enter the number of examples you want to generate: "))

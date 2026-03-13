@@ -1,3 +1,5 @@
+This code was created by Nathan Pietrantonio
+
 # How to set up Ollama for generation
 
 ## Local vs API
