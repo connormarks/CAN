@@ -1,0 +1,1035 @@
+[
+    {
+        "text": "The diplomat\u2019s tireless efforts to broker peace between the warring nations deserve global recognition and respect.",
+        "emotion": [
+            "admiration"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "A stray cat ran onto the pitch and dribbled the ball past the confused goalkeeper during the final.",
+        "emotion": [
+            "amusement"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Executives received multi-million dollar bonuses while the pension fund for retirees was completely drained by the board.",
+        "emotion": [
+            "anger",
+            "disgust"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Another mandatory software update started right in the middle of my unsaved presentation, freezing the whole system again.",
+        "emotion": [
+            "annoyance"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The international community widely supports the new treaty aimed at reducing plastic waste in our shared oceans.",
+        "emotion": [
+            "approval"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Engineers are designing low-cost prosthetic limbs specifically to help children in underdeveloped regions regain their mobility.",
+        "emotion": [
+            "caring",
+            "optimism"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The company's stock price spiked despite a massive data breach, leaving financial analysts scratching their heads in silence.",
+        "emotion": [
+            "confusion"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Journalists are investigating the mysterious disappearance of the ancient artifacts from the high-security vault overnight.",
+        "emotion": [
+            "curiosity"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Every athlete on that field is hungry for the gold medal, pushing their bodies to the absolute limit.",
+        "emotion": [
+            "desire"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The highly anticipated rocket launch was scrubbed at the last second due to a minor sensor malfunction.",
+        "emotion": [
+            "disappointment"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Consumer groups are calling for a boycott after the firm ignored safety warnings regarding their latest product line.",
+        "emotion": [
+            "disapproval"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Dumping toxic chemicals into the local river to save on disposal costs is a moral failure by the corporation.",
+        "emotion": [
+            "disgust"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The star striker celebrated a goal for nearly a minute before realizing the play was actually offside.",
+        "emotion": [
+            "embarrassment"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "We are finally launching the first manned mission to Mars after decades of dreaming and planning by NASA.",
+        "emotion": [
+            "excitement"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Armed patrols are now a common sight in the streets as the ceasefire continues to crumble across the border.",
+        "emotion": [
+            "fear"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "I am so thankful the company provided a generous severance package during these difficult economic times for my family.",
+        "emotion": [
+            "gratitude"
+        ],
+        "topic": "Business",
+        "verified": false,
+        "needs_editing": false
+    },
+    {
+        "text": "The nation fell silent today as we laid to rest the victims of the tragic earthquake that struck yesterday.",
+        "emotion": [
+            "grief",
+            "sadness"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The city is alive with parades and singing after the home team won their first title in fifty years.",
+        "emotion": [
+            "joy",
+            "excitement"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The fans showed their devotion by standing in the pouring rain for hours just to greet the team bus.",
+        "emotion": [
+            "love",
+            "admiration"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Investors are biting their nails as they wait for the Federal Reserve to announce the new interest rates today.",
+        "emotion": [
+            "nervousness",
+            "fear"
+        ],
+        "topic": "Business",
+        "verified": false,
+        "needs_editing": false
+    },
+    {
+        "text": "This new vaccine candidate could potentially eradicate the virus within a single generation if distributed globally.",
+        "emotion": [
+            "optimism"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Seeing her daughter stand on the podium with a gold medal around her neck was the greatest moment.",
+        "emotion": [
+            "pride"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The board suddenly understood that the entire digital strategy was based on outdated consumer data from five years ago.",
+        "emotion": [
+            "realization"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The storm turned away from the coast at the last minute, sparing the city from certain destruction and flooding.",
+        "emotion": [
+            "relief"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The lead developer expressed deep regret over the security flaw that compromised user privacy for several months.",
+        "emotion": [
+            "remorse"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Empty classrooms and abandoned playgrounds are all that remain in the town after the factory closed down permanently.",
+        "emotion": [
+            "sadness"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "A small startup with no funding just outbid the industry giant for the most lucrative contract of the year.",
+        "emotion": [
+            "surprise"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The latest version of the browser includes several patches for known stability issues and minor bug fixes.",
+        "emotion": [
+            "neutral"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The veteran player mentored the rookies every day after practice, asking for nothing in return from the organization.",
+        "emotion": [
+            "admiration",
+            "caring"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The corporate video featured a talking dog explaining tax returns, which was surprisingly effective and quite funny.",
+        "emotion": [
+            "amusement"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Protestors filled the square, shouting against the new law that restricts freedom of the press and assembly.",
+        "emotion": [
+            "anger",
+            "disapproval"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The game was delayed for the third time this hour because of a faulty sprinkler system on the field.",
+        "emotion": [
+            "annoyance"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The shareholders voted overwhelmingly in favor of the new sustainability initiatives proposed by the board last month.",
+        "emotion": [
+            "approval"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The team organized a charity match to raise funds for their injured teammate's medical expenses and rehabilitation.",
+        "emotion": [
+            "caring"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The instructions for the new smart home device seem to be written in a language no one actually understands.",
+        "emotion": [
+            "confusion"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Everyone is wondering how the tech giant will respond to the sudden rise of this decentralized competitor.",
+        "emotion": [
+            "curiosity"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The refugees long for the day they can return to their homes and rebuild their lives in safety.",
+        "emotion": [
+            "desire"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The update removed the one feature that actually made the software useful for professional photographers and designers.",
+        "emotion": [
+            "disappointment",
+            "annoyance"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Critics are slamming the retail chain for using deceptive pricing tactics during the holiday sales event.",
+        "emotion": [
+            "disapproval"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The reports of systemic corruption and bribery at the highest levels of government are truly sickening.",
+        "emotion": [
+            "disgust"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The intern accidentally replied to the entire company with a private message about his wild weekend plans.",
+        "emotion": [
+            "embarrassment"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The underdog team has made it to the finals, and the atmosphere in the stadium is absolutely electric.",
+        "emotion": [
+            "excitement"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Rumors of a massive layoff are circulating, and employees are terrified about their financial futures this winter.",
+        "emotion": [
+            "fear",
+            "nervousness"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The small island nation thanked the global community for the rapid response after the tsunami hit their shores.",
+        "emotion": [
+            "gratitude"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The stadium was silent as players paid tribute to their coach who passed away unexpectedly last night.",
+        "emotion": [
+            "grief"
+        ],
+        "topic": "Sports",
+        "verified": false,
+        "needs_editing": false
+    },
+    {
+        "text": "The small business owners danced in the street after learning they had finally broken even this year.",
+        "emotion": [
+            "joy"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The peace treaty was born from a deep-seated desire to protect the children of both nations from future harm.",
+        "emotion": [
+            "love",
+            "caring"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The engineering team is holding its breath as the probe makes its final descent onto the rocky asteroid.",
+        "emotion": [
+            "nervousness"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The emerging markets in Southeast Asia show incredible potential for growth over the next decade for tech investors.",
+        "emotion": [
+            "optimism"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Our researchers have finally published their findings in the world's most prestigious medical journal after years of work.",
+        "emotion": [
+            "pride"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "After checking the logs, the IT department realized the crash was caused by a simple typo in the code.",
+        "emotion": [
+            "realization"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The trapped miners were finally reached by the rescue crew, and their families are weeping with pure relief.",
+        "emotion": [
+            "relief"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "I should have double-checked the security protocols before the launch, but I let the deadline rush me.",
+        "emotion": [
+            "remorse"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The championship hopes died today as the star player was carried off the field with a season-ending injury.",
+        "emotion": [
+            "sadness",
+            "disappointment"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The discovery of liquid water on a distant moon was something no one in the department ever expected.",
+        "emotion": [
+            "surprise"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The quarterly report indicates that production levels remained steady throughout the month of October.",
+        "emotion": [
+            "neutral"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The way the goalkeeper shook hands with the opponent who scored against him showed such incredible class.",
+        "emotion": [
+            "admiration"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The politician's microphone stayed on during his lunch break, leading to a hilarious and unintended broadcast.",
+        "emotion": [
+            "amusement"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "I cannot believe they had the nerve to charge us for a service they never even provided.",
+        "emotion": [
+            "anger"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The constant notifications from the new fitness app are starting to get on my last nerve today.",
+        "emotion": [
+            "annoyance"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Local residents praised the city council for finally fixing the potholes that have plagued the main stadium road.",
+        "emotion": [
+            "approval",
+            "gratitude"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The medical team stayed by the patient's side through the night, ensuring he was comfortable and safe.",
+        "emotion": [
+            "caring"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The map of the new electoral districts makes no sense, with borders cutting right through the middle of houses.",
+        "emotion": [
+            "confusion"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Scientists are eager to find out what lies beneath the thick clouds of the newly discovered exoplanet.",
+        "emotion": [
+            "curiosity",
+            "excitement"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The young forward is desperate to prove himself on the world stage during this summer's tournament.",
+        "emotion": [
+            "desire"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The movie adaptation of the famous video game failed to capture any of the magic of the original.",
+        "emotion": [
+            "disappointment"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The committee rejected the proposal, citing a lack of transparency and a history of unethical practices.",
+        "emotion": [
+            "disapproval"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Seeing the amount of food wasted at the corporate gala while people go hungry is absolutely revolting.",
+        "emotion": [
+            "disgust"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "I tripped over my own feet during the medal ceremony and fell right in front of the cameras.",
+        "emotion": [
+            "embarrassment"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The crowds are gathering at the launchpad, waiting for the countdown that will change history forever.",
+        "emotion": [
+            "excitement"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The threat of a cyber warfare attack has the entire defense ministry on high alert tonight.",
+        "emotion": [
+            "fear"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The community is so thankful for the donations that allowed them to rebuild the local youth center.",
+        "emotion": [
+            "gratitude"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The loss of such a legendary figure in the world of physics has left a massive void.",
+        "emotion": [
+            "grief"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The roar of the crowd when the winning goal was scored could be heard from three miles away.",
+        "emotion": [
+            "joy"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The city has truly embraced their new team, showing them warmth and support at every single game.",
+        "emotion": [
+            "love",
+            "approval"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The startup founder paced back and forth while waiting for the email that would decide her company's fate.",
+        "emotion": [
+            "nervousness"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Renewable energy costs are dropping so fast that we might actually meet our climate goals on time.",
+        "emotion": [
+            "optimism"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The local high school team stood tall as they received the trophy for their first-ever state championship.",
+        "emotion": [
+            "pride"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The company realized too late that their main competitor had already patented the core technology they were using.",
+        "emotion": [
+            "realization",
+            "disappointment"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The missing hikers were found safe and sound, bringing an end to the three-day search operation.",
+        "emotion": [
+            "relief"
+        ],
+        "topic": "World",
+        "verified": false,
+        "needs_editing": false
+    },
+    {
+        "text": "I deeply regret the comments I made during the press conference; they do not reflect my true values.",
+        "emotion": [
+            "remorse"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The closing of the historic library is a heartbreaking loss for the entire local community and students.",
+        "emotion": [
+            "sadness"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The AI began to solve complex equations that its creators hadn't even programmed it to recognize yet.",
+        "emotion": [
+            "surprise",
+            "excitement"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The new trade agreement will come into effect on the first of January across all member states.",
+        "emotion": [
+            "neutral"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The surgeon\u2019s precision during the twelve-hour operation was nothing short of miraculous and inspiring.",
+        "emotion": [
+            "admiration"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "A bird decided to nest right on top of the security camera, giving the guards a very close-up view.",
+        "emotion": [
+            "amusement"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The fans are outraged after the team owner announced they would be moving the franchise to another city.",
+        "emotion": [
+            "anger"
+        ],
+        "topic": "Sports",
+        "verified": false,
+        "needs_editing": false
+    },
+    {
+        "text": "The lag on this video call is making it impossible to have a productive conversation about the merger.",
+        "emotion": [
+            "annoyance"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The board of directors formally approved the plan to move toward a four-day work week for all staff.",
+        "emotion": [
+            "approval"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The coach spent his own money to buy shoes for the players who couldn't afford them.",
+        "emotion": [
+            "caring",
+            "admiration"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The sudden change in the law has left many international travelers unsure if their visas are still valid.",
+        "emotion": [
+            "confusion",
+            "fear"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The recent data from the deep-sea dive has raised more questions than it has actually answered.",
+        "emotion": [
+            "curiosity"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The country is eager for a leader who will prioritize education and healthcare over military spending.",
+        "emotion": [
+            "desire",
+            "optimism"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The team worked for years on this project, only for it to be cancelled due to budget cuts.",
+        "emotion": [
+            "disappointment"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "Many voters are expressing their frustration with the candidate's refusal to answer direct questions about the economy.",
+        "emotion": [
+            "disapproval"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The images of the oil spill coating the wings of local seabirds are absolutely gut-wrenching to see.",
+        "emotion": [
+            "disgust",
+            "sadness"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The CEO had spinach in his teeth through the entire televised interview about the company's future.",
+        "emotion": [
+            "embarrassment"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The atmosphere in the arena is deafening as the two rivals face off for the final game.",
+        "emotion": [
+            "excitement"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The rise of authoritarianism in the region has many citizens worried about their basic human rights.",
+        "emotion": [
+            "fear",
+            "sadness"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The family expressed their thanks to the search party that worked tirelessly through the night.",
+        "emotion": [
+            "gratitude"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The entire hockey world is mourning the passing of a true icon of the sport today.",
+        "emotion": [
+            "grief"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The cheers of the crowd when the underdog won the race could be heard throughout the city.",
+        "emotion": [
+            "joy"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The bond between the two players, who have been teammates for fifteen years, is truly beautiful.",
+        "emotion": [
+            "love",
+            "admiration"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The pilot's voice sounded slightly strained as he announced the emergency landing to the nervous passengers.",
+        "emotion": [
+            "nervousness",
+            "fear"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The new clean energy initiative is expected to create thousands of jobs in the coming years.",
+        "emotion": [
+            "optimism"
+        ],
+        "topic": "Business",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The lead scientist beamed as she watched the rover successfully take its first steps on the moon.",
+        "emotion": [
+            "pride",
+            "joy"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The detective finally saw the connection between the two cases after staring at the evidence for hours.",
+        "emotion": [
+            "realization"
+        ],
+        "topic": "World",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The earthquake didn't cause any major damage to the nuclear plant, which is a huge weight off.",
+        "emotion": [
+            "relief"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The company issued an apology for the data breach, admitting they should have had better security measures.",
+        "emotion": [
+            "remorse"
+        ],
+        "topic": "Business",
+        "verified": false,
+        "needs_editing": false
+    },
+    {
+        "text": "The historic stadium is being torn down to make way for a shopping mall, which is devastating.",
+        "emotion": [
+            "sadness"
+        ],
+        "topic": "Sports",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The new smartphone model has a feature that no one in the tech industry saw coming.",
+        "emotion": [
+            "surprise"
+        ],
+        "topic": "Sci/Tech",
+        "verified": true,
+        "needs_editing": false
+    },
+    {
+        "text": "The company's annual general meeting will be held at the convention center next Thursday morning.",
+        "emotion": [
+            "neutral"
+        ],
+        "topic": "Business",
+        "verified": false,
+        "needs_editing": false
+    }
+]
