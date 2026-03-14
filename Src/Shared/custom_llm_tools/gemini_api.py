@@ -1,4 +1,5 @@
 """
+Authors: Nathan Pietrantonio
 This file contains the API for the Gemini model.
 Code from example at https://github.com/google-gemini/cookbook/blob/main/quickstarts/Streaming.ipynb
 """

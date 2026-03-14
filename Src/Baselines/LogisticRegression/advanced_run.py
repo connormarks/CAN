@@ -1,3 +1,4 @@
+# Authors: Nathan Pietrantonio
 from tools.dataset import load_datasets
 from tools.preprocess import create_vectorizer, preprocess_go_data, preprocess_ag_data
 from tools.scoring import default_scoring, custom_scoring, joint_scoring

@@ -1,3 +1,4 @@
+# Authors: Nathan Pietrantonio
 from google import genai
 from google.genai.types import GenerateContentConfig, HttpOptions
 import json

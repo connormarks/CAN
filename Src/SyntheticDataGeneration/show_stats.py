@@ -1,3 +1,4 @@
+# Authors: Nathan Pietrantonio
 from config import MERGED_DIR
 from collections import Counter
 import matplotlib.pyplot as plt

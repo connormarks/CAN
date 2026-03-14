@@ -1,3 +1,4 @@
+# Authors: Nathan Pietrantonio
 from sklearn.feature_extraction.text import TfidfVectorizer
 from imblearn.over_sampling import SMOTE
 from imblearn.combine import SMOTETomek

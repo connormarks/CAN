@@ -1,3 +1,4 @@
+# Authors: Nathan Pietrantonio
 import json
 import numpy as np
 

@@ -1,3 +1,4 @@
+# Authors: Nathan Pietrantonio
 from custom_llm_tools.tools import select_model
 from custom_llm_tools.context import load_system_prompt, format_json
 from custom_llm_tools.gemini_api import generate_response as generate_gemini_response

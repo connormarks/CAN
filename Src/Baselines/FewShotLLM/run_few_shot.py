@@ -1,3 +1,4 @@
+# Authors: Nathan Pietrantonio
 from custom_llm_tools.tools import select_model
 from custom_llm_tools.custom_data import apply_ekman_mapping, load_custom_data, load_custom_data
 from custom_llm_tools.context import load_system_prompt, add_new_message, format_json

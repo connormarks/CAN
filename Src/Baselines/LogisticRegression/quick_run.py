@@ -1,3 +1,4 @@
+# Authors: Nathan Pietrantonio
 from sklearn.metrics import accuracy_score
 from tools.dataset import load_datasets, create_test_train_split
 from tools.preprocess import preprocess_go_data, preprocess_ag_data, create_vectorizer

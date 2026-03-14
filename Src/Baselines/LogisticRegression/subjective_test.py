@@ -1,3 +1,4 @@
+# Authors: Nathan Pietrantonio
 from tools.config import MODEL_PATH, EMOTION_MAPPING, TOPIC_MAPPING, EKMAN_IDX_TO_EMOTION_MAPPING
 from tools.preprocess import create_vectorizer
 import pickle

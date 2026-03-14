@@ -1,3 +1,4 @@
+# Authors: Nathan Pietrantonio
 from sklearn.model_selection import train_test_split
 from .config import EMOTION_MAPPING, TOPIC_MAPPING
 import pandas as pd

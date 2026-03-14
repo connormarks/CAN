@@ -1,3 +1,4 @@
+# Authors: Nathan Pietrantonio
 from custom_llm_tools.ollama_api import get_models as get_ollama_models, stream_response as stream_ollama_response
 from custom_llm_tools.gemini_api import get_models as get_gemini_models, stream_response as stream_gemini_response
 from custom_llm_tools.context import load_system_prompt, format_json

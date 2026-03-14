@@ -1,3 +1,4 @@
+# Authors: Nathan Pietrantonio
 from config import OUTPUT_DIR, VERIFIED_DIR, EMOTION_LABELS, TOPIC_LABELS, MERGED_DIR
 import os
 import json
