@@ -7,7 +7,7 @@ Run the following command in order to install all dependencies required to run o
 
 
 
-## EXTERNAL LIBRARIES
+## Libraries used:
    * [transformers](https://huggingface.co/docs/transformers/quicktour)
    * [BERT](https://huggingface.co/google-bert/bert-base-uncased)
    * [pytorch](https://docs.pytorch.org/docs/stable/pytorch-api.html)
@@ -19,7 +19,7 @@ Run the following command in order to install all dependencies required to run o
    * [seaborn](https://seaborn.pydata.org/api.html)
     
 
-## PUBLICLY AVAILABLE CODE
+## Publicly available codes used:
 
 
-## CODE WRITTEN ENTIRELY BY OUR TEAM
+## Scripts/functions written by our team:
