@@ -8,7 +8,7 @@ Run the following command in order to install all dependencies required to run o
 
 
 ## EXTERNAL LIBRARIES
-    * Transformers (https://huggingface.co/docs/transformers/quicktour)
+    * Transformers ([https://huggingface.co/docs/transformers/quicktour](URL))
     * BERT (https://huggingface.co/google-bert/bert-base-uncased)
     * pytorch (https://docs.pytorch.org/docs/stable/pytorch-api.html)
     * pandas (https://pandas.pydata.org/docs/reference/index.html)
