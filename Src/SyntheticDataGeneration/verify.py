@@ -1,3 +1,4 @@
+# Verify the synthetic data generation if generating manually
 # Authors: Nathan Pietrantonio
 from config import OUTPUT_DIR, VERIFIED_DIR, EMOTION_LABELS, TOPIC_LABELS, MERGED_DIR
 import os
@@ -6,7 +7,10 @@ import json
 
 def _output_information(obj):
     """
+    Output the information for the synthetic data object
 
+    Input:
+        obj: dict - The data to output information for
     """
     print(" | Text:")
     print(f" | \t{obj['text']}")

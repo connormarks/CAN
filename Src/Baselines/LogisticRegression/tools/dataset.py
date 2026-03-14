@@ -1,3 +1,4 @@
+# Dataset tools for the logistic regression baseline
 # Authors: Nathan Pietrantonio
 from sklearn.model_selection import train_test_split
 from .config import EMOTION_MAPPING, TOPIC_MAPPING
@@ -21,28 +22,6 @@ def load_datasets():
     agnews_path = kagglehub.dataset_download("amananandrai/ag-news-classification-dataset")
     print(f"Agnews dataset loaded from {agnews_path}\n")
     return pd.read_csv(f"{goemotion_path}/data/full_dataset/goemotions_1.csv"), pd.read_csv(f"{agnews_path}/train.csv")
-
-
-# def load_custom_dataset(path):
-#     """
-#     Loads our custom joint dataset for eval
-
-#     Inputs:
-#         path: str - The path to the custom dataset
-
-#     Returns:
-#         X: list - The text data
-#         y_emotion: list - The emotion data
-#         y_topic: list - The topic data
-#     """
-#     with open(path, 'r') as file:
-#         data = json.load(file)
-
-#     X = [obj['text'] for obj in data]
-#     y_emotion = [obj['emotion'][0] for obj in data]
-#     y_topic = [obj['topic'] for obj in data]
-
-#     return X, y_emotion, y_topic
 
 
 def create_test_train_split(X, y, test_size=0.2, random_state=42):

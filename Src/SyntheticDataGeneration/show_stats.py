@@ -1,3 +1,4 @@
+# Show stats on the synthetic data generation including class counts and joint class counts
 # Authors: Nathan Pietrantonio
 from config import MERGED_DIR
 from collections import Counter

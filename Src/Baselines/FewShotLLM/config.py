@@ -1,3 +1,4 @@
+# Output directories and class mappings
 # Authors: Nathan Pietrantonio
 MERGED_DATASET_PATH = "../../SyntheticDataGeneration/Output/Merged/merged_data.json"
 """Location of merged custom dataset"""

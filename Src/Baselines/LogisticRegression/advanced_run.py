@@ -1,3 +1,4 @@
+# Advanced run for the logistic regression baseline with all datasets
 # Authors: Nathan Pietrantonio
 from tools.dataset import load_datasets
 from tools.preprocess import create_vectorizer, preprocess_go_data, preprocess_ag_data
@@ -40,27 +41,6 @@ def process_data(go_data, ag_data, vectorizer, simplify_with_ekman=False, ignore
     AgData = Data(ag_X_train, ag_X_test, ag_y_train, ag_y_test)
 
     return GoData, AgData
-
-
-# def load_custom_data(vectorizer, simplify_with_ekman=False, ignore_neutral=False):
-#     """
-#     Load the custom dataset and preprocess it
-
-#     Inputs:
-#         vectorizer: TfidfVectorizer object
-#         simplify_with_ekman: boolean indicating whether to simplify the goemotion classes with provided Ekman mapping
-#         ignore_neutral: boolean indicating whether to ignore the neutral class
-
-#     Returns:
-#         X: numpy array containing the preprocessed text data
-#         y_emotion: numpy array containing the preprocessed emotion data
-#         y_topic: numpy array containing the preprocessed topic data
-#     """
-#     print(f"Loading custom dataset {MERGED_DATASET_PATH}...\n")
-#     X, y_emotion, y_topic = load_custom_dataset(MERGED_DATASET_PATH)
-#     print("Preprocessing custom dataset...")
-#     X, y_emotion, y_topic = preprocess_custom_dataset(X, y_emotion, y_topic, vectorizer, simplify_with_ekman, ignore_neutral)
-#     return X, y_emotion, y_topic
 
 
 if __name__ == "__main__":

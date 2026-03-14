@@ -1,3 +1,4 @@
+# Quick run for the logistic regression baseline
 # Authors: Nathan Pietrantonio
 from sklearn.metrics import accuracy_score
 from tools.dataset import load_datasets, create_test_train_split

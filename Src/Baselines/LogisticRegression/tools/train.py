@@ -1,3 +1,4 @@
+# Training tools for the logistic regression baseline
 # Authors: Nathan Pietrantonio
 from sklearn.linear_model import LogisticRegression
 from .config import MODEL_PATH

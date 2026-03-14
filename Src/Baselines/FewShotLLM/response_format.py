@@ -1,3 +1,4 @@
+# Response format for the model to use
 # Authors: Nathan Pietrantonio
 import ollama
 from pydantic import BaseModel

@@ -1,3 +1,4 @@
+# API structure and tools for the Ollama models
 # Authors: Nathan Pietrantonio
 from .context import setup_context, add_new_message
 import ollama

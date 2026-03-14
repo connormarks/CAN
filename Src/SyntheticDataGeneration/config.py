@@ -1,3 +1,4 @@
+# Config for the synthetic data generation, output directories and emotion/topic labels
 # Authors: Nathan Pietrantonio
 OUTPUT_DIR = 'Output'
 VERIFIED_DIR = f'{OUTPUT_DIR}/Processed'

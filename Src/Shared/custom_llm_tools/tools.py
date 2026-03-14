@@ -1,3 +1,4 @@
+# Shared tools, just select_model for choosing Ollama or Gemini API models
 # Authors: Nathan Pietrantonio
 from .gemini_api import get_models as get_gemini_models
 from .ollama_api import get_models as get_ollama_models

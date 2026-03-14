@@ -1,3 +1,4 @@
+# Scoring functions for the few shot baseline
 # Authors: Nathan Pietrantonio
 from sklearn.metrics import confusion_matrix, classification_report
 import matplotlib.pyplot as plt

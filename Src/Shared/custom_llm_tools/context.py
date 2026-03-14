@@ -1,3 +1,4 @@
+# Shared context tools for LLMs
 # Authors: Nathan Pietrantonio
 from google import genai
 from google.genai.types import GenerateContentConfig, HttpOptions

@@ -1,3 +1,4 @@
+# Runs the few shot baselines, provides tools to get user input and display results
 # Authors: Nathan Pietrantonio
 from custom_llm_tools.tools import select_model
 from custom_llm_tools.custom_data import apply_ekman_mapping, load_custom_data, load_custom_data

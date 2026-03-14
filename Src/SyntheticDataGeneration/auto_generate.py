@@ -1,3 +1,4 @@
+# Auto generate synthetic data and dont prompt for approval
 # Authors: Nathan Pietrantonio
 from custom_llm_tools.tools import select_model
 from custom_llm_tools.context import load_system_prompt, format_json
