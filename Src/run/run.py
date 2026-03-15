@@ -3,9 +3,9 @@
 # Authors: Connor Marks
 import sys
 import os
-from CAN.Src.BERT.dataset import preprocess_data
-from CAN.Src.BERT.train import train
-from CAN.Src.BERT import config
+from BERT.dataset import preprocess_data
+from BERT.train import train
+from BERT import config
 
 
 

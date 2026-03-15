@@ -6,9 +6,8 @@ import torch
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score
 from transformers import AutoTokenizer
-
-from CAN.Src.BERT.model import EmotionTopicClassifier
-from CAN.Src.BERT import config
+from BERT.model import EmotionTopicClassifier
+from BERT import config
 
 
 TOPICS = {
@@ -64,7 +63,7 @@ def select_emotion(i):
 def main():
     model_path = r"C:\cs175\project\CAN\Src\run\run_9\best.pt" #run goes here
     data_path = r"C:\cs175\project\CAN\Src\SyntheticDataGeneration\Output\Merged\merged_data.json" #this stays fixed
-    output_path = r"C:\cs175\project\CAN\Src\test\results.json" #output
+    output_path = r"C:\cs175\project\CAN\Src\test_on_data\results.json" #output
 
     device = torch.device("cuda" if torch.cuda.is_available() and config.USE_CUDA else "cpu") #copied from train
     tokenizer = AutoTokenizer.from_pretrained(config.MODEL_NAME)
@@ -72,7 +71,7 @@ def main():
     model.load_state_dict(torch.load(model_path, map_location=device))
     model.eval()
 
-    print("Running Now, Please wait...")
+    print("\n\nRunning Now, Please wait...")
 
 
     with open(data_path, "r", encoding="utf-8") as f:
