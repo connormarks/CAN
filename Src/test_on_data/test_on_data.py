@@ -78,7 +78,7 @@ def get_huggingface(device):
 
 
 
-def main():
+def main(samples=None):
     data_path = SRC_DIR/"SyntheticDataGeneration"/"Output"/"Merged"/"merged_data.json"
     output_path = THIS_DIR/"results.json"
 
@@ -102,7 +102,7 @@ def main():
     total_accuracy = []
 
     with torch.no_grad():
-        for row in data: #get each element of a test sample
+        for row in data[:samples] if samples else data: #get each element of a test sample
             text = row["text"]
             true_topic = row["topic"]
             true_emotions_fine = row["emotion"]
