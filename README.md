@@ -27,7 +27,7 @@ We also created a custom library for shared tools. It can be found in `/Src/Shar
     
 
 ## Publicly available codes used:
-Referenced [this cookbook notebook](https://github.com/google-gemini/cookbook/blob/main/quickstarts/Streaming.ipynb) from Google to get started wiht prompting Gemini models. This code was used as a starting point in `/Src/Shared/custom_llm_tools/gemini_api.py`
+Referenced [this cookbook notebook](https://github.com/google-gemini/cookbook/blob/main/quickstarts/Streaming.ipynb) from Google to get started with prompting Gemini models. This code was used as a starting point in `/Src/Shared/custom_llm_tools/gemini_api.py`
 
 
 ## Scripts/functions written by our team:
