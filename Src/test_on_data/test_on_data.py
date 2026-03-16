@@ -8,7 +8,12 @@ from sklearn.metrics import accuracy_score, f1_score
 from transformers import AutoTokenizer
 from BERT.model import EmotionTopicClassifier
 from BERT import config
+from huggingface_hub import hf_hub_download
+from pathlib import Path
 
+
+THIS_DIR = Path(__file__).resolve().parent
+SRC_DIR = THIS_DIR.parent 
 
 TOPICS = {
     "World": 0,
@@ -60,16 +65,26 @@ def select_emotion(i):
     return v
 
 
+def get_huggingface(device):
+    '''gets the model from huggingface'''
+    repo_id = "connormarks/cs175-text-classifier"
+    model_path = hf_hub_download(repo_id=repo_id,filename="best.pt")
+    model = EmotionTopicClassifier().to(device)
+    state_dict = torch.load(model_path, map_location=device, weights_only=True)
+    model.load_state_dict(state_dict)
+    model.eval()
+
+    return model
+
+
+
 def main():
-    model_path = r"C:\cs175\project\CAN\Src\run\run_9\best.pt" #run goes here
-    data_path = r"C:\cs175\project\CAN\Src\SyntheticDataGeneration\Output\Merged\merged_data.json" #this stays fixed
-    output_path = r"C:\cs175\project\CAN\Src\test_on_data\results.json" #output
+    data_path = SRC_DIR/"SyntheticDataGeneration"/"Output"/"Merged"/"merged_data.json"
+    output_path = THIS_DIR/"results.json"
 
     device = torch.device("cuda" if torch.cuda.is_available() and config.USE_CUDA else "cpu") #copied from train
     tokenizer = AutoTokenizer.from_pretrained(config.MODEL_NAME)
-    model = EmotionTopicClassifier().to(device)
-    model.load_state_dict(torch.load(model_path, map_location=device))
-    model.eval()
+    model = get_huggingface(device)
 
     print("\n\nRunning Now, Please wait...")
 
@@ -163,7 +178,7 @@ def main():
     print(f"Emotion Accuracy: {emotion_accuracy:.6f}")
     print(f"Total Accuracy: {combined_accuracy:.6f}")
 
-    os.makedirs(os.path.dirname(output_path), exist_ok=True) #make the output
+    output_path.parent.mkdir(parents=True, exist_ok=True) #make the output
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2, ensure_ascii=False) #write the result
 
