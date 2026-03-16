@@ -84,6 +84,7 @@ def main():
     emotion_true_ids = []
     emotion_pred_ids = []
     outputs = []
+    total_accuracy = []
 
     with torch.no_grad():
         for row in data: #get each element of a test sample
@@ -122,6 +123,11 @@ def main():
             emotion_true_ids.append(true_emotion_id)
             emotion_pred_ids.append(pred_emotion_id)
 
+            correct_topic = TOPICS[true_topic] == pred_topic_id
+            correct_emotion = true_emotion_id == pred_emotion_id
+
+            total_accuracy.append(correct_topic and correct_emotion)
+
 
             #those go here.
             outputs.append({
@@ -138,13 +144,15 @@ def main():
     emotion_micro_f1 = f1_score(emotion_true, emotion_pred, average="micro", zero_division=0)
     emotion_macro_f1 = f1_score(emotion_true, emotion_pred, average="macro", zero_division=0)
     emotion_accuracy = accuracy_score(emotion_true_ids, emotion_pred_ids)
+    combined_accuracy = np.mean(total_accuracy)
     #write results
     results = {
         "metrics": {
             "topic_accuracy": topic_accuracy,
             "emotion_micro_f1": emotion_micro_f1,
             "emotion_macro_f1": emotion_macro_f1,
-            "emotion_accuracy": emotion_accuracy
+            "emotion_accuracy": emotion_accuracy,
+            "total_accuracy": combined_accuracy
         },
         "predictions": outputs #all of outputs here
     }
@@ -153,6 +161,7 @@ def main():
     print(f"Emotion Micro F1: {emotion_micro_f1:.6f}")
     print(f"Emotion Macro F1: {emotion_macro_f1:.6f}")
     print(f"Emotion Accuracy: {emotion_accuracy:.6f}")
+    print(f"Total Accuracy: {combined_accuracy:.6f}")
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True) #make the output
     with open(output_path, "w", encoding="utf-8") as f:

@@ -3,7 +3,8 @@
     "topic_accuracy": 0.8566279535442531,
     "emotion_micro_f1": 0.43042671614100186,
     "emotion_macro_f1": 0.39059620201632544,
-    "emotion_accuracy": 0.37645174209050863
+    "emotion_accuracy": 0.37645174209050863,
+    "total_accuracy": 0.3183820584701642
   },
   "predictions": [
     {
