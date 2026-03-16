@@ -1,10 +1,10 @@
 {
   "metrics": {
     "topic_accuracy": 0.84,
-    "emotion_micro_f1": 0.3898305084745763,
-    "emotion_macro_f1": 0.3353184968210435,
-    "emotion_accuracy": 0.32,
-    "total_accuracy": 0.28
+    "emotion_micro_f1": 0.37344398340248963,
+    "emotion_macro_f1": 0.32303954616339353,
+    "emotion_accuracy": 0.28,
+    "total_accuracy": 0.23
   },
   "predictions": [
     {
@@ -769,6 +769,777 @@
       ],
       "pred_emotions_ekman": [
         "joy"
+      ]
+    },
+    {
+      "text": "Wait, did they really just announce a mission to land humans on a moon of Jupiter within the next decade?",
+      "true_topic": "Sci/Tech",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "surprise",
+        "curiosity"
+      ],
+      "true_emotions_ekman": [
+        "surprise"
+      ],
+      "pred_emotions_ekman": [
+        "surprise"
+      ]
+    },
+    {
+      "text": "The coach's decision to bench the star player for being late to practice shows he values discipline over winning.",
+      "true_topic": "Sports",
+      "pred_topic": "Sports",
+      "true_emotions_fine": [
+        "approval",
+        "admiration"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The images of children playing in the rubble of their former school are absolutely gut-wrenching to witness.",
+      "true_topic": "World",
+      "pred_topic": "World",
+      "true_emotions_fine": [
+        "grief",
+        "sadness"
+      ],
+      "true_emotions_ekman": [
+        "sadness"
+      ],
+      "pred_emotions_ekman": [
+        "sadness"
+      ]
+    },
+    {
+      "text": "I'm not sure if I should invest in cryptocurrency now or wait for the market to stabilize after this latest drop.",
+      "true_topic": "Business",
+      "pred_topic": "Business",
+      "true_emotions_fine": [
+        "confusion",
+        "nervousness"
+      ],
+      "true_emotions_ekman": [
+        "fear",
+        "surprise"
+      ],
+      "pred_emotions_ekman": [
+        "surprise"
+      ]
+    },
+    {
+      "text": "This new artificial intelligence tool can generate realistic human voices that are indistinguishable from the real thing.",
+      "true_topic": "Sci/Tech",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "fear",
+        "admiration"
+      ],
+      "true_emotions_ekman": [
+        "fear",
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The home team's performance was so pathetic that the fans started cheering for the opposition by the second half.",
+      "true_topic": "Sports",
+      "pred_topic": "Sports",
+      "true_emotions_fine": [
+        "disgust",
+        "embarrassment"
+      ],
+      "true_emotions_ekman": [
+        "disgust",
+        "sadness"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "A massive protest is expected to take place in the capital tomorrow to mark the anniversary of the revolution.",
+      "true_topic": "World",
+      "pred_topic": "World",
+      "true_emotions_fine": [
+        "neutral",
+        "excitement"
+      ],
+      "true_emotions_ekman": [
+        "joy",
+        "neutral"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The merger will create a monopoly that will inevitably lead to higher prices and fewer choices for all consumers.",
+      "true_topic": "Business",
+      "pred_topic": "Business",
+      "true_emotions_fine": [
+        "disapproval",
+        "fear"
+      ],
+      "true_emotions_ekman": [
+        "anger",
+        "fear"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The new telescope has captured images of galaxies that formed just a few hundred million years after the big bang.",
+      "true_topic": "Sci/Tech",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "admiration",
+        "surprise"
+      ],
+      "true_emotions_ekman": [
+        "joy",
+        "surprise"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "I'm so sorry for the way our government has treated your people in the past and I hope for reconciliation.",
+      "true_topic": "World",
+      "pred_topic": "World",
+      "true_emotions_fine": [
+        "remorse",
+        "caring"
+      ],
+      "true_emotions_ekman": [
+        "joy",
+        "sadness"
+      ],
+      "pred_emotions_ekman": [
+        "sadness"
+      ]
+    },
+    {
+      "text": "The company's stock price soared after rumors began to circulate about a potential takeover by a major tech giant.",
+      "true_topic": "Business",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "excitement",
+        "optimism"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "Is there any way to turn off these intrusive advertisements that keep popping up on my computer screen every minute?",
+      "true_topic": "Sci/Tech",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "annoyance",
+        "anger"
+      ],
+      "true_emotions_ekman": [
+        "anger"
+      ],
+      "pred_emotions_ekman": [
+        "surprise"
+      ]
+    },
+    {
+      "text": "The marathon runner collapsed just inches from the finish line but crawled the rest of the way to finish.",
+      "true_topic": "Sports",
+      "pred_topic": "Sports",
+      "true_emotions_fine": [
+        "admiration",
+        "sadness"
+      ],
+      "true_emotions_ekman": [
+        "joy",
+        "sadness"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The new treaty aims to reduce the number of nuclear weapons held by both superpowers over the next fifteen years.",
+      "true_topic": "World",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "optimism",
+        "relief"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The accountant realized he had made a multi-million dollar error in the tax filings just minutes before the deadline.",
+      "true_topic": "Business",
+      "pred_topic": "Business",
+      "true_emotions_fine": [
+        "fear",
+        "realization"
+      ],
+      "true_emotions_ekman": [
+        "fear",
+        "surprise"
+      ],
+      "pred_emotions_ekman": [
+        "surprise"
+      ]
+    },
+    {
+      "text": "This app keeps asking for permission to access my microphone and contacts even though it is just a calculator.",
+      "true_topic": "Sci/Tech",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "confusion",
+        "disapproval"
+      ],
+      "true_emotions_ekman": [
+        "anger",
+        "surprise"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The crowd went wild as the underdog scored the winning goal in the final seconds of the national championship.",
+      "true_topic": "Sports",
+      "pred_topic": "Sports",
+      "true_emotions_fine": [
+        "joy",
+        "excitement"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The humanitarian crisis is worsening as food supplies in the besieged city are expected to run out by Friday.",
+      "true_topic": "World",
+      "pred_topic": "World",
+      "true_emotions_fine": [
+        "fear",
+        "sadness"
+      ],
+      "true_emotions_ekman": [
+        "fear",
+        "sadness"
+      ],
+      "pred_emotions_ekman": [
+        "disgust"
+      ]
+    },
+    {
+      "text": "I am so impressed by how this company handled the product recall with complete transparency and fair compensation.",
+      "true_topic": "Business",
+      "pred_topic": "Business",
+      "true_emotions_fine": [
+        "admiration",
+        "approval"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "joy"
+      ]
+    },
+    {
+      "text": "A new study suggests that regular use of social media is fundamentally changing the way our brains process information.",
+      "true_topic": "Sci/Tech",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "nervousness",
+        "curiosity"
+      ],
+      "true_emotions_ekman": [
+        "fear",
+        "surprise"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The star player was caught using banned substances and has been stripped of all his titles and medals.",
+      "true_topic": "Sports",
+      "pred_topic": "Sports",
+      "true_emotions_fine": [
+        "disappointment",
+        "disgust"
+      ],
+      "true_emotions_ekman": [
+        "disgust",
+        "sadness"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The two countries have finally agreed to open their borders for trade and travel after fifty years of silence.",
+      "true_topic": "World",
+      "pred_topic": "World",
+      "true_emotions_fine": [
+        "joy",
+        "optimism"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "joy"
+      ]
+    },
+    {
+      "text": "The billionaire's attempt to buy the social media platform has turned into a complete circus and a legal nightmare.",
+      "true_topic": "Business",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "amusement",
+        "disapproval"
+      ],
+      "true_emotions_ekman": [
+        "anger",
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "anger"
+      ]
+    },
+    {
+      "text": "I finally got my new high-speed internet installed and it is ten times faster than my old connection was.",
+      "true_topic": "Sci/Tech",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "joy",
+        "relief"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "joy"
+      ]
+    },
+    {
+      "text": "The goalkeeper made a series of incredible saves to keep his team in the game during the final minutes.",
+      "true_topic": "Sports",
+      "pred_topic": "Sports",
+      "true_emotions_fine": [
+        "admiration",
+        "excitement"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "joy"
+      ]
+    },
+    {
+      "text": "The dictator's regime is finally crumbling as top military officials begin to defect to the side of the protesters.",
+      "true_topic": "World",
+      "pred_topic": "World",
+      "true_emotions_fine": [
+        "optimism",
+        "surprise"
+      ],
+      "true_emotions_ekman": [
+        "joy",
+        "surprise"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The airline lost my luggage for the third time this year and their customer service is being completely useless.",
+      "true_topic": "Business",
+      "pred_topic": "Business",
+      "true_emotions_fine": [
+        "annoyance",
+        "anger"
+      ],
+      "true_emotions_ekman": [
+        "anger"
+      ],
+      "pred_emotions_ekman": [
+        "sadness"
+      ]
+    },
+    {
+      "text": "The stadium was completely silent as the medical staff rushed onto the field to attend to the fallen player.",
+      "true_topic": "Sports",
+      "pred_topic": "Sports",
+      "true_emotions_fine": [
+        "fear",
+        "nervousness"
+      ],
+      "true_emotions_ekman": [
+        "fear"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The peace agreement was signed this morning in a small ceremony attended by leaders from across the entire continent.",
+      "true_topic": "World",
+      "pred_topic": "World",
+      "true_emotions_fine": [
+        "neutral",
+        "relief"
+      ],
+      "true_emotions_ekman": [
+        "joy",
+        "neutral"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "I can't believe I got the job at my dream company after such a long and difficult interview process.",
+      "true_topic": "Business",
+      "pred_topic": "Business",
+      "true_emotions_fine": [
+        "joy",
+        "surprise"
+      ],
+      "true_emotions_ekman": [
+        "joy",
+        "surprise"
+      ],
+      "pred_emotions_ekman": [
+        "anger"
+      ]
+    },
+    {
+      "text": "Is it true that this new algorithm can predict the stock market with eighty percent accuracy using only social media?",
+      "true_topic": "Sci/Tech",
+      "pred_topic": "Business",
+      "true_emotions_fine": [
+        "curiosity",
+        "realization"
+      ],
+      "true_emotions_ekman": [
+        "surprise"
+      ],
+      "pred_emotions_ekman": [
+        "surprise"
+      ]
+    },
+    {
+      "text": "The fans were throwing trash onto the field after the referee made another controversial call against the home team.",
+      "true_topic": "Sports",
+      "pred_topic": "Sports",
+      "true_emotions_fine": [
+        "anger",
+        "disapproval"
+      ],
+      "true_emotions_ekman": [
+        "anger"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The famine in the region is being exacerbated by the ongoing conflict which is preventing aid from reaching those in need.",
+      "true_topic": "World",
+      "pred_topic": "World",
+      "true_emotions_fine": [
+        "grief",
+        "sadness"
+      ],
+      "true_emotions_ekman": [
+        "sadness"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The company's new policy on remote work is a total disaster and everyone is looking for a new job now.",
+      "true_topic": "Business",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "annoyance",
+        "disappointment"
+      ],
+      "true_emotions_ekman": [
+        "anger",
+        "sadness"
+      ],
+      "pred_emotions_ekman": [
+        "sadness"
+      ]
+    },
+    {
+      "text": "The first private mission to the moon successfully landed today, marking a new era in the exploration of our solar system.",
+      "true_topic": "Sci/Tech",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "pride",
+        "excitement"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The retired player broke down in tears as the team raised his jersey to the rafters during the ceremony.",
+      "true_topic": "Sports",
+      "pred_topic": "Sports",
+      "true_emotions_fine": [
+        "sadness",
+        "love"
+      ],
+      "true_emotions_ekman": [
+        "joy",
+        "sadness"
+      ],
+      "pred_emotions_ekman": [
+        "sadness"
+      ]
+    },
+    {
+      "text": "The election has been postponed indefinitely due to the ongoing security concerns in the northern provinces of the country.",
+      "true_topic": "World",
+      "pred_topic": "World",
+      "true_emotions_fine": [
+        "nervousness",
+        "fear"
+      ],
+      "true_emotions_ekman": [
+        "fear"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The bank's new mobile app is so intuitive and easy to use that I actually enjoy managing my finances now.",
+      "true_topic": "Business",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "approval",
+        "joy"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "joy"
+      ]
+    },
+    {
+      "text": "I am so confused by these new privacy settings; it seems like they made it harder to actually protect my data.",
+      "true_topic": "Sci/Tech",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "confusion",
+        "annoyance"
+      ],
+      "true_emotions_ekman": [
+        "anger",
+        "surprise"
+      ],
+      "pred_emotions_ekman": [
+        "surprise"
+      ]
+    },
+    {
+      "text": "The young gymnast showed incredible grace and poise even after she fell during her most difficult routine today.",
+      "true_topic": "Sports",
+      "pred_topic": "Sports",
+      "true_emotions_fine": [
+        "admiration",
+        "caring"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "joy"
+      ]
+    },
+    {
+      "text": "The air quality in the city has reached dangerous levels and residents are being told to stay indoors until further notice.",
+      "true_topic": "World",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "fear",
+        "disapproval"
+      ],
+      "true_emotions_ekman": [
+        "anger",
+        "fear"
+      ],
+      "pred_emotions_ekman": [
+        "fear"
+      ]
+    },
+    {
+      "text": "The fashion brand's latest collection is getting terrible reviews for being both overpriced and completely out of touch with reality.",
+      "true_topic": "Business",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "disapproval",
+        "amusement"
+      ],
+      "true_emotions_ekman": [
+        "anger",
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "disgust"
+      ]
+    },
+    {
+      "text": "We finally discovered a new type of battery that doesn't rely on expensive or rare minerals like lithium or cobalt.",
+      "true_topic": "Sci/Tech",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "excitement",
+        "optimism"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "surprise"
+      ]
+    },
+    {
+      "text": "The international court has issued an arrest warrant for the former general accused of committing numerous crimes against humanity.",
+      "true_topic": "World",
+      "pred_topic": "World",
+      "true_emotions_fine": [
+        "approval",
+        "relief"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "The central bank decided to hold interest rates steady, finally giving small enterprises some room to breathe.",
+      "true_topic": "Business",
+      "pred_topic": "Business",
+      "true_emotions_fine": [
+        "relief",
+        "optimism"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "What happens to the data once this new quantum processor completes its calculations in under a second?",
+      "true_topic": "Sci/Tech",
+      "pred_topic": "Sci/Tech",
+      "true_emotions_fine": [
+        "curiosity"
+      ],
+      "true_emotions_ekman": [
+        "surprise"
+      ],
+      "pred_emotions_ekman": [
+        "surprise"
+      ]
+    },
+    {
+      "text": "The referee missed a blatant foul in the penalty box that cost us the entire championship game.",
+      "true_topic": "Sports",
+      "pred_topic": "Sports",
+      "true_emotions_fine": [
+        "anger",
+        "disapproval"
+      ],
+      "true_emotions_ekman": [
+        "anger"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "Volunteers are rushing to the border with food and blankets for those fleeing the recent violence.",
+      "true_topic": "World",
+      "pred_topic": "World",
+      "true_emotions_fine": [
+        "caring"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "neutral"
+      ]
+    },
+    {
+      "text": "He broke the world record while running with a fractured ankle, showing incredible determination and grit.",
+      "true_topic": "Sports",
+      "pred_topic": "Sports",
+      "true_emotions_fine": [
+        "admiration",
+        "pride"
+      ],
+      "true_emotions_ekman": [
+        "joy"
+      ],
+      "pred_emotions_ekman": [
+        "joy"
+      ]
+    },
+    {
+      "text": "The CEO accidentally used a cartoon filter during the annual earnings call and could not turn it off.",
+      "true_topic": "Business",
+      "pred_topic": "Business",
+      "true_emotions_fine": [
+        "amusement",
+        "embarrassment"
+      ],
+      "true_emotions_ekman": [
+        "joy",
+        "sadness"
+      ],
+      "pred_emotions_ekman": [
+        "sadness"
       ]
     }
   ]
